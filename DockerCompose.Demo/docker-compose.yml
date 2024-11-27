@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  products.api:
+    image: ${DOCKER_REGISTRY-}productsapi
+    container_name: products.api
+    build:
+      context: .
+      dockerfile: Products.Api/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"  
+    networks:
+      - products-network
+
+  products.database:
+    image: postgres:latest
+    container_name: products.database
+    environment:
+        - POSTGRES_DB=products
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+    volumes:
+       - ./.containers/products-db:/var/lib/postgresql/data
+    ports:
+       - 5432:5432
+    networks:
+      - products-network
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  products.cache:
+    image: redis:latest
+    container_name: products.cache
+    restart: always
+    ports:
+      - '6379:6379'
+    networks:
+      - products-network
+    
+
+networks:
+  products-network:
+    driver: bridge
+  
+
+
