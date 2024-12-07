@@ -1,0 +1,67 @@
+services:
+
+  # demoappdb:
+  #   container_name: app-db
+  #   image: mcr.microsoft.com/mssql/server:2022-latest
+  #   ports:
+  #      - 8002:1443
+  #   environment:
+  #      - ACCEPT_EULA=Y
+  #      - SA_PASSWORD=1234qwer$
+  #   networks:
+  #      - rabbitmq
+
+  # orders.api:
+  #   image: ${DOCKER_REGISTRY-}ordersapi
+  #   container_name: Orders.api
+  #   build:
+  #     context: .
+  #     dockerfile: Orders.Api/Dockerfile
+  #   ports:
+  #     - 7284:8080
+  #     - 5166:8081
+  #   networks:
+  #     - rabbitmq
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #     - ConnectionStrings__DefaultConnection=Server=demoappdb,1433;Database=OutboxPattern;User Id=sa;Password=1234qwer$;TrustServerCertificate=True
+  #   depends_on:
+  #     - rabbitmq
+
+  # shipping.api:
+  #   image: ${DOCKER_REGISTRY-}shippingapi
+  #   container_name: Shipment.api
+  #   build:
+  #     context: .
+  #     dockerfile: Shipping.Api/Dockerfile
+  #   ports:
+  #     - 7269:8080
+  #     - 5105:8081
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - rabbitmq
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+      - rabbitmq-logs:/var/log/rabbitmq
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+
+networks:
+  rabbitmq:
+    driver: bridge
+
+volumes:
+  rabbitmq-data:
+  rabbitmq-logs:
+
