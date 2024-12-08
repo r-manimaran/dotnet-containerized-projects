@@ -1,0 +1,105 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Maran\\Study\\Git\\Dotnet\\dotnet-containerized-projects\\FluentEmail_PaperCutApp\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{334F904C-8802-4642-8BBF-C89671C86EDB}|EmailSenderApi\\EmailSenderApi.csproj|c:\\maran\\study\\git\\dotnet\\dotnet-containerized-projects\\fluentemail_papercutapp\\emailsenderapi\\readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{334F904C-8802-4642-8BBF-C89671C86EDB}|EmailSenderApi\\EmailSenderApi.csproj|solutionrelative:emailsenderapi\\readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{334F904C-8802-4642-8BBF-C89671C86EDB}|EmailSenderApi\\EmailSenderApi.csproj|c:\\maran\\study\\git\\dotnet\\dotnet-containerized-projects\\fluentemail_papercutapp\\emailsenderapi\\controllers\\emailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{334F904C-8802-4642-8BBF-C89671C86EDB}|EmailSenderApi\\EmailSenderApi.csproj|solutionrelative:emailsenderapi\\controllers\\emailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{334F904C-8802-4642-8BBF-C89671C86EDB}|EmailSenderApi\\EmailSenderApi.csproj|c:\\maran\\study\\git\\dotnet\\dotnet-containerized-projects\\fluentemail_papercutapp\\emailsenderapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{334F904C-8802-4642-8BBF-C89671C86EDB}|EmailSenderApi\\EmailSenderApi.csproj|solutionrelative:emailsenderapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{334F904C-8802-4642-8BBF-C89671C86EDB}|EmailSenderApi\\EmailSenderApi.csproj|c:\\maran\\study\\git\\dotnet\\dotnet-containerized-projects\\fluentemail_papercutapp\\emailsenderapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{334F904C-8802-4642-8BBF-C89671C86EDB}|EmailSenderApi\\EmailSenderApi.csproj|solutionrelative:emailsenderapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{334F904C-8802-4642-8BBF-C89671C86EDB}|EmailSenderApi\\EmailSenderApi.csproj|c:\\maran\\study\\git\\dotnet\\dotnet-containerized-projects\\fluentemail_papercutapp\\emailsenderapi\\docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{334F904C-8802-4642-8BBF-C89671C86EDB}|EmailSenderApi\\EmailSenderApi.csproj|solutionrelative:emailsenderapi\\docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "READMe.md",
+              "DocumentMoniker": "C:\\Maran\\Study\\Git\\Dotnet\\dotnet-containerized-projects\\FluentEmail_PaperCutApp\\EmailSenderApi\\READMe.md",
+              "RelativeDocumentMoniker": "EmailSenderApi\\READMe.md",
+              "ToolTip": "C:\\Maran\\Study\\Git\\Dotnet\\dotnet-containerized-projects\\FluentEmail_PaperCutApp\\EmailSenderApi\\READMe.md",
+              "RelativeToolTip": "EmailSenderApi\\READMe.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2024-12-08T16:30:31.189Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Maran\\Study\\Git\\Dotnet\\dotnet-containerized-projects\\FluentEmail_PaperCutApp\\EmailSenderApi\\appsettings.json",
+              "RelativeDocumentMoniker": "EmailSenderApi\\appsettings.json",
+              "ToolTip": "C:\\Maran\\Study\\Git\\Dotnet\\dotnet-containerized-projects\\FluentEmail_PaperCutApp\\EmailSenderApi\\appsettings.json",
+              "RelativeToolTip": "EmailSenderApi\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-12-08T16:17:48.34Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Maran\\Study\\Git\\Dotnet\\dotnet-containerized-projects\\FluentEmail_PaperCutApp\\EmailSenderApi\\Program.cs",
+              "RelativeDocumentMoniker": "EmailSenderApi\\Program.cs",
+              "ToolTip": "C:\\Maran\\Study\\Git\\Dotnet\\dotnet-containerized-projects\\FluentEmail_PaperCutApp\\EmailSenderApi\\Program.cs",
+              "RelativeToolTip": "EmailSenderApi\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-08T16:17:20.373Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "docker-compose.yml",
+              "DocumentMoniker": "C:\\Maran\\Study\\Git\\Dotnet\\dotnet-containerized-projects\\FluentEmail_PaperCutApp\\EmailSenderApi\\docker-compose.yml",
+              "RelativeDocumentMoniker": "EmailSenderApi\\docker-compose.yml",
+              "ToolTip": "C:\\Maran\\Study\\Git\\Dotnet\\dotnet-containerized-projects\\FluentEmail_PaperCutApp\\EmailSenderApi\\docker-compose.yml",
+              "RelativeToolTip": "EmailSenderApi\\docker-compose.yml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003775|",
+              "WhenOpened": "2024-12-08T16:12:27.417Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EmailController.cs",
+              "DocumentMoniker": "C:\\Maran\\Study\\Git\\Dotnet\\dotnet-containerized-projects\\FluentEmail_PaperCutApp\\EmailSenderApi\\Controllers\\EmailController.cs",
+              "RelativeDocumentMoniker": "EmailSenderApi\\Controllers\\EmailController.cs",
+              "ToolTip": "C:\\Maran\\Study\\Git\\Dotnet\\dotnet-containerized-projects\\FluentEmail_PaperCutApp\\EmailSenderApi\\Controllers\\EmailController.cs",
+              "RelativeToolTip": "EmailSenderApi\\Controllers\\EmailController.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAcwB0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-08T16:08:57.215Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

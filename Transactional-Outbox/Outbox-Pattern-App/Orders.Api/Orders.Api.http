@@ -4,3 +4,12 @@ GET {{Orders.Api_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+POST {{Orders.Api_HostAddress}}/Order
+Content-Type: application/json
+
+{
+  //OrderRequest
+}
+
+###

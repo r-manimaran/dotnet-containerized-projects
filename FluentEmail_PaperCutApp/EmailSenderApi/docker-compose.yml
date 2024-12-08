@@ -1,0 +1,7 @@
+services:
+    papercut-smtp:
+      image: changemakerstudiosus/papercut-smtp:latest
+      container_name: papercut.smptp
+      ports:
+       - 8080:80
+       - 25:25
