@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageVersion Include="FluentEmail.Smtp" Version="3.0.2" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+   </ItemGroup> 
+</Project>
