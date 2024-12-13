@@ -1,13 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.Keycloak.Auth.Api", "Aspire.Keycloak.Auth.Api\Aspire.Keycloak.Auth.Api.csproj", "{6AAE2855-2C65-4F75-8CBF-2CE7A2E444A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.Keycloak.Auth.App.AppHost", "Aspire.Keycloak.Auth.App.AppHost\Aspire.Keycloak.Auth.App.AppHost.csproj", "{BCCC6054-3F3D-4724-894E-A74DF0965C67}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.Keycloak.Auth.App.ServiceDefaults", "Aspire.Keycloak.Auth.App.ServiceDefaults\Aspire.Keycloak.Auth.App.ServiceDefaults.csproj", "{9545B0AD-C4F0-403A-B73F-5FACE15A1E25}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{246B9AE8-E995-435E-B879-02798A5A54BA}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

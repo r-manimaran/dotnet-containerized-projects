@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspire.Keycloak.Authentication" Version="8.2.2-preview.1.24521.5" />
+    <PackageReference Include="Aspire.Npgsql" Version="8.2.2" />
+    <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
+    <PackageReference Include="Npgsql" Version="9.0.2" />
+    <PackageReference Include="Scalar.AspNetCore" Version="1.2.55" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,8 +1,19 @@
 var builder = DistributedApplication.CreateBuilder(args);
+
+
+// Configure Postgres Database
+//var postgres = builder.AddPostgres("postgres").WithDataVolume();
+var postgres = builder.AddPostgres("postgres").WithDataBindMount(
+                source:@"C:\PostgreSQL\Data",isReadOnly:false);
+
+var stocksdb = postgres.AddDatabase("stocks");
+
+// configure Keycloak
 var username = builder.AddParameter("username", "admin");
 var password = builder.AddParameter("password","admin", secret: true);
 var keycloak = builder.AddKeycloak("keycloak", 8080, username, password)
                .WithDataVolume()
+               .WithExternalHttpEndpoints()
                .WithRealmImport("./KeycloakConfiguration");
                 //.WithRealImport("./KeycloakConfiguration/Test-users.json");
 
@@ -15,6 +26,8 @@ var keycloak = builder.AddKeycloak("keycloak", 8080, username, password)
 
 
 builder.AddProject<Projects.Aspire_Keycloak_Auth_Api>("aspire-keycloak-auth-api")
+            .WithExternalHttpEndpoints()
+            .WithReference(stocksdb)
             .WithReference(keycloak)
             .WithEnvironment("Keycloak__ClientId", "confidential-client")
             .WithEnvironment("keycloak__ClientSecret", "ze4SQDpbyBlB72kdTCTv8ecSWsJHf2Js");
