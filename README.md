@@ -9,7 +9,7 @@
    - **Name**: FluentEmail_PaperCutApp
    - **Description**: Simple .Net Web API with emailing functionality using FluentEmail. Setup PaperCut tool in docker-compose 
                 as a SMTP server to receive and visualize the emails.
-   - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/FluentEmail_PaperCutApp)
+   - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/FluentEmail_PaperCutApp/EmailSenderApi)
 
 --------------------------------------------
    - **Name**: Transaction-outbox

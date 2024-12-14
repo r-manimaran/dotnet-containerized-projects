@@ -1,11 +1,26 @@
+using Shipment.api.Services;
+using Confluent.Kafka;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddSingleton<IShippingService,ShippingService>();
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//Configure the Kafka Consumer
+var kafkaConfig = new ConsumerConfig
+{
+    GroupId = "new-order-group",
+    BootstrapServers = "localhost:9092",
+    AutoOffsetReset = AutoOffsetReset.Earliest
+};
+
+builder.Services.AddSingleton<IConsumer<Null,string>>(x=> 
+    new ConsumerBuilder<Null,string>(kafkaConfig).Build());
 
 var app = builder.Build();
 
