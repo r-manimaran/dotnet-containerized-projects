@@ -1,0 +1,21 @@
+services:
+  webapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: localdbapi:v2
+    container_name: webapi
+    ports:
+     - "7000:8080"
+     - "8000:8081"   
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__AppDbContext=Server=host.docker.internal;Database=LocalProductsDb;User Id=sa;Password=passhere;TrustServerCertificate=true;MultipleActiveResultSets=true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - myapp_network
+networks:
+  myapp_network:
+   driver: bridge
+    
