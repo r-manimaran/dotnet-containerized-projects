@@ -1,0 +1,6 @@
+@Aspire.Redis.HybridCache_HostAddress = http://localhost:5291
+
+GET {{Aspire.Redis.HybridCache_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
