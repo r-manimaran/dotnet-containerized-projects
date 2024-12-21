@@ -4,13 +4,11 @@
    - **Description**: Simple .Net web api application using Docker and Docker-Compose. The services like API, Postgres and Redis 
                 are defined in docker-compose and run in the container environment.
    - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/DockerCompose.Demo)
-
 ------------------------------------------
    - **Name**: FluentEmail_PaperCutApp
    - **Description**: Simple .Net Web API with emailing functionality using FluentEmail. Setup PaperCut tool in docker-compose 
                 as a SMTP server to receive and visualize the emails.
    - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/FluentEmail_PaperCutApp/EmailSenderApi)
-
 --------------------------------------------
    - **Name**: Transaction-outbox
    - **Description**: Implementing Outbox transaction pattern in .net web api, MassTransit, RabbitMQ. RabbitMQ is hosted in Docker using Docker-compose.
@@ -24,3 +22,13 @@
    - **Description**: Running KeyCloak and Postgres in .Net Aspire and Authenticate Web API endpoints.
    - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/Aspire.Keycloak.Auth.App)
 -----------------------------------------------
+   - **Name**: Aspire.Redis.HybridCacheApp
+   - **Description**: Exploring new Hybridcache using Redis running through Aspire
+   - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/Aspire.Redis.HybridCacheApp)
+-----------------------------------------------
+   - **Name**: AsyncMicroservicesWithWebhook
+   - **Description**: Microservices application with RabbitMQ message broker running in docker. Also contains a webhook.
+   - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/AsyncMicroservicesWithWebhook)
+-----------------------------------------------
+
+
