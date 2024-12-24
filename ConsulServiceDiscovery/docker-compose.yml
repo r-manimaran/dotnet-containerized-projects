@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  orders.api:
+    image: ${DOCKER_REGISTRY-}ordersapi
+    container_name: consul.Orders.Api
+    build:
+      context: .
+      dockerfile: Orders.Api/Dockerfile
+    ports:
+     - "5022:80"
+    networks:
+      - consul_app
+    environment:
+      OTEL_EXPORTER_OLTP_ENDPOINT: "http://api.jaeger:4317"
+      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      AllowedOrigins: "http://localhost:5022,http://localhost:7194"
+    depends_on:
+      - reporting.api
+      - consul
+    healthcheck:
+       test: ["CMD","curl","-f", "http://localhost:80/health"]
+       interval: 30s
+       timeout: 10s
+       retries: 3
+
+  reporting.api:
+    image: ${DOCKER_REGISTRY-}reportingapi
+    container_name: consul.Reporting.Api
+    build:
+      context: .
+      dockerfile: Reporting.Api/Dockerfile
+    ports:
+     - "5233:80"   
+    networks:
+      - consul_app
+    environment:
+      OTEL_EXPORTER_OLTP_ENDPOINT: "http://api.jaeger:4317"
+      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      AllowedOrigins: "http://localhost:5233,http://localhost:7262"      
+    healthcheck:
+       test: ["CMD","curl","-f", "http://localhost:80/health"]
+       interval: 30s
+       timeout: 10s
+       retries: 3
+    depends_on:
+      - consul
+
+  api.jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: api.jaeger
+    networks:
+      - consul_app
+    ports:
+     - 4317:4317
+     - 4318:4318
+     - 16686:16686
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+
+  consul:
+    image: hashicorp/consul:latest
+    container_name: api.Consul
+    ports:
+      - 8500:8500
+    networks:
+      - consul_app
+    command: agent -dev -client=0.0.0.0
+    environment:
+      CONSUL_BIND_INTERFACE: eth0
+
+networks:
+  consul_app:
+    driver: bridge
