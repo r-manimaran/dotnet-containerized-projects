@@ -30,5 +30,9 @@
    - **Description**: Microservices application with RabbitMQ message broker running in docker. Also contains a webhook.
    - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/AsyncMicroservicesWithWebhook)
 -----------------------------------------------
+   - **Name**: Aspire.UrlShortnerWithMetricsApp
+   - **Description**: Aspire Project which uses Postgres, Redis, Hybridcache with Telemetry metrics in a UrlShortner project
+   - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/Aspire.UrlShortnerWithMetricsApp)
+-----------------------------------------------
 
 
