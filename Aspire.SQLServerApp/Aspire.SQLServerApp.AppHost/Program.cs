@@ -8,6 +8,7 @@ var sql = builder.AddSqlServer("sqldb", password, 40796)
                 .WithEntrypoint("/usr/config/entrypoint.sh")
                 .WithLifetime(ContainerLifetime.Session);
 
+// sql.AddDatabase("TestDB");
 builder.AddProject<Projects.SQLApi>("sqlapi")
         .WithReference(sql)
         .WaitFor(sql);

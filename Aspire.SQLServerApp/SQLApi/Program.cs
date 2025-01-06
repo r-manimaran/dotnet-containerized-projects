@@ -1,8 +1,12 @@
+using SQLApi.ApiEndpoints;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
 builder.Services.AddOpenApi();
+
+builder.AddSqlServerClient("sqldb"); // Connect using Aspire Host project
 
 var app = builder.Build();
 
@@ -11,6 +15,10 @@ app.MapDefaultEndpoints();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwaggerUI(opt =>
+    {
+        opt.SwaggerEndpoint("/OpenApi/v1.json", "OpenApi V1");
+    });
 }
 
 app.UseHttpsRedirection();
@@ -33,6 +41,8 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 })
 .WithName("GetWeatherForecast");
+
+app.MapCustomerEndpoints();
 
 app.Run();
 
