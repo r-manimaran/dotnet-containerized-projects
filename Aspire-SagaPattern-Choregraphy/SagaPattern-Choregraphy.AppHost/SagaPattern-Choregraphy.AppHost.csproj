@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BasketApi\BasketApi.csproj" />
     <ProjectReference Include="..\InventoryApi\InventoryApi.csproj" />
     <ProjectReference Include="..\OrderApi\OrderApi.csproj" />
     <ProjectReference Include="..\PaymentApi\PaymentApi.csproj" />

@@ -20,6 +20,11 @@ builder.AddProject<Projects.InventoryApi>("inventoryapi")
        .WaitFor(postgres)
        .WithReference(rabbitmq);
 
+builder.AddProject<Projects.BasketApi>("basketapi")
+        .WithReference(sqlserver)
+        .WaitFor(sqlserver)
+        .WithReference(rabbitmq);
+
 builder.AddProject<Projects.OrderApi>("orderapi")
        .WithReference(sqlserver)
        .WaitFor(sqlserver)
@@ -27,5 +32,6 @@ builder.AddProject<Projects.OrderApi>("orderapi")
 
 builder.AddProject<Projects.PaymentApi>("paymentapi")
        .WithReference(rabbitmq); 
+
 
 builder.Build().Run();

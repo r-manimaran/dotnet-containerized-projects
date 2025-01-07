@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SagaPattern-Choregraphy.App
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SagaPattern-Choregraphy.ServiceDefaults", "SagaPattern-Choregraphy.ServiceDefaults\SagaPattern-Choregraphy.ServiceDefaults.csproj", "{E9CD166D-EB4F-4EBC-B86A-D68D0369FE6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasketApi", "BasketApi\BasketApi.csproj", "{E40DA871-9993-4304-A378-4E6507D1546C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{E9CD166D-EB4F-4EBC-B86A-D68D0369FE6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9CD166D-EB4F-4EBC-B86A-D68D0369FE6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9CD166D-EB4F-4EBC-B86A-D68D0369FE6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E40DA871-9993-4304-A378-4E6507D1546C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E40DA871-9993-4304-A378-4E6507D1546C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E40DA871-9993-4304-A378-4E6507D1546C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E40DA871-9993-4304-A378-4E6507D1546C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
