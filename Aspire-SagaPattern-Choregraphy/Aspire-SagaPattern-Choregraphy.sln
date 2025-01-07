@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryApi", "InventoryApi\InventoryApi.csproj", "{91FB3697-BC8E-41E3-9FE9-5AA432E53A33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderApi", "OrderApi\OrderApi.csproj", "{82C716BA-FB85-4249-9071-14657A43F1E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentApi", "PaymentApi\PaymentApi.csproj", "{8A668E23-1F18-4267-86FD-2599683A7F5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedLib", "SharedLib\SharedLib.csproj", "{99FF9D3B-87EA-4DFC-9883-FD7668019B53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SagaPattern-Choregraphy.AppHost", "SagaPattern-Choregraphy.AppHost\SagaPattern-Choregraphy.AppHost.csproj", "{8983EB43-9FA6-4CEB-8C48-7C7C79E605AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SagaPattern-Choregraphy.ServiceDefaults", "SagaPattern-Choregraphy.ServiceDefaults\SagaPattern-Choregraphy.ServiceDefaults.csproj", "{E9CD166D-EB4F-4EBC-B86A-D68D0369FE6E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91FB3697-BC8E-41E3-9FE9-5AA432E53A33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91FB3697-BC8E-41E3-9FE9-5AA432E53A33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91FB3697-BC8E-41E3-9FE9-5AA432E53A33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91FB3697-BC8E-41E3-9FE9-5AA432E53A33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82C716BA-FB85-4249-9071-14657A43F1E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82C716BA-FB85-4249-9071-14657A43F1E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82C716BA-FB85-4249-9071-14657A43F1E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82C716BA-FB85-4249-9071-14657A43F1E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A668E23-1F18-4267-86FD-2599683A7F5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A668E23-1F18-4267-86FD-2599683A7F5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A668E23-1F18-4267-86FD-2599683A7F5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A668E23-1F18-4267-86FD-2599683A7F5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99FF9D3B-87EA-4DFC-9883-FD7668019B53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99FF9D3B-87EA-4DFC-9883-FD7668019B53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99FF9D3B-87EA-4DFC-9883-FD7668019B53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99FF9D3B-87EA-4DFC-9883-FD7668019B53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8983EB43-9FA6-4CEB-8C48-7C7C79E605AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8983EB43-9FA6-4CEB-8C48-7C7C79E605AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8983EB43-9FA6-4CEB-8C48-7C7C79E605AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8983EB43-9FA6-4CEB-8C48-7C7C79E605AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9CD166D-EB4F-4EBC-B86A-D68D0369FE6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9CD166D-EB4F-4EBC-B86A-D68D0369FE6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9CD166D-EB4F-4EBC-B86A-D68D0369FE6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9CD166D-EB4F-4EBC-B86A-D68D0369FE6E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
