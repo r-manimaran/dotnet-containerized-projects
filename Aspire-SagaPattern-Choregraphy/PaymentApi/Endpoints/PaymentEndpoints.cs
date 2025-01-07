@@ -3,7 +3,7 @@ namespace PaymentApi.Endpoints;
 
 public static class PaymentEndpoints
 {
-    public static void MapPaymentEndpoints(IEndpointRouteBuilder routes)
+    public static void MapPaymentEndpoints(this IEndpointRouteBuilder routes)
     {
         var app = routes.MapGroup("/api").WithTags("Payments");
 

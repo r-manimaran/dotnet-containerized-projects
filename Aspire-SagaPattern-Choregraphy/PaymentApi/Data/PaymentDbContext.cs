@@ -9,6 +9,8 @@ public class PaymentDbContext(DbContextOptions<PaymentDbContext> options) : DbCo
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(PaymentDbContext).Assembly);
     }
 }
 
