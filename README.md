@@ -34,5 +34,14 @@
    - **Description**: Aspire Project which uses Postgres, Redis, Hybridcache with Telemetry metrics in a UrlShortner project
    - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/Aspire.UrlShortnerWithMetricsApp)
 -----------------------------------------------
+   - **Name**: Aspire.RabbitMQ
+   - **Description**: Aspire Project which uses RabbitMQ resources
+   - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/Aspire.RabbitMQ/AspireDemo)
+-----------------------------------------------
+   - **Name**: ConsulServiceDiscovery
+   - **Description**: Service Discovery using Consul
+   - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/ConsulServiceDiscovery)
+-----------------------------------------------
+
 
 
