@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -9,53 +10,65 @@ namespace SharedLib.Repository;
 
 public class Repository<T> : IRepository<T> where T : class
 {
-    public Task AddAsync(T entity)
+    private readonly DbContext _dbContext;
+    private readonly DbSet<T> _dbSet;
+    public Repository(DbContext dbContext)
     {
-        throw new NotImplementedException();
+        _dbContext = dbContext;
+        _dbSet = _dbContext.Set<T>();
+    }
+    public async Task AddAsync(T entity, CancellationToken cancellationToken=default)
+    {
+        await _dbSet.AddAsync(entity,cancellationToken);
     }
 
-    public Task<bool> Any(Expression<Func<T, bool>> expression)
+     public async Task UpdateAsync(T entity, CancellationToken cancellationToken=default)
     {
-        throw new NotImplementedException();
+         _dbSet.Attach(entity);
+         _dbContext.Entry(entity).State = EntityState.Modified;
+    }
+    public async Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
+    {
+       _dbSet.Remove(entity);
     }
 
-    public Task DeleteAsync(T entity)
+     public async Task SaveChangesAsync(CancellationToken cancellationToken=default)
     {
-        throw new NotImplementedException();
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, bool>> predicate)
+    public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken=default)
     {
-        throw new NotImplementedException();
+        return await _dbSet.ToListAsync(cancellationToken);
     }
 
-    public Task<IEnumerable<T>> GetAllAsync()
+    public async Task<T> GetByIdAsync(int id,CancellationToken cancellationToken=default)
     {
-        throw new NotImplementedException();
+       return await _dbSet.FindAsync(id,cancellationToken);
     }
 
-    public Task<List<T>> GetAllFilter(Expression<Func<T, bool>> filter)
+    public async Task<bool> Any(Expression<Func<T, bool>> expression, CancellationToken cancellationToken=default)
     {
-        throw new NotImplementedException();
+       return await _dbSet.AnyAsync(expression,cancellationToken);
+    }
+   
+
+    public Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
+    {
+        return Task.FromResult(_dbSet.Where(predicate).AsEnumerable());
     }
 
-    public Task<T> GetByIdAsync(int id)
+ 
+    public async Task<List<T>> GetAllFilter(Expression<Func<T, bool>> filter, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await _dbSet.Where(filter).ToListAsync(cancellationToken);
     }
+       
 
-    public Task<T> GetFilter(Expression<Func<T, bool>> filter)
+    public async Task<T> GetFilter(Expression<Func<T, bool>> filter, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
-    }
+        return await _dbSet.FirstOrDefaultAsync(filter,cancellationToken);
+    }  
 
-    public Task SaveChangesAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task UpdateAsync(T entity)
-    {
-        throw new NotImplementedException();
-    }
+   
 }

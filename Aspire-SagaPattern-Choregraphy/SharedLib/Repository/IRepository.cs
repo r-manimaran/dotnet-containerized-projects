@@ -9,16 +9,16 @@ namespace SharedLib.Repository;
 
 public interface IRepository<T> where T : class
 {
-    Task<T> GetByIdAsync(int id);
-    Task<IEnumerable<T>> GetAllAsync();
-    Task<IEnumerable<T>> FindAllAsync(Expression<Func<T,bool>> predicate);
-    Task<bool> Any(Expression<Func<T,bool>> expression);
-    Task<T> GetFilter(Expression<Func<T,bool>> filter);
-    Task<List<T>> GetAllFilter(Expression<Func<T,bool>> filter);
+    Task<T> GetByIdAsync(int id, CancellationToken cancellationToken=default);
+    Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken=default);
+    Task<IEnumerable<T>> FindAllAsync(Expression<Func<T,bool>> predicate, CancellationToken cancellationToken=default);
+    Task<bool> Any(Expression<Func<T,bool>> expression, CancellationToken cancellationToken=default);
+    Task<T> GetFilter(Expression<Func<T,bool>> filter, CancellationToken cancellationToken=default);
+    Task<List<T>> GetAllFilter(Expression<Func<T,bool>> filter, CancellationToken cancellationToken=default);
 
-    Task AddAsync(T entity);
-    Task UpdateAsync(T entity);
-    Task DeleteAsync(T entity);
+    Task AddAsync(T entity, CancellationToken cancellationToken=default);
+    Task UpdateAsync(T entity, CancellationToken cancellationToken=default);
+    Task DeleteAsync(T entity, CancellationToken cancellationToken=default);
 
-    Task SaveChangesAsync();
+    Task SaveChangesAsync(CancellationToken cancellationToken=default);
 }
