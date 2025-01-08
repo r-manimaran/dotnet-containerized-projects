@@ -3,8 +3,14 @@ using InventoryApi.Endpoints;
 using InventoryApi.Models;
 using Microsoft.EntityFrameworkCore;
 using SharedLib.Extensions;
+using SharedLib.Repository;
+using FluentValidation.AspNetCore;
+using System.Reflection;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddLogging();
 
 builder.AddServiceDefaults();
 
@@ -14,6 +20,10 @@ builder.Services.AddDbContext<InventoryDbContext>(options =>
 });
 
 builder.Services.AddOpenApi();
+builder.Services.AddScoped<DbContext, InventoryDbContext>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 var app = builder.Build();
 
