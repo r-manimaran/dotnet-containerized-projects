@@ -1,0 +1,27 @@
+# Step 1: Set the Base Image
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build-env
+
+# Step 2: Set the Working directory inside the container
+WORKDIR /app
+
+# Step 3: Copy .csProjet to working directory and restore 
+COPY ./Blogging.Api/*.csproj ./
+RUN dotnet restore
+
+# Step 4: Copy the other files and build the project
+COPY ./Blogging.Api/. ./
+RUN dotnet publish -c release -o out
+
+# Step 5: Now build the runtime that will run in the container
+# Get the lightweight image and set the WorkDir one more time.
+# From the previous stage copy the release pacakge we have published out folder to WORKDIR
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
+WORKDIR /app
+COPY --from=build-env /app/out .
+
+# Step 6: Expose the PORT from the container
+EXPOSE 80
+
+# Step 7: Set the entry point for the API in the Container. This will get executed when the container starts
+ENTRYPOINT ["dotnet","Blogging.Api.dll"]
+
