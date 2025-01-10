@@ -24,7 +24,8 @@ public class BasketItemConfiguration : EntityBaseConfiguration<BasketItem>
         
         builder.Property(bi=>bi.Price)
                .IsRequired()
-               .HasPrecision(18, 2);
+               .HasPrecision(18, 2)
+               .HasColumnType("decimal(18,2)");
 
         builder.Property(bi=>bi.Status)
                .IsRequired()

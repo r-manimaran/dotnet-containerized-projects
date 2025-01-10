@@ -25,7 +25,8 @@ public class BasketConfiguration : EntityBaseConfiguration<Basket>
         builder.Property(x=>x.TotalPrice)
             .IsRequired()
             .HasDefaultValue(0)
-            .HasPrecision(18, 2);
+            .HasPrecision(18, 2)
+            .HasColumnType("decimal(18,2)");;
 
         // Relationships
         builder.HasMany(x => x.BasketItems)

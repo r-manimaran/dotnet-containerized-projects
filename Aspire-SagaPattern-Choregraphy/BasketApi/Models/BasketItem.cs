@@ -14,7 +14,7 @@ namespace BasketApi.Models;
             BasketId = basketId;
             Price = price;
             Status = status;
-            Count = count;
+            Count = count;             
         }
         public int BasketId { get; set; }
         public Basket Basket { get; set; }

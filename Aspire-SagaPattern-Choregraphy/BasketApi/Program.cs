@@ -1,6 +1,7 @@
 using BasketApi.Data;
 using Microsoft.EntityFrameworkCore;
 using SharedLib.Extensions;
+using SharedLib.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,10 @@ builder.Services.AddDbContext<BasketDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("orders"));
 });
+
+builder.Services.AddScoped<DbContext, BasketDbContext>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
 
 builder.Services.AddOpenApi();
 

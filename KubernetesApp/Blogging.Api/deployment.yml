@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: blog-api-deployment
+    annotations:
+        kubernetes.io/change-cause: "Initial deployment of the app"
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: blog-api
+  template:
+    metadata:
+      name: myblogapp
+      labels:
+        env: prod
+        app: blog-api
+        app.kubernetes.io/name: blog-api
+    spec:
+      containers:
+        - name: blog-api
+          image: rmanimaran/blogk8s:v1
+          ports:
+            - containerPort: 80
+              name: http-web-api
+          resources:
+            requests:
+             cpu: 100m
+             memory: 100Mi
+            limits:
+              cpu:200m
+              memory: 200Mi
+            env:
+             - name: ASPNETCORE_URLS
+               value: http://+:80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-lb-service
+spec:
+  selector: 
+    app.kubernetes.io/name: blog-api
+  ports:
+   - name: blog-api-port
+     protocol: TCP
+     port: 8080
+     targetPort: 80
+  type: LoadBalancer
+
+

@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SagaPattern-Choregraphy.Ser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasketApi", "BasketApi\BasketApi.csproj", "{E40DA871-9993-4304-A378-4E6507D1546C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B81567B0-A51F-415C-8807-B2FFAAB73E77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryApi.Tests", "InventoryApi.Tests\InventoryApi.Tests.csproj", "{6E499BB0-B913-4FE6-9878-E512B099DAAA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,8 +55,15 @@ Global
 		{E40DA871-9993-4304-A378-4E6507D1546C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E40DA871-9993-4304-A378-4E6507D1546C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E40DA871-9993-4304-A378-4E6507D1546C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E499BB0-B913-4FE6-9878-E512B099DAAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E499BB0-B913-4FE6-9878-E512B099DAAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E499BB0-B913-4FE6-9878-E512B099DAAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E499BB0-B913-4FE6-9878-E512B099DAAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6E499BB0-B913-4FE6-9878-E512B099DAAA} = {B81567B0-A51F-415C-8807-B2FFAAB73E77}
 	EndGlobalSection
 EndGlobal
