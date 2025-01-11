@@ -1,4 +1,4 @@
-# Containerize and Orchestrate .Net API using Docker and Kubernates
+# Containerize and Orchestrate .Net API using Docker and Kubernetes
 
 1. Create a .Net Web API Project
 2. Create a Docker file and mapping
