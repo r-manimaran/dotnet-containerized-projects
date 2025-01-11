@@ -23,3 +23,19 @@ Successfully build and created the Image
 
 Now Access the Endpoints from the service running in Docker.
 ![alt text](image-1.png)
+
+We are using Docker Hub as the source for Kubernetes to pick the image file. For that we need to push the docker image to docker hub.
+
+```bash
+# Create a docker image with the tag to docker hub
+> docker build . -t rmanimaran/blogapik8s:v1
+```
+![alt text](image-2.png)
+
+- Push the image to docker hub
+```bash
+# push to docker hub
+ > docker push rmanimaran/blogapik8s:v1
+```
+
+![alt text](image-3.png)
