@@ -14,7 +14,12 @@ namespace BasketApi.Models;
             BasketId = basketId;
             Price = price;
             Status = status;
-            Count = count;             
+            Count = count;
+            CreatedBy = "system";
+            CreatedOn = DateTime.UtcNow;
+            ModifiedBy = "system";
+            ModifiedOn = DateTime.UtcNow;
+
         }
         public int BasketId { get; set; }
         public Basket Basket { get; set; }
