@@ -39,3 +39,44 @@ We are using Docker Hub as the source for Kubernetes to pick the image file. For
 ```
 
 ![alt text](image-3.png)
+
+## Check Kubernetes is enabled and running the docker desktop
+
+![alt text](image-4.png)
+
+- Run the below command to check the Kubernetes
+
+```bash
+# check k8s
+> kubectl get all
+```
+![alt text](image-5.png)
+
+- Apply deployment.yml
+
+```bash
+> kubectl apply -f deployment.yml 
+```
+![alt text](image-6.png)
+
+![alt text](image-7.png)
+
+- Access the api service which is running now in Kubernetes pods.
+
+![alt text](image-8.png)
+
+![alt text](image-9.png)
+
+- Delete all the resources in the Yaml file
+```bash
+> kubectl delete -f deployment.yml
+```
+- To verify the deletion:
+```bash
+> kubectl get all
+
+# check specific resource types
+> kubectl get pods
+> kubectl get deployments
+> kubectl get services
+```
