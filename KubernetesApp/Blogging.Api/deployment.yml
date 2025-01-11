@@ -5,7 +5,7 @@ metadata:
     annotations:
         kubernetes.io/change-cause: "Initial deployment of the app"
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: blog-api
