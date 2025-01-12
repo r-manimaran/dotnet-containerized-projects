@@ -1,4 +1,6 @@
 using BasketApi.Data;
+using BasketApi.Extensions;
+using Carter;
 using Microsoft.EntityFrameworkCore;
 using SharedLib.Extensions;
 using SharedLib.Repository;
@@ -7,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
+builder.Services.MapMessaging();
 
 builder.Services.AddDbContext<BasketDbContext>(options =>
 {
@@ -16,6 +19,7 @@ builder.Services.AddDbContext<BasketDbContext>(options =>
 builder.Services.AddScoped<DbContext, BasketDbContext>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
+builder.Services.AddCarter();
 
 builder.Services.AddOpenApi();
 
@@ -38,6 +42,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.MapCarter();
 
 app.Run();
 

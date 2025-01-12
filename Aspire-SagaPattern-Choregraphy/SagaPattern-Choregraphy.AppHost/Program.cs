@@ -11,7 +11,9 @@ var sqlserver = builder.AddSqlServer("sqldb",sqlserverPassword,40796)
                        .WithDataVolume()
                        .AddDatabase("orders");
 
-var rabbitmq = builder.AddRabbitMQ("messaging")
+var messageQueuePassword = builder.AddParameter("messageQueuePassword", secret:true);
+
+var rabbitmq = builder.AddRabbitMQ("messaging", password: messageQueuePassword)
                       .WithManagementPlugin();
 
 
