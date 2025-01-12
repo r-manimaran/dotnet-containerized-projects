@@ -42,6 +42,10 @@
    - **Description**: Service Discovery using Consul
    - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/ConsulServiceDiscovery)
 -----------------------------------------------
+   - **Name**: KubernetesApp
+   - **Description**: Deploy .Net WEB API in Kubernetes using Kubectl.
+   - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/KubernetesApp)
+-----------------------------------------------
 
 
 
