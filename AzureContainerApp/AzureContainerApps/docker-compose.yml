@@ -1,0 +1,19 @@
+services:
+  azure.refit.api:
+    image: ${DOCKER_REGISTRY-}azurerefitapi
+    container_name: Azure.Refit.Api
+    build:
+      context: .
+      dockerfile: Azure.Refit.Api/Dockerfile
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://tracking-jaeger:4317"
+  
+  tracking-jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: Azure.Refit.Jaeger
+    ports:
+      - 4317:4317
+      - 4318:4318
+      - 16686:16686
+  
+  
