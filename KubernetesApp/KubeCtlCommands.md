@@ -45,6 +45,16 @@ kubectl - Command-line tool for interacting with Kubernetes Clusters.
 # List pods with labels
 > kubectl get pods --show-labels
 
+# Get all Nodes
+> kubectl get nodes
+
+# Get all resources for all namespace
+> kubectl get all -A
+
+# Describe commands
+> kubectl describe node <nodename>
+> kubectl describe pod <podname>
+
 
 # Get detailed information about pods
 > kubectl get pods -o wide
