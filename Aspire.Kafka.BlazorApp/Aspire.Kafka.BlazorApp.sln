@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductsApi", "ProductsApi\ProductsApi.csproj", "{E93D6B62-18C7-4C61-8C89-442283F65E4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdersApi", "OrdersApi\OrdersApi.csproj", "{B625B0EC-5D4D-4384-9DC0-5BE678D514BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedLib", "SharedLib\SharedLib.csproj", "{784CC2A7-CFBE-4E4B-ADD8-39979D4724D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{27A33C73-B895-4981-AED4-09D36CB02D37}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.Kafka.BlazorApp.AppHost", "Aspire.Kafka.BlazorApp.AppHost\Aspire.Kafka.BlazorApp.AppHost.csproj", "{EE6FF75A-1AC5-44E0-9CFE-27C13478E779}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.Kafka.BlazorApp.ServiceDefaults", "Aspire.Kafka.BlazorApp.ServiceDefaults\Aspire.Kafka.BlazorApp.ServiceDefaults.csproj", "{B7CCCB85-E17C-43E7-9E41-F92381255C97}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "aspire", "aspire", "{E4C480F8-AE67-4347-8983-131C4436E505}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{04462830-9BF9-4387-95FA-06A8B4541FDE}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		directory.packages.props = directory.packages.props
+		DockerCompose.yml = DockerCompose.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E93D6B62-18C7-4C61-8C89-442283F65E4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E93D6B62-18C7-4C61-8C89-442283F65E4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E93D6B62-18C7-4C61-8C89-442283F65E4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E93D6B62-18C7-4C61-8C89-442283F65E4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B625B0EC-5D4D-4384-9DC0-5BE678D514BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B625B0EC-5D4D-4384-9DC0-5BE678D514BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B625B0EC-5D4D-4384-9DC0-5BE678D514BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B625B0EC-5D4D-4384-9DC0-5BE678D514BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{784CC2A7-CFBE-4E4B-ADD8-39979D4724D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{784CC2A7-CFBE-4E4B-ADD8-39979D4724D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{784CC2A7-CFBE-4E4B-ADD8-39979D4724D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{784CC2A7-CFBE-4E4B-ADD8-39979D4724D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27A33C73-B895-4981-AED4-09D36CB02D37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27A33C73-B895-4981-AED4-09D36CB02D37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27A33C73-B895-4981-AED4-09D36CB02D37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27A33C73-B895-4981-AED4-09D36CB02D37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE6FF75A-1AC5-44E0-9CFE-27C13478E779}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE6FF75A-1AC5-44E0-9CFE-27C13478E779}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE6FF75A-1AC5-44E0-9CFE-27C13478E779}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE6FF75A-1AC5-44E0-9CFE-27C13478E779}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7CCCB85-E17C-43E7-9E41-F92381255C97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7CCCB85-E17C-43E7-9E41-F92381255C97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7CCCB85-E17C-43E7-9E41-F92381255C97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7CCCB85-E17C-43E7-9E41-F92381255C97}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EE6FF75A-1AC5-44E0-9CFE-27C13478E779} = {E4C480F8-AE67-4347-8983-131C4436E505}
+		{B7CCCB85-E17C-43E7-9E41-F92381255C97} = {E4C480F8-AE67-4347-8983-131C4436E505}
+	EndGlobalSection
+EndGlobal
