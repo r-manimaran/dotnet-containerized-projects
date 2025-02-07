@@ -26,7 +26,7 @@
     public Order Order = new Order();
     public Product Product = new Product();
 
-    
+
     protected override async Task OnInitializedAsync()
     {
         Order.ProductId = ProductId;
@@ -38,11 +38,18 @@
 
     private async Task CreateOrder()
     {
-        var res = await http.PostAsJsonAsync<Order>($"https://localhost:7145/api/orders", Order);
-        
-        if(res.IsSuccessStatusCode)
+        try
         {
-            await Jsruntime.InvokeVoidAsync("alert", "Order Created");
+            var res = await http.PostAsJsonAsync<Order>($"https://localhost:7145/api/orders", Order);
+
+            if (res.IsSuccessStatusCode)
+            {
+                await Jsruntime.InvokeVoidAsync("alert", "Order Created");
+            }
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
         }
     }
 }
