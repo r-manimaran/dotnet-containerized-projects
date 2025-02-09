@@ -1,0 +1,40 @@
+﻿@page "/orders"
+@using SharedLib.Models
+@inject HttpClient http
+
+<h3>OrdersList</h3>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>CustomerName</th>
+                <th>ProductId</th>
+                <th>Quantity</th>
+                <th>OrderDate</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var order in Orders)
+        {
+            <tr>
+                <td>@order.CustomerName</td>
+                <td>@order.ProductId</td>
+                <td>@order.Quantity</td>
+                <td>@order.OrderDate</td>
+                <td>@order.Status</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+
+@code {
+    private List<Order> Orders = new();
+    protected override async Task OnInitializedAsync()
+    {
+        Orders = await http.GetFromJsonAsync<List<Order>>("https://localhost:7145/api/orders");
+        await base.OnInitializedAsync();
+    }
+}
