@@ -1,5 +1,7 @@
 # Using Kafka using .Net Aspire
 
+Architecture:
+
 
 ## Aspire Dashboard
 
