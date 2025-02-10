@@ -44,8 +44,7 @@ public class PaymentConsumer(IConsumer<string,string> consumer,
     {
         // Logic to process Payment
         // For testing create a Random payment failure
-        // 90% it has to success, 10% failure
-        
+                
         var random = new Random();
         var randomNumber = random.Next(1, 10);
 
