@@ -31,9 +31,16 @@ namespace CustomerApi.Services
             return response;
         }
 
-        public Task<bool> DeleteCustomer(int customerId)
+        public async Task<bool> DeleteCustomer(int customerId)
         {
-            throw new NotImplementedException();
+            var existingCustomer = await dbContext.Customers.FirstOrDefaultAsync(x => x.Id == customerId);
+            if (existingCustomer != null)
+            {
+                return false;
+            }
+            dbContext.Customers.Remove(existingCustomer);
+            await dbContext.SaveChangesAsync();
+            return true;
         }
 
         public async Task<ServiceResponse<List<Customer>>> GetAllCustomers()

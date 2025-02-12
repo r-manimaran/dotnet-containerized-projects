@@ -1,0 +1,9 @@
+services:
+    demoappdb:
+        container_name: app-db
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        ports:
+            - 8002:1433
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=$trongPass1

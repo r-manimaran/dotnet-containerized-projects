@@ -23,7 +23,7 @@ namespace CustomerApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetCustomerById(int id)
         {
             var result = await customerService.GetCustomerById(id);
