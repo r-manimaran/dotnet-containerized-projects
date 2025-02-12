@@ -13,11 +13,26 @@ namespace CustomerApi.Services
         {
             var response = new ServiceResponse<Customer>();
             var validationResult = validator.Validate(request);
-            if (validationResult.IsValid)
-            { 
-                
+            // Validation
+            if (!validationResult.IsValid)
+            {
+                response.Success = false;
+                var errors = validationResult.Errors.Select(e=>e.ErrorMessage).ToList();
+                response.Message = string.Join(";", errors);
+                return response;
             }
 
+            // Check for email already exists
+            var existingUser = await dbContext.Customers.FirstOrDefaultAsync(x=>x.Email == request.Email);
+            if (existingUser != null)
+            {
+                response.Success = false;
+                response.Message = "Email already exists.";
+                response.Data = existingUser;
+                return response;
+            }
+
+            // Add and save the new customer
             var newCustomer = new Customer()
             {
                 Email = request.Email,
@@ -28,13 +43,14 @@ namespace CustomerApi.Services
             await dbContext.SaveChangesAsync();
             response.Success = true;
             response.Data = newCustomer;
+
             return response;
         }
 
         public async Task<bool> DeleteCustomer(int customerId)
         {
             var existingCustomer = await dbContext.Customers.FirstOrDefaultAsync(x => x.Id == customerId);
-            if (existingCustomer != null)
+            if (existingCustomer == null)
             {
                 return false;
             }
@@ -47,7 +63,7 @@ namespace CustomerApi.Services
         {
             var response = new ServiceResponse<List<Customer>>();
             var allCustomers = await dbContext.Customers.ToListAsync();
-            response.Success &= allCustomers.Any();
+            response.Success = allCustomers.Any();
             response.Data = allCustomers;
             return response;
         }
