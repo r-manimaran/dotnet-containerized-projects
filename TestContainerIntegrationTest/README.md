@@ -9,3 +9,5 @@ Here we don't have the logic to handle the duplicate email. So the second test i
 
 ![alt text](image.png)
 
+![alt text](image-1.png)
+

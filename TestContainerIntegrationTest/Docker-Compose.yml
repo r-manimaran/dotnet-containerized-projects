@@ -6,4 +6,4 @@ services:
             - 8002:1433
         environment:
             - ACCEPT_EULA=Y
-            - SA_PASSWORD=$trongPass1
+            - SA_PASSWORD=StrongPass1
