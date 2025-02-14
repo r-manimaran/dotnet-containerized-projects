@@ -52,3 +52,9 @@
 - in the Process Webhook, its processing the 3 Subscriptions I have in database.
 
 ![alt text](Images/image13.png)
+
+## Scale the Consumer
+
+![alt text](image-1.png)
+
+![alt text](image.png)
