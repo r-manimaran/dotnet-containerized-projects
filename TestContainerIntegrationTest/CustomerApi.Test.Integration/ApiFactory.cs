@@ -19,9 +19,11 @@ public class ApiFactory : WebApplicationFactory<IApiAssemblyMarker>, IAsyncLifet
     public ApiFactory()
     {
         _msSqlContainer = new MsSqlBuilder()
-                    .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
-                    .WithPassword("Your_password123$")                    
-                    .Build();
+                            .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
+                            .WithPassword("Your_password123$")
+                            .WithEnvironment("ACCEPT_EULA", "Y")                                     
+                            .WithCleanUp(true)                    
+                            .Build();
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)

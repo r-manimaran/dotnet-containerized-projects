@@ -1,5 +1,6 @@
 using CustomerApi.Data;
 using CustomerApi.DTOs;
+using CustomerApi.Extensions;
 using CustomerApi.Services;
 using CustomerApi.Validations;
 using FluentValidation;
@@ -7,6 +8,8 @@ using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
 
 builder.Services.AddControllers();
 
@@ -22,7 +25,10 @@ builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateCustomerRequestValidator>();
 
+
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 if (app.Environment.IsDevelopment())
 {

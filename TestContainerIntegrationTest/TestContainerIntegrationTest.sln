@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerApi", "CustomerApi\CustomerApi.csproj", "{448339A0-A5F9-4783-ACFA-D3A82AD23BD0}"
 EndProject
@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BE313C9F-B41C-4EDE-B58E-3BDDCE48EE83}"
 	ProjectSection(SolutionItems) = preProject
 		Docker-Compose.yml = Docker-Compose.yml
+		prometheus.yml = prometheus.yml
 	EndProjectSection
 EndProject
 Global

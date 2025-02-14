@@ -7,3 +7,44 @@ services:
         environment:
             - ACCEPT_EULA=Y
             - SA_PASSWORD=StrongPass1
+
+    jaeger:
+        image: jaegertracing/all-in-one:latest
+        container_name: api.jaeger    
+        ports:
+         - 4317:4317
+         - 4318:4318
+         - 16686:16686
+        environment:
+          - COLLECTOR_OTLP_ENABLED=true
+
+    prometheus:
+        image: prom/prometheus
+        container_name: prometheus
+        ports:
+            - 9090:9090
+        extra_hosts:
+          - "host.docker.internal:host-gateway"
+        volumes:
+            - ./prometheus.yml:/etc/prometheus/prometheus.yml
+ 
+    grafana:
+        image: grafana/grafana:11.4.0
+        expose:
+          - "3000"
+        ports:
+          - 3000:3000
+        volumes:
+          - grafana:/var/lib/grafana
+        depends_on:
+          -prometheus
+        networks:
+          - monitoring
+
+volumes:
+  prometheus:
+  grafana:
+
+networks:
+  monitoring:
+    driver: bridge

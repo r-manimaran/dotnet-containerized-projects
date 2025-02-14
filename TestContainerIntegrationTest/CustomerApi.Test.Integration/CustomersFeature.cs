@@ -2,6 +2,8 @@
 using CustomerApi.Data;
 using CustomerApi.DTOs;
 using CustomerApi.Models;
+using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http.Json;
@@ -187,5 +189,28 @@ public class CustomersFeature : IClassFixture<ApiFactory>
         Assert.Equal(updateRequest.Email, updatedCustomer.Email);
     }
 
+    [Fact]
+    public async Task CreateCustomer_WithInvalidData_ShouldReturnFailure()
+    {
+        // Arrange
+        var request = new CreateCustomerRequest("", "");
+
+        var validationFailures = new List<ValidationFailure>
+        {
+            new ValidationFailure("Name","Name is required"),
+            new ValidationFailure("Email","Email is required")
+        };
+
+        // Act
+        var createResponse = await _apiClient.PostAsJsonAsync("/api/Customers/create", request);
+       //var serviceResponse = await createResponse.Content.ReadFromJsonAsync<ServiceResponse<Customer>>();
+        
+        Assert.NotNull(createResponse);
+
+        var badRequestResult = Assert.IsType<HttpResponseMessage>(createResponse);
+        //var validationProblemDetails = Assert.IsType<ValidationProblemDetails>(badRequestResult);
+         
+        
+    }
 
 }
