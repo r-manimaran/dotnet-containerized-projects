@@ -42,6 +42,7 @@ public static class AppExtensions
                 metrics.AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
                     .AddRuntimeInstrumentation()
+                    .AddMeter("MyApi.CustomersService")
                     .AddPrometheusExporter();
             })
             .WithTracing(tracing =>

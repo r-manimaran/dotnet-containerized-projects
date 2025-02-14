@@ -16,7 +16,10 @@ Here we don't have the logic to handle the duplicate email. So the second test i
 ![alt text](image-3.png)
 
 
-Prometheus:
+## Metrics scrapping endpoint:
+![alt text](image-7.png)
+
+## Prometheus:
 - When Configuring Promethus.yml file use the `host.docker.internal` if the prometheus is running in the docker.
 - To test the prometheus is collecting data, check the below
 Using the Graph View :
@@ -89,5 +92,21 @@ In Grafana, when creating the datasource set the Prometheus url address to  http
 
 ![alt text](image-6.png)
 
+```
+{
+  "targets": [
+    {
+      "expr": "sum(increase(customer_creations_total[24h]))",
+      "legendFormat": "Customers Created Today",
+      "refId": "A"
+    }
+  ],
+  "title": "Daily Customer Creation",
+  "type": "stat"
+}
+```
+
+
+![alt text](image-8.png)
 
 
