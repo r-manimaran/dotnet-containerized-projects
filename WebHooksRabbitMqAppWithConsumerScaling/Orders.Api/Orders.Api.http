@@ -1,0 +1,22 @@
+@Orders.Api_HostAddress = https://localhost:7260
+
+
+
+### Create Order
+POST {{Orders.Api_HostAddress}}/Order
+Content-Type: application/json
+{
+    "customerName":"John",
+    "Amount":500
+}
+
+
+### Create Subscription Request
+
+POST {{Orders.Api_HostAddress}}/webhooks/subscriptions
+Content-Type: application/json
+{
+    "eventType":"order.created",
+    "webhookUrl":"https://webhook.site/e74ccd4d-f58f-4ef9-aa9e-a8e4bfc839a3"
+}
+

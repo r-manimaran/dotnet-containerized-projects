@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.Api", "Orders.Api\Orders.Api.csproj", "{DBD2FBD4-760E-4A36-9BEF-ED75F1921301}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "aspire", "aspire", "{7F44AFC1-8FC4-46F6-9EEB-889F6DC7A076}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebHooksApp.AppHost", "WebHooksApp.AppHost\WebHooksApp.AppHost.csproj", "{B14763C7-D8E3-4337-A9D0-F9B897D0BC74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebHooksApp.ServiceDefaults", "WebHooksApp.ServiceDefaults\WebHooksApp.ServiceDefaults.csproj", "{7FE75581-6571-4911-95BE-9DFCD711563C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webhooks.Processing", "Webhooks.Processing\Webhooks.Processing.csproj", "{55EE4087-12C2-4CB5-B5F1-5D2619CED37F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webhooks.Contracts", "Webhooks.Contracts\Webhooks.Contracts.csproj", "{703DCA6D-8EAF-407F-AE08-CD3FB1317BEF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DBD2FBD4-760E-4A36-9BEF-ED75F1921301}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBD2FBD4-760E-4A36-9BEF-ED75F1921301}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBD2FBD4-760E-4A36-9BEF-ED75F1921301}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBD2FBD4-760E-4A36-9BEF-ED75F1921301}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B14763C7-D8E3-4337-A9D0-F9B897D0BC74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B14763C7-D8E3-4337-A9D0-F9B897D0BC74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B14763C7-D8E3-4337-A9D0-F9B897D0BC74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B14763C7-D8E3-4337-A9D0-F9B897D0BC74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FE75581-6571-4911-95BE-9DFCD711563C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FE75581-6571-4911-95BE-9DFCD711563C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FE75581-6571-4911-95BE-9DFCD711563C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FE75581-6571-4911-95BE-9DFCD711563C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55EE4087-12C2-4CB5-B5F1-5D2619CED37F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55EE4087-12C2-4CB5-B5F1-5D2619CED37F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55EE4087-12C2-4CB5-B5F1-5D2619CED37F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55EE4087-12C2-4CB5-B5F1-5D2619CED37F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{703DCA6D-8EAF-407F-AE08-CD3FB1317BEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{703DCA6D-8EAF-407F-AE08-CD3FB1317BEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{703DCA6D-8EAF-407F-AE08-CD3FB1317BEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{703DCA6D-8EAF-407F-AE08-CD3FB1317BEF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B14763C7-D8E3-4337-A9D0-F9B897D0BC74} = {7F44AFC1-8FC4-46F6-9EEB-889F6DC7A076}
+		{7FE75581-6571-4911-95BE-9DFCD711563C} = {7F44AFC1-8FC4-46F6-9EEB-889F6DC7A076}
+	EndGlobalSection
+EndGlobal
