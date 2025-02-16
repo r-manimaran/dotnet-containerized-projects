@@ -34,8 +34,7 @@ namespace CustomerApi.Controllers
             timer.Stop();
             CustomerCreationDuration.Record(timer.Elapsed.TotalSeconds, new KeyValuePair<string, object?>[]
             {
-                new("customer_type", request.GetType()),
-                new("source", "customerApi")
+                new("customer_type", request.GetType()),             
             });
             return Ok(result);
         }
