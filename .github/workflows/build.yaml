@@ -6,7 +6,7 @@ on:
         branches:
             - main
         paths:
-            - 'Aspire.Database.TestContainers'
+            - Aspire.Database.TestContainers
 env:
     DOTNET_VERSION: "9.x"
 
