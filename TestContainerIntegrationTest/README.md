@@ -110,3 +110,10 @@ In Grafana, when creating the datasource set the Prometheus url address to  http
 ![alt text](image-8.png)
 
 
+## Jaeger Tracing
+
+![alt text](image-9.png)
+
+- Added Sql Server Tracing
+
+![alt text](image-10.png)

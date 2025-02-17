@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
 namespace CustomerApi.Extensions;
@@ -47,10 +48,23 @@ public static class AppExtensions
             })
             .WithTracing(tracing =>
             {
-                tracing.AddAspNetCoreInstrumentation()
+                tracing.AddAspNetCoreInstrumentation(options=>
+                {
+                    options.Filter = httpContext => httpContext.Request.Path != "/health";
+                })
                     // Uncomment the following line to enable gRPC instrumentation (requires the OpenTelemetry.Instrumentation.GrpcNetClient package)
                     //.AddGrpcClientInstrumentation()
-                    .AddHttpClientInstrumentation();
+                    .AddHttpClientInstrumentation()
+                    .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("CustomerApi"))
+                    .AddSqlClientInstrumentation(options =>
+                    {
+                        options.SetDbStatementForText = true;
+                    })
+                    .AddOtlpExporter(opts =>
+                    {
+                        opts.Endpoint = new Uri("http://localhost:4317");
+                    })
+                    .AddConsoleExporter();
             });
 
         builder.AddOpenTelemetryExporters();
