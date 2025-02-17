@@ -8,9 +8,11 @@ var postgres = builder.AddPostgres("postgres")
                       .WithDataVolume()
                       .AddDatabase("products");
 
+var rabbitMq = builder.AddRabbitMQ("messaging")
+                      .WithManagementPlugin();
 
-var seq = builder.AddSeq("seq").WithHealthCheck("health");
-                       
+var seq = builder.AddSeq("seq");
+
 
 var apiService = builder.AddProject<Projects.Aspire_Database_TestContainers>("apiService")
                     .WithReference(postgres)
@@ -18,7 +20,9 @@ var apiService = builder.AddProject<Projects.Aspire_Database_TestContainers>("ap
                     .WithReference(redis)
                     .WaitFor(redis)
                     .WithReference(seq)
-                    .WaitFor(seq);
+                    .WaitFor(seq)
+                    .WaitFor(rabbitMq)
+                    .WithReference(rabbitMq);
 
 apiService.WithSwaggerUi()
           .WithRedocUi();

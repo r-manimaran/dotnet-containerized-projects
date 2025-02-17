@@ -47,3 +47,11 @@ jobs:
 ## output
 
 ![alt text](image.png)
+
+## RabbitMQ Endpoint to publish a message
+
+![alt text](image-1.png)
+
+**Consume Message**:
+
+![alt text](image-2.png)

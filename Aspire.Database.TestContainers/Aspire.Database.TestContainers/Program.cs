@@ -1,3 +1,4 @@
+using Aspire.Database.TestContainers;
 using Aspire.Database.TestContainers.Data;
 using Aspire.Database.TestContainers.Extensions;
 using Aspire.Database.TestContainers.Services;
@@ -25,6 +26,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("products"));
 });
+
+builder.AddRabbitMQClient("messaging");
+
+builder.Services.AddHostedService<TodoConsumer>();
 
 builder.Services.AddScoped<IProductService , ProductService>();
 

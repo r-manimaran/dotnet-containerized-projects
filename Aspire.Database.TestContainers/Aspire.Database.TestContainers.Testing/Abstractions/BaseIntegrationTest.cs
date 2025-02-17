@@ -1,6 +1,7 @@
 ﻿using Aspire.Database.TestContainers.Data;
 using Bogus;
 using Microsoft.Extensions.DependencyInjection;
+using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ public abstract class BaseIntegrationTest : IClassFixture<ApiFactory>, IDisposab
     protected readonly AppDbContext _dbContext;
     protected readonly IServiceScope _scope;
     protected readonly HttpClient _apiClient;
+    //protected readonly IConnection _connection;
     protected Faker _faker { get; }
     protected BaseIntegrationTest(ApiFactory factory)
     {
@@ -23,6 +25,7 @@ public abstract class BaseIntegrationTest : IClassFixture<ApiFactory>, IDisposab
         _scope = factory.Services.CreateScope();
         _dbContext = _scope.ServiceProvider.GetRequiredService<AppDbContext>();
         _faker = new Faker();
+        //_connection = _scope.ServiceProvider.GetRequiredService<IConnection>();
     }
     public void Dispose()
     {
