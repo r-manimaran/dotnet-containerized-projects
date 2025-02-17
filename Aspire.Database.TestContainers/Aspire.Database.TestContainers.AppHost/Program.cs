@@ -9,7 +9,7 @@ var postgres = builder.AddPostgres("postgres")
                       .AddDatabase("products");
 
 
-var seq = builder.AddSeq("seq");
+var seq = builder.AddSeq("seq").WithHealthCheck("health");
                        
 
 var apiService = builder.AddProject<Projects.Aspire_Database_TestContainers>("apiService")
