@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35707.178 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalWebhookEndpoint", "LocalWebhookEndpoint\LocalWebhookEndpoint.csproj", "{0D284F28-93C7-460D-8179-EF8FF8EE5F01}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebookFunction", "WebookFunction\WebookFunction.csproj", "{E09599BF-0B44-4962-BEC8-086FDC793928}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{0D284F28-93C7-460D-8179-EF8FF8EE5F01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D284F28-93C7-460D-8179-EF8FF8EE5F01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D284F28-93C7-460D-8179-EF8FF8EE5F01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E09599BF-0B44-4962-BEC8-086FDC793928}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E09599BF-0B44-4962-BEC8-086FDC793928}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E09599BF-0B44-4962-BEC8-086FDC793928}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E09599BF-0B44-4962-BEC8-086FDC793928}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
