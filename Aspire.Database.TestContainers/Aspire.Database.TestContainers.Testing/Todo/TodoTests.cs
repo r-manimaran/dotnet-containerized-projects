@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Aspire.Database.TestContainers.Models;
 using System.Net.Http.Json;
 using RabbitMQ.Client;
+using FluentAssertions;
 
 namespace Aspire.Database.TestContainers.Testing;
 
@@ -26,9 +27,12 @@ public class TodoTests : BaseIntegrationTest
             IsCompleted = false
         };
 
+        // check in Consumer
+        const string queueName = "testing-created-todos"; 
+        _rabbitMqConsumer.BindQueue("created-todos", queueName);
+
         await _apiClient.PostAsJsonAsync("/api/ToDos", todo);
-
-       // Assert.True(_connection.IsOpen);
-
+        var messageConsumed = await _rabbitMqConsumer.TryToConsumeAsync(queueName, TimeSpan.FromSeconds(5));
+        messageConsumed.Should().BeTrue();
     }
 }

@@ -16,8 +16,9 @@ public abstract class BaseIntegrationTest : IClassFixture<ApiFactory>, IDisposab
     protected readonly AppDbContext _dbContext;
     protected readonly IServiceScope _scope;
     protected readonly HttpClient _apiClient;
-    //protected readonly IConnection _connection;
+    protected readonly IModel _channel;
     protected Faker _faker { get; }
+    protected readonly RabbitMqConsumer _rabbitMqConsumer;
     protected BaseIntegrationTest(ApiFactory factory)
     {
         _factory = factory;
@@ -25,7 +26,8 @@ public abstract class BaseIntegrationTest : IClassFixture<ApiFactory>, IDisposab
         _scope = factory.Services.CreateScope();
         _dbContext = _scope.ServiceProvider.GetRequiredService<AppDbContext>();
         _faker = new Faker();
-        //_connection = _scope.ServiceProvider.GetRequiredService<IConnection>();
+        _channel = factory.Services.GetRequiredService<IModel>();
+        _rabbitMqConsumer = factory.RabbitMqConsumer;
     }
     public void Dispose()
     {

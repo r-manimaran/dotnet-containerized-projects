@@ -29,6 +29,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.AddRabbitMQClient("messaging");
 
+builder.AddRedisDistributedCache("redis");
+
 builder.Services.AddHostedService<TodoConsumer>();
 
 builder.Services.AddScoped<IProductService , ProductService>();
