@@ -1,0 +1,71 @@
+using eshop.Orders;
+using eshop.Orders.Modules.Orders;
+using eshop.Orders.Modules.Orders.PublicApi;
+using eshop.Orders.Modules.Shipping;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using Npgsql;
+using OpenTelemetry;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using System;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<DatabaseInitializer>();
+
+builder.Services.AddSingleton(_ =>
+{
+    return new NpgsqlDataSourceBuilder(builder.Configuration.GetConnectionString("Database")).Build();
+});
+
+builder.Services.AddDbContext<OrderDbContext>(options =>
+    options.EnableSensitiveDataLogging()
+           .UseNpgsql(builder.Configuration.GetConnectionString("Database"),
+            x => x.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "orders"))
+          .UseSnakeCaseNamingConvention());
+
+
+builder.Services.AddDbContext<ShippingDbContext>(options =>
+    options.EnableSensitiveDataLogging()
+            .UseNpgsql(builder.Configuration.GetConnectionString("Database"),
+             x => x.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "shipping"))
+            .UseSnakeCaseNamingConvention());
+
+builder.Services.AddScoped<IOrderService, OrderService>();
+
+builder.Services.AddOpenTelemetry()
+       .ConfigureResource(r => r.AddService("eshop.Orders"))
+       .WithTracing(tracing =>
+            tracing.
+                   AddNpgsql()
+                   .AddHttpClientInstrumentation()
+                   .AddAspNetCoreInstrumentation()
+                   .AddEntityFrameworkCoreInstrumentation()
+                   .AddSource(MassTransit.Logging.DiagnosticHeaders.DefaultListenerName))
+       .UseOtlpExporter();
+
+
+var app = builder.Build();
+
+await app.Services.GetRequiredService<DatabaseInitializer>().Execute();
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.MapOrdersEndpoints();
+//app.MapShippingEndpoints();
+
+app.UseHttpsRedirection();
+
+app.Run();
+
