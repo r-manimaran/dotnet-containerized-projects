@@ -9,8 +9,12 @@ services:
       - "5001:8081"
     environment:
       - ConnectionStrings__Database=Host=postgres;Port=5432;Database=eshop;Username=postgres;Password=postgres
-      - OTEL_EXPORTER_OTLP_EXPORTER=http://aspire-dashboard:18889
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire-dashboard:18889
       - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+      - OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES=true
+      - OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES=true
+      - OTEL_TRACES_SAMPLER=always_on
+      - OTEL_TRACES_SAMPLER_ARG=1.0
     networks:
       - monolith
 
@@ -32,6 +36,8 @@ services:
       DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS: true
     ports:
       - 18888:18888
+    networks:
+      - monolith
   
   rabbitmq:
     image: rabbitmq:management-alpine
@@ -48,5 +54,6 @@ services:
 
 networks:
   monolith:
+    driver: bridge
       
   

@@ -2,6 +2,7 @@ using eshop.Orders;
 using eshop.Orders.Modules.Orders;
 using eshop.Orders.Modules.Orders.PublicApi;
 using eshop.Orders.Modules.Shipping;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
@@ -50,7 +51,17 @@ builder.Services.AddOpenTelemetry()
                    .AddSource(MassTransit.Logging.DiagnosticHeaders.DefaultListenerName))
        .UseOtlpExporter();
 
+// Added Mass Transit
+builder.Services.AddMassTransit(x =>
+{
+    x.SetKebabCaseEndpointNameFormatter();
+    x.AddConsumer<OrderCreatedConsumer>();
 
+    x.UsingInMemory((context, cfg) =>
+    {
+        cfg.ConfigureEndpoints(context);
+    });
+});
 var app = builder.Build();
 
 await app.Services.GetRequiredService<DatabaseInitializer>().Execute();
