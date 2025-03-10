@@ -20,12 +20,18 @@ public static class AppExtensions
         });
 
         builder.Services.AddOpenTelemetry()
-                       .ConfigureResource(r => r.AddService("ECommerceApi"))
+                       .ConfigureResource(r => r.AddService("ECommerceApi")
+                       .AddEnvironmentVariableDetector()
+                       .AddTelemetrySdk())
                        .WithTracing(tracing =>
-                            tracing.
-                                    AddHttpClientInstrumentation(opt => {
+                            tracing
+                                    // Set sampling to 100%
+                                    .SetSampler(new AlwaysOnSampler())
+                                   // To Track outgoing HTTP requests made via HttpClient
+                                    .AddHttpClientInstrumentation(opt => {
                                         opt.RecordException = true;
-                                    })
+                                    }).SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("CustomerApiService"))
+                                   // To Capture Incoming requests to the API
                                    .AddAspNetCoreInstrumentation(opts => {
                                        opts.RecordException = true;
                                        opts.EnrichWithHttpRequest = (activity, httpRequest) => {
@@ -43,7 +49,15 @@ public static class AppExtensions
                                         options.RecordException = true;
                                     })
                                    .AddSource("EShop.Api")
-                                   .AddOtlpExporter(opt => opt.Endpoint = new Uri(jaegerEndpoint)))
+                                   .AddOtlpExporter(opt => 
+                                   {
+                                    opt.Endpoint = new Uri(jaegerEndpoint);
+                                    opt.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.Grpc;
+                                    // Add timeout settings
+                                    opt.TimeoutMilliseconds = 15000;
+                                    opt.ExportProcessorType = ExportProcessorType.Batch;
+                                    })) // Send the trace data to an OTLP collector
+                                   
                        .WithMetrics(metrics =>
                             metrics.AddAspNetCoreInstrumentation()
                                    .AddHttpClientInstrumentation()

@@ -11,8 +11,13 @@ services:
       - ConnectionStrings__Default=Server=app-db,1433;Database=eshop;User Id=sa;Password=StrongPass1;MultipleActiveResultSets=true;TrustServerCertificate=true;
       - Jaeger__Endpoint=http://jaeger:4317
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+      # Force sampling for testing
+      - OTEL_SAMPLING_PROBABILITY=1.0
+      - OTEL_TRACES_SAMPLER=always_on
     depends_on:
-      - jaeger
+      jaeger:
+        condition: service_started        
     networks:
       - observability
 
@@ -43,11 +48,17 @@ services:
     image: jaegertracing/all-in-one:latest
     container_name: api.jaeger    
     ports:
-        - 4317:4317 # OTLP gPRC
-        - 4318:4318 # OTLP HTTP
-        - 16686:16686 # UI
+      - "16686:16686"   # UI
+      - "4317:4317"     # OTLP gRPC
+      - "4318:4318"     # OTLP HTTP
+      - "14250:14250"   # Model
+      - "14268:14268"   # Jaeger HTTP
+      - "6831:6831/udp" # Jaeger thrift compact
+      - 13133:13133 # Health Check endpoint
     environment:
         - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - observability
     
 
 volumes:
