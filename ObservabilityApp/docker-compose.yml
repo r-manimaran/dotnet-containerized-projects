@@ -1,0 +1,58 @@
+services:
+  ecommerceapi:
+    image: ${DOCKER_REGISTRY-}ecommerceapi
+    container_name: ecommerceapi
+    build:
+      context: .
+      dockerfile: ECommerceApi/Dockerfile
+    ports:
+      - "5001:8081"
+    environment:
+      - ConnectionStrings__Default=Server=app-db,1433;Database=eshop;User Id=sa;Password=StrongPass1;MultipleActiveResultSets=true;TrustServerCertificate=true;
+      - Jaeger__Endpoint=http://jaeger:4317
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
+    depends_on:
+      - jaeger
+    networks:
+      - observability
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+        - 9090:9090
+    extra_hosts:
+        - "host.docker.internal:host-gateway"
+    volumes:
+        - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - observability
+  
+  appdb:
+    container_name: app-db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - 8002:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=StrongPass1
+    networks:
+      - observability
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: api.jaeger    
+    ports:
+        - 4317:4317 # OTLP gPRC
+        - 4318:4318 # OTLP HTTP
+        - 16686:16686 # UI
+    environment:
+        - COLLECTOR_OTLP_ENABLED=true
+    
+
+volumes:
+  prometheus:
+    
+networks:
+  observability:
+     driver: bridge  
