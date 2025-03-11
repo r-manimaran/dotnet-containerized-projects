@@ -1,0 +1,91 @@
+services:
+  eshop.orders:
+    image: ${DOCKER_REGISTRY-}eshoporders
+    build:
+      context: .
+      dockerfile: eshop.Orders/Dockerfile
+    ports:
+      - "5001:8081"
+    environment:  
+      - ASPNETCORE_URLS=http://+:8080    
+      - ConnectionStrings__Database=Host=postgres;Port=5432;Database=eshop;Username=postgres;Password=postgres
+      - ConnectionStrings__Queue=amqp://guest:guest@rabbitmq:5672
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire-dashboard:18889
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+      - OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES=true
+      - OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES=true
+      - OTEL_TRACES_SAMPLER=always_on
+      - OTEL_TRACES_SAMPLER_ARG=1.0
+    depends_on:
+       - postgres
+       - rabbitmq
+       - aspire-dashboard
+    networks:
+      - monolith
+
+  eshop.shipping.api:
+    image: ${DOCKER_REGISTRY-}eshopshippingapi
+    build:
+      context: .
+      dockerfile: eshop.Shipping.Api/Dockerfile
+    ports:
+      - "5003:8081"
+    environment:
+      - ASPNETCORE_URLS=http://+:8080      
+      - ConnectionStrings__Database=Host=postgres;Port=5432;Database=eshop;Username=postgres;Password=postgres
+      - ConnectionStrings__Queue=amqp://guest:guest@rabbitmq:5672
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire-dashboard:18889
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+      - OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES=true
+      - OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES=true
+      - OTEL_TRACES_SAMPLER=always_on
+      - OTEL_TRACES_SAMPLER_ARG=1.0
+    depends_on:
+       - postgres
+       - rabbitmq
+       - aspire-dashboard
+       - eshop.orders
+    networks:
+      - monolith
+
+  postgres:
+    image: postgres:17
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - monolith
+  
+  aspire-dashboard:
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:9.0
+    environment:
+       DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS: true
+    ports:
+      - 18888:18888
+    networks:
+      - monolith
+  
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    hostname: rabbitmq
+    volumes:
+      - ./.containers/queue/data/:/var/lib/rabbitmq
+      - ./.containers/queue/log/:/var/log/rabbitmq
+    environment:
+       RABBITMQ_DEFAULT_USER: guest
+       RABBITMQ_DEFAULT_PASS: guest
+    ports:
+       - 5672:5672
+       - 15672:15672
+    networks:
+      - monolith
+
+networks:
+  monolith:
+    driver: bridge
+
+
