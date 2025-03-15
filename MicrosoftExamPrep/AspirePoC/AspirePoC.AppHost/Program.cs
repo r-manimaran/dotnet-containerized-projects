@@ -1,3 +1,4 @@
+using AspirePoC.AppHost;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = DistributedApplication.CreateBuilder(args);
@@ -22,10 +23,14 @@ builder.AddContainer("hello", "mcr.microsoft.com/azuredocs/aci-helloworld")
        .WithEnvironment("ASPNETCORE_URLS", "http://+:0");
         //.WithHttpEndpoint(port: 0, name: "http");
 
-builder.AddProject<Projects.AspirePoC_Web>("webfrontend")
-    .WithExternalHttpEndpoints()
-    .WithReference(apiService);
+var webFrontend= builder.AddProject<Projects.AspirePoC_Web>("webfrontend")
+                        .WithExternalHttpEndpoints()
+                        .WithReference(apiService);
 
+builder.AddHealthChecksUI("healthchecksui")
+       .WithReference(apiService)
+       .WithReference(webFrontend)
+       .WithExternalHttpEndpoints();
 
 
 builder.Build().Run();
