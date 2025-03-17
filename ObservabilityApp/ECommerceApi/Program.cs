@@ -24,6 +24,8 @@ if (app.Environment.IsDevelopment())
      options.SwaggerEndpoint("/openapi/v1.json", "OpenApi v1"));
 }
 
+app.MapFallbackToFile("index.html");
+
 app.MapPrometheusScrapingEndpoint();
 
 app.UseHttpsRedirection();

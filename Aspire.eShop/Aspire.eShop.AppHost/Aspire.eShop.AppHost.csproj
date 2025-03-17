@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+<Sdk Name="Aspire.AppHost.Sdk" Version="9.0.0" />
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>10453a0f-c1db-49dd-aff7-e5a625e53765</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.1.0" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.1.0" />
+    <PackageReference Include="Aspire.Hosting.Redis" Version="9.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Aspire.eshop.BasketService\Aspire.eshop.BasketService.csproj" />
+    <ProjectReference Include="..\Aspire.eshop.CatalogService\Aspire.eshop.CatalogService.csproj" />
+    <ProjectReference Include="..\Aspire.eshop.CatelogDbManager\Aspire.eshop.CatelogDbManager.csproj" />
+    <ProjectReference Include="..\Aspire.eshop.WebApp\Aspire.eshop.WebApp.csproj" />
+  </ItemGroup>
+
+</Project>

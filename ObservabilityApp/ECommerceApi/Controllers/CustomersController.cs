@@ -2,6 +2,7 @@
 using ECommerceApi.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.Metrics;
 
 namespace ECommerceApi.Controllers
 {
@@ -10,15 +11,21 @@ namespace ECommerceApi.Controllers
     public class CustomersController : ControllerBase
     {
         private readonly ICustomerService _customerService;
-
+        Meter customMeter = new Meter("CustomerApi", "1.0.0");
+        Counter<int> customersCreatedCount;
         public CustomersController(ICustomerService customerService)
         {
             _customerService = customerService;
+            customersCreatedCount = customMeter.CreateCounter<int>(
+          name: "Total_Customers",
+          unit: "Customers",
+          description: " The number of customers created");
         }
         [HttpPost]
         public async Task<IActionResult> CreateCustomer(CustomerRequest customerRequest)
         {
             var result = await _customerService.CreateCustomer(customerRequest);
+            customersCreatedCount.Add(1);
             return Ok(result);
         }
 
