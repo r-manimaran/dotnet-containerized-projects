@@ -1,0 +1,45 @@
+services:
+  stocksapi:
+    image: ${DOCKER_REGISTRY-}stocksapi
+    build:
+      context: .
+      dockerfile: StocksApi/Dockerfile
+    ports:
+      - "5001:8081"
+    environment:
+      - ConnectionStrings__Database=Host=postgres;Port=5432;Database=stocks;Username=postgres;Password=postgres
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire-dashboard:18889
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+      - OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES=true
+      - OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES=true
+      - OTEL_TRACES_SAMPLER=always_on
+      - OTEL_TRACES_SAMPLER_ARG=1.0
+    networks:
+      - stocksapp
+
+  
+  postgres:
+    image: postgres:17
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - stocksapp
+
+  aspire-dashboard:
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:9.0
+    environment:
+        DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS: true
+    ports:
+      - 18888:18888
+    networks:
+      - stocksapp
+
+networks:
+  stocksapp:
+    driver: bridge
+      
