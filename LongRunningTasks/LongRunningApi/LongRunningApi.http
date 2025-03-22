@@ -1,0 +1,6 @@
+@LongRunningApi_HostAddress = http://localhost:5049
+
+GET {{LongRunningApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

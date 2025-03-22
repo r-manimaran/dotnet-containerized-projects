@@ -1,0 +1,142 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.SignalR.Client
+@rendermode InteractiveServer
+@inject IHttpClientFactory HttpClientFactory
+
+
+<PageTitle>Home</PageTitle>
+
+<h1>Long Running Tasks</h1>
+<div>
+    <p>Version 1- Blocking call</p>
+    <button class="btn btn-primary" @onclick="GetReportV1Async" disabled="@_disabled">GET REPORT V1</button>
+
+    <p>Result: @_response</p>
+</div>
+
+
+<div>
+    <p>Version 2- Polling</p>
+    <button class="btn btn-secondary" @onclick="GetReportV2Async" disabled="@_disabled">GET REPORT V2</button>
+
+    <p>Processing job with ID: @_jobId</p>
+    @foreach(string status in _pollingStatus)
+    {
+        <p>@status</p>
+    }
+</div>
+
+<div>
+    <p> Version 3 - Web Sockets (SignalR)</p>
+    <button class="btn btn-success" @onclick="GetReportV3Async" disabled="@_disabled">GET REPORT V3</button>
+
+    <p>Processing job with ID: @_socketJobId</p>
+
+    @foreach (string status in _socketStatus)
+    {
+        <p>@status</p>
+    }
+</div>
+
+@code {
+
+    bool _disabled = false;
+    string? _response = null;
+
+    private async Task GetReportV1Async()
+    {
+        try
+        {
+            _disabled = true;
+
+            _response = null;
+
+            var client = HttpClientFactory.CreateClient("LongRunningApi");
+            var response = await client.GetStringAsync("reports/v1");
+
+            _disabled = false;
+
+            _response = response;
+        }
+        catch (Exception ex)
+        {
+            _response = $"Error: {ex.ToString()}";
+        }
+        finally
+        {
+            _disabled = false;
+            StateHasChanged();
+        }
+    }
+
+    string? _jobId = null;
+    List<string> _pollingStatus = [];
+    private async Task GetReportV2Async()
+    {
+        try
+        {
+            _disabled = true;
+
+            _pollingStatus = [];
+            _jobId = null;
+
+            var client = HttpClientFactory.CreateClient("LongRunningApi");
+            var response = await client.PostAsync("reports/v2",null);
+
+            _jobId = await response.Content.ReadAsStringAsync();
+            using var periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+            string? lastState = null;
+            while(await periodicTimer.WaitForNextTickAsync() && 
+                    lastState !="Succeeded")
+            {
+                lastState = await client.GetStringAsync(response.Headers.Location);
+                _pollingStatus.Add(lastState);
+                await InvokeAsync(StateHasChanged);
+            }
+            _disabled = false;
+        }
+
+        catch (Exception ex)
+        {
+            _response = $"Error: {ex.ToString()}";
+        }
+        finally
+        {
+            _disabled = false;
+            StateHasChanged();
+        }
+    }
+
+
+    #region version 3
+    private HubConnection? _hubConnection;
+    List<string> _socketStatus = [];
+    string? _socketJobId = null;
+    private async Task GetReportV3Async()
+    {
+        _disabled = true;
+        _socketStatus = [];
+        _socketJobId = null;
+        var client = HttpClientFactory.CreateClient("LongRunningApi");
+        var response = await client.PostAsync("reports/v3", null);
+
+        _socketJobId = await response.Content.ReadAsStringAsync();
+
+        _disabled = false;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _hubConnection = new HubConnectionBuilder()
+             .WithUrl("https://localhost:5001/notifications")
+             .Build();
+        _hubConnection.On<string>("ReceiveNotification", msg =>
+        {
+            _socketStatus.Add(msg);
+
+            InvokeAsync(StateHasChanged);
+        });
+        await _hubConnection.StartAsync();
+    } 
+    #endregion
+}
