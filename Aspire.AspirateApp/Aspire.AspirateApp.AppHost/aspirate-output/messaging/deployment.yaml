@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: messaging
+  labels:
+    app: messaging
+spec:
+  minReadySeconds: 60
+  replicas: 1
+  selector:
+    matchLabels:
+      app: messaging
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: messaging
+    spec:
+      containers:
+      - name: messaging
+        image: docker.io/library/rabbitmq:4.0-management
+        imagePullPolicy: Always
+        ports:
+        - name: tcp
+          containerPort: 5672
+        - name: management
+          containerPort: 15672
+        envFrom:
+        - configMapRef:
+            name: messaging-env
+      terminationGracePeriodSeconds: 180

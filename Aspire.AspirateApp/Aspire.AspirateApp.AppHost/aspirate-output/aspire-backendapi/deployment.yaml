@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aspire-backendapi
+  labels:
+    app: aspire-backendapi
+spec:
+  minReadySeconds: 60
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aspire-backendapi
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: aspire-backendapi
+    spec:
+      containers:
+      - name: aspire-backendapi
+        image: docker.io/rmanimaran/aspire-backendapi:latest
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 8080
+        - name: https
+          containerPort: 8443
+        envFrom:
+        - configMapRef:
+            name: aspire-backendapi-env
+        - secretRef:
+            name: aspire-backendapi-secrets
+      terminationGracePeriodSeconds: 180

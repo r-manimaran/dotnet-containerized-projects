@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json.schemastore.org/aspire-8.0.json",
+  "resources": {
+    "RabbitMQPassword": {
+      "type": "parameter.v0",
+      "value": "{RabbitMQPassword.inputs.value}",
+      "inputs": {
+        "value": {
+          "type": "string",
+          "secret": true
+        }
+      }
+    },
+    "messaging": {
+      "type": "container.v0",
+      "connectionString": "amqp://guest:{RabbitMQPassword.value}@{messaging.bindings.tcp.host}:{messaging.bindings.tcp.port}",
+      "image": "docker.io/library/rabbitmq:4.0-management",
+      "env": {
+        "RABBITMQ_DEFAULT_USER": "guest",
+        "RABBITMQ_DEFAULT_PASS": "{RabbitMQPassword.value}"
+      },
+      "bindings": {
+        "tcp": {
+          "scheme": "tcp",
+          "protocol": "tcp",
+          "transport": "tcp",
+          "targetPort": 5672
+        },
+        "management": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http",
+          "targetPort": 15672
+        }
+      }
+    },
+    "aspire-backendapi": {
+      "type": "project.v0",
+      "path": "../Aspire.BackendApi/Aspire.BackendApi.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY": "in_memory",
+        "ASPNETCORE_FORWARDEDHEADERS_ENABLED": "true",
+        "HTTP_PORTS": "{aspire-backendapi.bindings.http.targetPort}",
+        "ConnectionStrings__messaging": "{messaging.connectionString}",
+        "services__external-api__default__0": "https://webhook.site/"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http"
+        },
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+namespace: aspirek8s
+
+resources:
+- messaging
+- aspire-backendapi
+- namespace.yaml
+- dashboard.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+
