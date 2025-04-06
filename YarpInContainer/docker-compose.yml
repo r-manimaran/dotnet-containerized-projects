@@ -1,0 +1,29 @@
+services:
+  productsapi:
+    image: ${DOCKER_REGISTRY-}productsapi
+    build:
+      context: .
+      dockerfile: ProductsApi/Dockerfile
+    ports:
+      - "5000:8080"
+      - "5001:8081"
+
+  salesapi:
+    image: ${DOCKER_REGISTRY-}salesapi
+    build:
+      context: .
+      dockerfile: SalesApi/Dockerfile
+    ports:
+      - "6000:8080"
+      - "6001:8081"
+
+
+  usersapi:
+    image: ${DOCKER_REGISTRY-}usersapi
+    build:
+      context: .
+      dockerfile: UsersApi/Dockerfile
+    ports:
+      - "7000:8080"
+      - "7001:8081"
+

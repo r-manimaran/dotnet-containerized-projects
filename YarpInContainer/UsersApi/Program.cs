@@ -1,4 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using UsersApi.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<UserDbContext>(option =>
+    option.UseInMemoryDatabase("users"));
 
 builder.Services.AddControllers();
 
@@ -10,11 +16,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
-
-app.UseSwaggerUI(options =>
-{
-    options.SwaggerEndpoint("/openapi/v1.json", "Openapi v1");
-});
+app.UseSwaggerUI(opt =>
+    opt.SwaggerEndpoint("/openapi/v1.json", "OpenAPI v1"));
 
 app.UseHttpsRedirection();
 
