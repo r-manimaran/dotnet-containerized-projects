@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using SalesApi.Data;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +13,21 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<SalesDbContext>(option =>
     option.UseInMemoryDatabase("sales"));
+
+builder.Services.AddHeaderPropagation(opt => opt.Headers.Add("azure-correlation-id"));
+
+builder.Host.UseSerilog((context, configuration) => configuration
+            .ReadFrom.Configuration(context.Configuration));
+
+builder.Services.AddOpenTelemetry()
+       .ConfigureResource(r => r.AddService("salesApi"))
+       .WithTracing(tracing =>
+            tracing.
+                    AddHttpClientInstrumentation()
+                   .AddAspNetCoreInstrumentation()
+                   .AddEntityFrameworkCoreInstrumentation())
+       .UseOtlpExporter();
+
 
 var app = builder.Build();
 

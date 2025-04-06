@@ -7,6 +7,8 @@ services:
     ports:
       - "5000:8080"
       - "5001:8081"
+    networks:
+        - yarp
 
   salesapi:
     image: ${DOCKER_REGISTRY-}salesapi
@@ -16,6 +18,8 @@ services:
     ports:
       - "6000:8080"
       - "6001:8081"
+    networks:
+        - yarp
 
 
   usersapi:
@@ -26,4 +30,19 @@ services:
     ports:
       - "7000:8080"
       - "7001:8081"
+    networks:
+        - yarp
+
+  aspire-dashboard:
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:9.0
+    environment:
+        DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS: true
+    ports:
+        - 18888:18888
+    networks:
+        - yarp
+
+networks:
+  yarp:
+    driver: bridge
 
