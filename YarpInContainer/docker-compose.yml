@@ -7,6 +7,10 @@ services:
     ports:
       - "5000:8080"
       - "5001:8081"
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+    volumes:
+      - ./log/productsapi:/app/logs
     networks:
         - yarp
 
@@ -18,6 +22,10 @@ services:
     ports:
       - "6000:8080"
       - "6001:8081"
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+    volumes:
+      - ./log/salessapi:/app/logs
     networks:
         - yarp
 
@@ -30,6 +38,10 @@ services:
     ports:
       - "7000:8080"
       - "7001:8081"
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+    volumes:
+      - ./log/usersapi:/app/logs
     networks:
         - yarp
 
@@ -42,7 +54,21 @@ services:
     networks:
         - yarp
 
+  gatewayapi:
+    image: ${DOCKER_REGISTRY-}gatewayapi
+    build:
+      context: .
+      dockerfile: GatewayApi/Dockerfile
+    ports:
+      - "4000:8080"
+      - "4001:8081"
+    volumes:
+      - ./log/gateway:/app/logs
+    networks:
+      - yarp
+
 networks:
   yarp:
     driver: bridge
+
 

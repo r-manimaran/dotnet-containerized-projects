@@ -23,6 +23,7 @@ public class ProductsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateProduct(ProductRequest request)
     {
+        _logger.LogInformation("Getting the request {Request} to create product.", request);
         var newProduct = new Product
         {
             Name = request.Name,
@@ -33,12 +34,15 @@ public class ProductsController : ControllerBase
 
         _dbContext.Products.Add(newProduct);
         await _dbContext.SaveChangesAsync();
+
+        _logger.LogInformation("Response generated from CreateProduct {CreateProductReponse}", newProduct);
         return Ok(newProduct);
     }
 
     [HttpGet]
     public async Task<IActionResult> GetProducts()
     {
+
         var products = await _dbContext.Products.ToListAsync();
         return Ok(products);
     }

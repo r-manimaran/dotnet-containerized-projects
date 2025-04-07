@@ -6,7 +6,8 @@
       "serviceActions": {
         "productsapi": "StartDebugging",
         "salesapi": "StartDebugging",
-        "usersapi": "StartDebugging"
+        "usersapi": "StartDebugging",
+        "gatewayapi": "StartDebugging"
       }
     }
   }
