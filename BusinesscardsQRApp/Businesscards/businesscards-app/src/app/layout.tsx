@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +27,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <div className="flex flex-col min-h-screen">
+          {/* Header */}          
         <header className="bg-gray-800 text-white p-4">
           <nav className="max-w-4xl mx-auto flex space-x-6">
             <Link href="/" className="hover:underline">Home</Link>
@@ -33,9 +36,13 @@ export default function RootLayout({
             <Link href="/manage-cards" className="hover:underline">Manage Cards</Link>
           </nav>
         </header>
-        <main className="max-w-4xl mx-auto p-6">
+        {/* Main Content */}
+        <main className="flex-grow max-w-4xl mx-auto p-6">
         {children}
         </main>
+        {/* Sticky Footer */}
+        <Footer />
+        </div>
       </body>
     </html>
   );
