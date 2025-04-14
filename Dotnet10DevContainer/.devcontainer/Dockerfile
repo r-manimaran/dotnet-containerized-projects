@@ -1,0 +1,1 @@
+FROM mcr.microsoft.com/dotnet/nightly/sdk:10.0.100-preview.3

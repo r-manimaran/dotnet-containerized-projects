@@ -1,0 +1,14 @@
+{
+    "name":".NET 10 Preview",
+    "build":{
+        "dockerfile": "./Dockerfile",
+        "context": "."
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-dotnettools.csdevkit"                
+            ]
+        }
+    }
+}
