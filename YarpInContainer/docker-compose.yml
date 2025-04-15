@@ -4,13 +4,20 @@ services:
     build:
       context: .
       dockerfile: ProductsApi/Dockerfile
+    expose:
+      - "8080"
     ports:
-      - "5000:8080"
-      - "5001:8081"
+      - "4000:8080"      
     environment:
       - ASPNETCORE_URLS=http://+:8080
+      - ASPNETCORE_ENVIRONMENT=Development
     volumes:
       - ./log/productsapi:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     networks:
         - yarp
 
@@ -55,20 +62,30 @@ services:
         - yarp
 
   gatewayapi:
-    image: ${DOCKER_REGISTRY-}gatewayapi
-    build:
-      context: .
-      dockerfile: GatewayApi/Dockerfile
+    image: mcr.microsoft.com/dotnet/nightly/yarp:latest      # ${DOCKER_REGISTRY-}gatewayapi
+    # build:
+    #   context: .
+    #   dockerfile: GatewayApi/Dockerfile
     ports:
-      - "4000:8080"
-      - "4001:8081"
+      - "5000:8080"
+      # - "5001:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - Logging__Console__FormatterName=Simple
+      - Logging__Console__FormatterOptions__SingleLine=true
+      - DOTNET_CONSOLE_FORMATTER=Simple
     volumes:
       - ./log/gateway:/app/logs
+      - ./gateway/appsettings.json:/etc/yarp.config
     networks:
       - yarp
+    
+ 
 
 networks:
   yarp:
+    name: yarp-network
     driver: bridge
 
 
