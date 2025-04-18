@@ -8,10 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.StackExchange.Redis.DistributedCaching" Version="9.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Hybrid" Version="9.0.0-preview.9.24556.5" />
-    <PackageReference Include="Scalar.AspNetCore" Version="1.2.61" />
+    <PackageReference Include="Aspire.StackExchange.Redis.DistributedCaching" Version="9.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Hybrid" Version="9.4.0" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.1.13" />
   </ItemGroup>
 
   <ItemGroup>

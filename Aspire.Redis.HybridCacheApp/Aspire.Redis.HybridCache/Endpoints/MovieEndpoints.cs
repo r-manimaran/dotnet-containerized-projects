@@ -3,6 +3,7 @@ using caching = Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Aspire.Redis.HybridCache.Models;
+using StackExchange.Redis;
 
 namespace Aspire.Redis.HybridCache.Endpoints
 {
@@ -55,15 +56,21 @@ namespace Aspire.Redis.HybridCache.Endpoints
 
             endpointRoute.MapDelete("/movies/hybrid/{imdbId}/invalidate-cache", async (string imdbId,
                                                                    caching.HybridCache cache,
+                                                                   IConnectionMultiplexer multiplexer,
                                                                    CancellationToken cancellationToken) =>
             {
-                await cache.RemoveAsync($"movies-{imdbId}", cancellationToken);
+                var key = $"movies-{imdbId}";
+
+                await cache.RemoveAsync(key, cancellationToken);
 
                 //Tag based evaction, which removes both Local cache and distrributed cache based on tags
                 // await cache.RemoveByTagAsync(["movies"]);
 
-                return Results.NoContent();
+                var subscriber = multiplexer.GetSubscriber();
 
+               await subscriber.PublishAsync(RedisChannel.Literal("cache-invalidation"), new RedisValue(key));
+
+                return Results.NoContent();
             })
                 .WithName("InvalidateCacheHybrid")
                 .WithTags("Movies")

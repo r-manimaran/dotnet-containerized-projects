@@ -41,7 +41,7 @@ builder.Services.AddHttpClient<OmdbApiClient>(client =>
 
 builder.Services.AddMemoryCache();
 
-#pragma warning disable EXTEXP0018
+
 builder.Services.AddHybridCache(options =>
 {
     options.DefaultEntryOptions = new HybridCacheEntryOptions
@@ -50,9 +50,11 @@ builder.Services.AddHybridCache(options =>
         Expiration = TimeSpan.FromMinutes(5)
     };
 });
-#pragma warning restore EXTEXP0018
+
 
 builder.AddRedisDistributedCache("redis");
+
+builder.Services.AddHostedService<CacheInvalidationBackgroundService>();
 
 var app = builder.Build();
 
