@@ -1,0 +1,6 @@
+@LokiGraf.Api_HostAddress = http://localhost:5064
+
+GET {{LokiGraf.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
