@@ -1,0 +1,126 @@
+<html lang="en">
+ <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Search</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+ </head>
+ <body class="bg-gray-100 min-h-screen p-8">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-4xl font-bold text-center mb-8 text-gray-800">
+            Movie Search
+        </h1>
+
+        <!-- Search Form-->
+         <div class="flex justify-center gap-4 mb-8">
+            <input type="text" id="searchInput"
+                plaeholder="Enter a movie title..."
+                class="w-full max-w-xl px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+            <button onclick="searchMovies()"
+                class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                Search
+            </button>
+                
+                
+         </div>
+
+         <!-- Loading Indicator-->
+          <div id="loading" class="hidden">
+            <div class="flex justify-center">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+            </div>
+          </div>
+    </div>  
+    <div id="results" 
+         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    </div>
+</div>
+    <script>
+        document
+            .getElementById("searchInput")
+            .addEventListener("keypress",function(e){
+                if(e.key === "Enter"){
+                searchMovies();
+                }
+            });
+
+    async function searchMovies() {
+        const searchInput = document.getElementById("searchInput");
+        const loadingElement = document.getElementById("loading");
+        const resultContainer = document.getElementById("results");
+
+        loadingElement.classList.remove("hidden");
+        resultContainer.innerHTML = "";
+
+        try
+        {
+            const response = await fetch(
+                `https://localhost:5100/api/movies?term=${encodeURIComponent(
+                searchInput.value)
+                }`
+            );
+            if(!response.ok){
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const movies = await response.json();
+            loadingElement.classList.add("hidden");  
+
+            if(movies.length === 0){
+                resultContainer.innerHTML = `
+                     <div class="col-span-full text-center text-gray-600">
+                        No movies found matching your search.
+                    </div>`;
+                return;
+            }
+            //render each movies
+        movies.forEach(movie => {
+            const movieCard =`
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            ${movie.poster 
+                ? `<img src="${movie.poster}" 
+                       alt="${movie.title} poster"
+                       class="w-full h-96 object-cover"
+                       onerror="this.onerror=null; this.src=''; this.parentElement.firstElementChild.classList.remove('hidden'); this.remove();"
+                    />`
+                : ''
+            }
+            <div class="${movie.poster ? 'hidden' : ''} w-full h-96 bg-gray-300 flex items-center justify-center">
+                <p class="text-gray-600 text-lg font-medium">No Poster Available</p>
+            </div>
+            <div class="p-4">
+                <h2 class="text-xl font-semibold mb-2">${movie.title}</h2>
+                 <div class="flex items-center gap-1 mb-3">
+                    <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <span class="text-gray-700 font-medium">${movie.imdb.rating} / 10</span>
+                </div>
+                <p class="text-gray-600 mb-2">${movie.plot}</p>
+                <div class="text-sm text-gray-500">
+                    <p>Year: ${movie.year}</p>
+                    <p>Votes: ${movie.imdb.votes}</p>
+                </div>
+            </div>
+        </div>
+            `;
+            resultContainer.innerHTML += movieCard;
+        });
+        }
+        catch (error) {
+        loadingElement.classList.add("hidden");
+        resultContainer.innerHTML = `
+            <div class="col-span-full text-center text-red-600">
+                Error: ${error.message}
+            </div>`;
+        console.error('Error:', error);
+        }        
+    }   
+
+    
+    </script>
+ </body>
+</html>
