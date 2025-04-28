@@ -49,6 +49,9 @@ public class Movie
     public List<string> Countries { get; set; }
     [BsonElement("languages")]
     public List<string> Languages { get; set; }
+
+    [BsonElement("plot_embedding")]
+    public float[] PlotEmbedding { get; set; }
 }
 
 [BsonIgnoreExtraElements]
@@ -65,13 +68,15 @@ public class Awards
 [BsonIgnoreExtraElements]
 public class Imdb
 {
+    [BsonIgnore]
     [BsonElement("rating")]
     public decimal Rating { get; set; }
+    [BsonIgnore]
     [BsonElement("votes")]
     public int Votes { get; set; }
 
-    //[BsonIgnore]
-    [BsonElement("id")]
+    [BsonIgnore]
+    //[BsonElement("id")]
     public int id { get; set; }
 }
 [BsonIgnoreExtraElements]
