@@ -34,10 +34,21 @@ public class Movie
     public bool? Awesome { get; set; }
     [BsonElement("lastupdated")]
     public string LastUpdated { get; set; }
+    private int _year;
     [BsonElement("year")]
-    public int Year { get; set; }
+     [BsonSerializer(typeof(CustomYearSerializer))]
+    public int Year { get => _year; 
+    
+    set {
+        if(value <=0)
+        {
+            _year = 0;
+            return;
+        }
+        _year = value;
+    } }
     [BsonElement("awards")]
-    public Awards Awards { get; set; }
+    public Awards Awards { get;set; }
 
     [BsonElement("imdb")]
     public Imdb Imdb { get; set; }

@@ -6,5 +6,7 @@ public interface IMovieService
 {
     Task<List<Movie>> GetMoviesAsync(string? term=null, int limit=10);
 
+    Task<List<Movie>> GetMovies(string? term = null, int limit = 10);
+
     Task UpdateMoviesAsync();
 }
