@@ -46,6 +46,9 @@
    - **Description**: Deploy .Net WEB API in Kubernetes using Kubectl.
    - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/KubernetesApp)
 -----------------------------------------------
---**Name** : 
+   - **Name**: Loki-Grafana-Visualization
+   - **Description**: Route .Net Web API Logs to Loki and Visualize in Grafana
+   - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/Loki-Grafana-Visualization)
+-----------------------------------------------
 
 
