@@ -50,5 +50,9 @@
    - **Description**: Route .Net Web API Logs to Loki and Visualize in Grafana
    - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/Loki-Grafana-Visualization)
 -----------------------------------------------
+   - **Name**: Docker Volume mapping
+   - **Description**: Volume map to map folder, appSettings.json and logs for the Docker containers.
+   - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/DockerVolumeMapping)
+-----------------------------------------------
 
 
