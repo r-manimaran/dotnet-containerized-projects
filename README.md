@@ -54,5 +54,9 @@
    - **Description**: Volume map to map folder, appSettings.json and logs for the Docker containers.
    - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/DockerVolumeMapping)
 -----------------------------------------------
+   - **Name**: Vector Embeddings and Vector Search using MongoDb Database
+   - **Description**: Perform Vector Embeddings for the MongoDb Collection and perform Vector Search
+   - **Link**: [ClickHere](https://github.com/r-manimaran/dotnet-containerized-projects/tree/main/AI.MongoDb.SemanticSearch)
+-----------------------------------------------
 
 
