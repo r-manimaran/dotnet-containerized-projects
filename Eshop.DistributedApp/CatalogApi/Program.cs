@@ -18,6 +18,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseMigration();
+
 app.UseHttpsRedirection();
 
 var summaries = new[]
