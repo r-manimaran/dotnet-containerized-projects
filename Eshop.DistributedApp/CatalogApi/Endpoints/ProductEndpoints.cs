@@ -1,11 +1,57 @@
-﻿namespace CatalogApi.Endpoints;
+﻿using CatalogApi.Services;
+
+namespace CatalogApi.Endpoints;
 
 public static class ProductEndpoints
 {
-    public static void MapProductsEndpoints(IEndpointRouteBuilder app)
+    public static void MapProductsEndpoints(this IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/api/products").WithOpenApi().WithTags("Products");
 
-        group.MapGet("/")
+        group.MapGet("/", async (IProductService productServie) =>
+        {
+            var products = await productServie.GetAll();
+            return Results.Ok(products);
+        })
+        .WithName("GetAllProducts")
+        .Produces<List<Product>>(StatusCodes.Status200OK);
+
+        group.MapGet("/{Id}", async (int Id, IProductService productService) =>
+        {
+            var product = await productService.GetById(Id);
+            if(product == null) return Results.NotFound();
+
+            return Results.Ok(product);
+
+        }).WithName("GetProductById")
+        .Produces<Product>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status404NotFound);
+
+        group.MapPost("/", async (Product product, IProductService productService) =>
+        {
+            await productService.CreateProductAsync(product);
+            return Results.Created($"/api/products/{product.Id}", product);
+        })
+        .WithName("CreateProduct")
+        .Produces<Product>(StatusCodes.Status201Created);
+
+        group.MapPut("/", async (Product product, IProductService productService) =>
+        {
+
+            await productService.UpdateProductAsync(product);
+            return Results.NoContent();
+        })
+        .WithName("UpdateProduct")
+        .Produces(StatusCodes.Status404NotFound)
+        .Produces(StatusCodes.Status204NoContent);
+
+        group.MapDelete("/{Id:int}", async (int Id, IProductService productService) =>
+        {
+            await productService.DeleteProductAsync(Id);
+            return Results.NoContent();
+        })
+        .WithName("DeleteProduct")
+        .Produces(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status404NotFound);           
     }
 }

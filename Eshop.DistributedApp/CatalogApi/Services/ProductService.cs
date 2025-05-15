@@ -20,13 +20,13 @@ public class ProductService(ProductDbContext dbContext, ILogger<ProductService> 
         }
     }
 
-    public async Task<List<Product>> GetAll()
+    public async Task<IEnumerable<Product>> GetAll()
     {
         var products = await _dbContext.Products.ToListAsync();
         return products;
     }
 
-    public async Task<Product> GetById(int id)
+    public async Task<Product?> GetById(int id)
     {
         var product = await _dbContext.Products.SingleOrDefaultAsync(i=>i.Id == id);
 
@@ -38,7 +38,11 @@ public class ProductService(ProductDbContext dbContext, ILogger<ProductService> 
         var existingProduct = await _dbContext.Products.SingleOrDefaultAsync(i=>i.Id==product.Id);
         if (existingProduct != null)
         {
-            existingProduct = product;
+            existingProduct.Name = product.Name;
+            existingProduct.Description = product.Description;
+            existingProduct.Price = product.Price;
+            existingProduct.ImageUrl = product.ImageUrl;
+
             _dbContext.Products.Update(existingProduct);
             await _dbContext.SaveChangesAsync();
         }
