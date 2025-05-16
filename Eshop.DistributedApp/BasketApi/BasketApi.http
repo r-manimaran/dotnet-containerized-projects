@@ -1,6 +1,31 @@
-@BasketApi_HostAddress = http://localhost:5171
+@BasketApi_HostAddress = https://localhost:7203/api/Basket
 
-GET {{BasketApi_HostAddress}}/weatherforecast/
+GET {{BasketApi_HostAddress}}/mani
 Accept: application/json
 
 ###
+POST {{BasketApi_HostAddress}}
+Content-Type:application/json
+{
+    "UserName":"mani",
+    "Items":[
+        {
+            "Quantity":2,
+            "Color":"Red",
+            "Price":30,
+            "ProductId":1,
+            "ProductName":"Solar Powered FlashLight"
+        },
+        {
+            "Quantity":1,
+            "Color":"Blue",
+            "Price":49.99,
+            "ProductId":2,
+            "ProductName":"Wireless Earbuds"
+        }
+    ]
+}
+
+###
+DELETE {{BasketApi_HostAddress}}/mani
+

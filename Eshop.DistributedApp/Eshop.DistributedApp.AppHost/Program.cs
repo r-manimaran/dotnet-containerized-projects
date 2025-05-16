@@ -1,3 +1,5 @@
+using Eshop.DistributedApp.AppHost;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 // DB Service
@@ -33,7 +35,8 @@ var catalog = builder.AddProject<Projects.CatalogApi>("catalogapi")
        .WithReference(catalogDb)
        .WithReference(rabbitmq)
        .WaitFor(catalogDb)
-       .WaitFor(rabbitmq);
+       .WaitFor(rabbitmq)
+       .WithSwaggerUi(); 
 
 var basket = builder.AddProject<Projects.BasketApi>("basketapi")
     .WithReference(cache)
@@ -42,7 +45,8 @@ var basket = builder.AddProject<Projects.BasketApi>("basketapi")
     .WithReference(keycloak)
     .WaitFor(cache)
     .WaitFor(rabbitmq)
-    .WaitFor(keycloak);
+    .WaitFor(keycloak)
+    .WithSwaggerUi();
 
 
 builder.AddProject<Projects.WebApp>("webapp")
