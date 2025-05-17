@@ -1,3 +1,5 @@
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
@@ -7,6 +9,15 @@ builder.Services.AddOpenApi();
 builder.AddRedisDistributedCache("cache");
 
 builder.Services.AddScoped<IBasketService, BasketService>();
+
+builder.Services.AddHttpClient<CatalogApiClient>(client=>
+{
+    client.BaseAddress = new("https+http://catalogapi");
+})
+.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+    {
+        ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+}); ;
 
 var app = builder.Build();
 

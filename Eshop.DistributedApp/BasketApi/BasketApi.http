@@ -7,21 +7,28 @@ Accept: application/json
 POST {{BasketApi_HostAddress}}
 Content-Type:application/json
 {
-    "UserName":"mani",
+    "UserName":"mani1",
     "Items":[
         {
             "Quantity":2,
             "Color":"Red",
-            "Price":30,
+            "Price":0,
             "ProductId":1,
-            "ProductName":"Solar Powered FlashLight"
+            "ProductName":"Wrong ProductName"
         },
         {
             "Quantity":1,
             "Color":"Blue",
-            "Price":49.99,
+            "Price":0,
             "ProductId":2,
-            "ProductName":"Wireless Earbuds"
+            "ProductName":"Name Come from CatalogApi"
+        },
+        {
+            "Quantity":3,
+            "Color":"Blue",
+            "Price":0,
+            "ProductId":3,
+            "ProductName":"Name Come from CatalogApi"
         }
     ]
 }

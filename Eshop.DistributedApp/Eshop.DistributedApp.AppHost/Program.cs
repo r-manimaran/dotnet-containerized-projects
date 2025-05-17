@@ -40,7 +40,7 @@ var catalog = builder.AddProject<Projects.CatalogApi>("catalogapi")
 
 var basket = builder.AddProject<Projects.BasketApi>("basketapi")
     .WithReference(cache)
-    .WithReference(catalog)
+    .WithReference(catalog) // For Service Discovery. Helps to access GetProductById and get the price of the product
     .WithReference(rabbitmq)
     .WithReference(keycloak)
     .WaitFor(cache)
