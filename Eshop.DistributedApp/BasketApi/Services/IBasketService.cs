@@ -6,4 +6,6 @@ public interface IBasketService
     Task UpdateBasket(ShoppingCart basket);
 
     Task DeleteBasket(string userName);
+
+    Task UpdateBasketItemProductPrices(int ProductId, decimal Price);
 }

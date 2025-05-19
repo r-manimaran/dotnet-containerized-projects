@@ -1,6 +1,6 @@
 @BasketApi_HostAddress = https://localhost:7203/api/Basket
 
-GET {{BasketApi_HostAddress}}/mani
+GET {{BasketApi_HostAddress}}/mani1
 Accept: application/json
 
 ###

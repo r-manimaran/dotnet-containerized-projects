@@ -51,4 +51,17 @@ public class BasketService : IBasketService
         _logger.LogInformation($"Deleting Basket entry for {userName}");
         await _cache.RemoveAsync(userName);
     }
+
+    public async Task UpdateBasketItemProductPrices(int ProductId, decimal Price)
+    {
+        var basket = await GetBasket("mani");
+
+        var item = basket!.Items.FirstOrDefault(x=>x.ProductId == ProductId);
+
+        if(item !=null)
+        {
+            item.Price = Price;
+            await _cache.SetStringAsync(basket.UserName, JsonSerializer.Serialize(basket));
+        }
+    }
 }

@@ -1,6 +1,3 @@
-using CatalogApi.Data;
-
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
@@ -11,11 +8,12 @@ builder.AddNpgsqlDbContext<ProductDbContext>("catalogdb");
 
 builder.Services.AddScoped<IProductService, ProductService>();
 
+builder.Services.AddMassTransitWithAssemblies(Assembly.GetExecutingAssembly());
+
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();

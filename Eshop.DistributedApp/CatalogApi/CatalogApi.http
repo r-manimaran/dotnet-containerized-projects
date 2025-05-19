@@ -19,3 +19,18 @@ Content-Type: application/json
     "price":59.33,
     "imageUrl":""
 }
+
+###
+PUT {{CatalogApi_HostAddress}}/1
+Content-Type: application/json
+{
+    "id":1,
+    "name":"Solar Powered FlashLight",
+    "description":"A fantastic Flashlight with Solar powered.",
+    "price":33.99,
+    "imageUrl":"https://m.media-amazon.com/images/I/61FOUArF3nL._AC_UL320_.jpg"
+}
+
+###
+DELETE {{CatalogApi_HostAddress}}/10
+Content-Type: application/json
