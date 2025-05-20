@@ -14,3 +14,5 @@
 ![CatalogApi-Endpoints](image-6.png)
 
 ![BasketApi-Endpoints](image-7.png)
+
+![Keycloak Token](image-8.png)
