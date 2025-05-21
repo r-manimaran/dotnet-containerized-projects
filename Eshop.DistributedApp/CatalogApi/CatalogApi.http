@@ -34,3 +34,7 @@ Content-Type: application/json
 ###
 DELETE {{CatalogApi_HostAddress}}/10
 Content-Type: application/json
+
+###
+GET {{CatalogApi_HostAddress}}/support/give%20%me%20%1%20%outdoor%20%activity
+Accept: application/json

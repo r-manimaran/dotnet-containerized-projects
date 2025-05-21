@@ -21,3 +21,12 @@
 ![alt text](image-10.png)
 
 ![alt text](image-9.png)
+
+- Running with LLM
+![With LLM](image-12.png)
+
+![Llama calling endpoints](image-14.png)
+
+![Call Ollama Endpoint](image-13.png)
+
+![LLM response](image-15.png)
