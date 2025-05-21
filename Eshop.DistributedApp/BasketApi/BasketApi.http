@@ -1,11 +1,13 @@
 @BasketApi_HostAddress = https://localhost:7203/api/Basket
+@access_Token=eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2cEVoeHozTHFsRERrMHlSSlBQczlYMW9meU5HSkVpTmMxWVFneEhDYmxBIn0.eyJleHAiOjE3NDc3NTQ0NzIsImlhdCI6MTc0Nzc1NDE3MiwianRpIjoiZjQwMWQ1ZGMtOTA0OC00ZDZiLTgyMzEtMDQzZGU0YWMwMzY5IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JlYWxtcy9lc2hvcCIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiI4NDZkN2QyOC04YjQ2LTQ3MzctOTkzOC1mMmNhZmY1YmIyODEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJlc2hvcC1jbGllbnQiLCJzaWQiOiJkYjVmMGU5NS1jZTA2LTRiZWYtYmQ3Yy0xYjc4Mjc1YjJjNzUiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiZGVmYXVsdC1yb2xlcy1lc2hvcCJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6InVzZXIgMSIsInByZWZlcnJlZF91c2VybmFtZSI6InVzZXIxIiwiZ2l2ZW5fbmFtZSI6InVzZXIiLCJmYW1pbHlfbmFtZSI6IjEiLCJlbWFpbCI6InVzZXIxQHRlc3QuY29tIn0.K3G4IMpCSAvCYr-Jh6aCpZQh2J8ZoRkjSW53QV0I8rTqKW21Ce-v5sJGQloPe6_bng4TPNg4LCoeDrTasEY_c2tIC3_hLmksEJUXRlFYlUXrLWqqElD4TzqgpvskISHYCtLK_2EhDnQFveugtFK-f9AoBGy1Hg11-e7X-ibU8_vlUCiDFCgufSARqBa3_fa8HM32qY7sj0sm3A3jhb11rue3O6gb79TTUDqBsiRLmSU22AemWc8IQUIaPrZdgAaJkpck-53ylmYN-qVYI7VdMcn0IXqrJKPFFERQAtHD4xt4h8zh2PSQrF1io-Anc3gnMGRXjF7CCwTBTy2iuDXexQ
 
 GET {{BasketApi_HostAddress}}/mani1
 Accept: application/json
-
+Authorization: Bearer {{access_Token}}
 ###
 POST {{BasketApi_HostAddress}}
 Content-Type:application/json
+Authorization: Bearer {{access_Token}}
 {
     "UserName":"mani1",
     "Items":[
@@ -24,7 +26,7 @@ Content-Type:application/json
             "ProductName":"Name Come from CatalogApi"
         },
         {
-            "Quantity":3,
+            "Quantity":2,
             "Color":"Blue",
             "Price":0,
             "ProductId":3,
@@ -35,4 +37,4 @@ Content-Type:application/json
 
 ###
 DELETE {{BasketApi_HostAddress}}/mani
-
+Authorization: Bearer {{access_Token}}

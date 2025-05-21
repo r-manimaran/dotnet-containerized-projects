@@ -36,7 +36,8 @@ var catalog = builder.AddProject<Projects.CatalogApi>("catalogapi")
        .WithReference(rabbitmq)
        .WaitFor(catalogDb)
        .WaitFor(rabbitmq)
-       .WithSwaggerUi(); 
+       .WithSwaggerUi();
+       //.AsContainerApp();
 
 var basket = builder.AddProject<Projects.BasketApi>("basketapi")
     .WithReference(cache)
@@ -49,12 +50,12 @@ var basket = builder.AddProject<Projects.BasketApi>("basketapi")
     .WithSwaggerUi();
 
 
-builder.AddProject<Projects.WebApp>("webapp")
-    .WithExternalHttpEndpoints()
-    .WithReference(cache)
-    .WithReference(catalog)
-    .WithReference(basket)
-    .WaitFor(catalog)
-    .WaitFor(basket);
+var webapp = builder.AddProject<Projects.WebApp>("webapp")
+                    .WithExternalHttpEndpoints() 
+                    .WithReference(cache)
+                    .WithReference(catalog)
+                    .WithReference(basket)
+                    .WaitFor(catalog)
+                    .WaitFor(basket);
 
 builder.Build().Run();

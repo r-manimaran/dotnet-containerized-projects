@@ -23,9 +23,11 @@ public static class MassTransitExtensions
             {
                 var configuration = context.GetRequiredService<IConfiguration>();
                 var connectionString = configuration.GetConnectionString("rabbitmq");
-
-                configurator.Host(connectionString);
-                configurator.ConfigureEndpoints(context);
+                if (connectionString != null)
+                {
+                    configurator.Host(connectionString);
+                    configurator.ConfigureEndpoints(context);
+                }
             });
         });
         return services;

@@ -1,18 +1,36 @@
+using WebApp.ApiClients;
 using WebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddServiceDefaults();
+
 
 // Add services to the container.
+builder.AddServiceDefaults();
+
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddHttpClient<CatalogApiClient>(client =>
+{
+    client.BaseAddress = new Uri("https+http://catalogapi");
+});
+
+builder.AddRedisOutputCache("redis");
+
+//builder.Services.AddHttpClient<BasketApiClient>(client =>
+//{
+//    client.BaseAddress = new Uri("https+http://basketapi");
+//});
+
 var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+
+app.UseOutputCache();
 
 app.MapDefaultEndpoints();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
@@ -21,7 +39,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 
 app.UseAntiforgery();
 

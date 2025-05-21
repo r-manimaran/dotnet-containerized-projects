@@ -16,3 +16,8 @@
 ![BasketApi-Endpoints](image-7.png)
 
 ![Keycloak Token](image-8.png)
+
+![Request Send with Authorization Token](image-11.png)
+![alt text](image-10.png)
+
+![alt text](image-9.png)
