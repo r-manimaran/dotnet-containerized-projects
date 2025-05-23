@@ -7,4 +7,5 @@ public interface IProductService
     Task<Product?> GetById(int id);
     Task<IEnumerable<Product>> GetAll();
     Task DeleteProductAsync(int id);
+    Task<IEnumerable<Product>> SearchProductsAsync(string query);
 }

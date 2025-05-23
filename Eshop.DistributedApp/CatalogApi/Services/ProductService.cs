@@ -34,6 +34,13 @@ public class ProductService(ProductDbContext dbContext, ILogger<ProductService> 
 
         return product;
     }
+    //keyword search
+    public async Task<IEnumerable<Product>> SearchProductsAsync(string query)
+    {
+        return await _dbContext.Products
+            .Where(i => i.Name.Contains(query) || i.Description.Contains(query))
+            .ToListAsync();
+    }
 
     public async Task UpdateProductAsync(Product product)
     {

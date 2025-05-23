@@ -36,5 +36,21 @@ DELETE {{CatalogApi_HostAddress}}/10
 Content-Type: application/json
 
 ###
-GET {{CatalogApi_HostAddress}}/support/give%20%me%20%1%20%outdoor%20%activity
+GET {{CatalogApi_HostAddress}}/support/give-me-1-outdoor-activity
+Accept: application/json
+
+###
+GET {{CatalogApi_HostAddress}}/support/what-is-microservices
+Accept: application/json
+
+###
+GET {{CatalogApi_HostAddress}}/search/earbuds
+Accept: application/json
+###
+
+GET {{CatalogApi_HostAddress}}/aisearch/headphone
+Accept: application/json
+
+###
+GET {{CatalogApi_HostAddress}}/aisearch/wireless
 Accept: application/json

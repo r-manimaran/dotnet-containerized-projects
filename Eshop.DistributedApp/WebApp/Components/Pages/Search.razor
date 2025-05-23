@@ -1,0 +1,77 @@
+﻿@page "/search"
+
+@attribute [StreamRendering(true)]
+@rendermode InteractiveServer 
+@inject CatalogApiClient catalogApiClient
+
+<PageTitle>Search Products</PageTitle>
+<h3>Search Products</h3>
+<p>Search our amazing products you can purchase.</p>
+
+
+<div class="form-group">
+    <label for="search" class="form-label">Search here:</label>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" id="search" placeholder="Enter product search info here" @bind="searchTerm" />
+        <button class="btn btn-primary" @onclick="DoSearch" type="submit">Search</button>
+    </div>
+    <div class="form-check form-switch mb-3">
+        <InputCheckbox id="aiSearchCheckBox" @bind-Value="aiSearch"/>
+        <label class="form-check-label" for="aiSearch">Use Semantic Search</label>
+    </div>
+    <hr/>
+</div>
+
+@if(products == null)
+{
+    <p><em>Loading....</em></p>
+}
+else if(products.Count == 0)
+{
+    <p><em>No products found.</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Image</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Price</th>             
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+                <tr>
+                    <td><img src="@product.ImageUrl" alt="@product.Name" height="80" width="80" /></td>
+                    <td>@product.Name</td>
+                    <td>@product.Description</td>
+                    <td>@product.Price.ToString("C2")</td>                  
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+   
+}
+
+@code {
+    private string searchTerm = string.Empty;
+    private bool aiSearch = false;
+    private List<Product>? products = [];
+
+    private async Task DoSearch(MouseEventArgs e)
+    {
+        await Task.Delay(500); // Simulate a delay for the search operation
+
+        if (string.IsNullOrWhiteSpace(searchTerm))
+        {
+            products = null;
+            return;
+        }       
+        products = await catalogApiClient.SearchProducts(searchTerm, aiSearch);        
+    }
+}

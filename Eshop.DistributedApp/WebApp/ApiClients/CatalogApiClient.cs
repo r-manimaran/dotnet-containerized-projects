@@ -17,4 +17,23 @@ public class CatalogApiClient(HttpClient httpClient)
         var response = await httpClient.GetFromJsonAsync<Product>($"/api/products/{id}");
         return response!;
     }
+
+    public async Task<string> SupportProducts(string query)
+    {
+        var response = await httpClient.GetFromJsonAsync<string>($"/api/products/support/{query}");
+        return response!;
+    }
+
+    public async Task<List<Product>> SearchProducts(string query, bool isAISearch)
+    {
+        if(isAISearch)
+        {
+            return await httpClient.GetFromJsonAsync<List<Product>>($"/api/products/aisearch/{query}");
+        }
+        else
+        {
+            return await httpClient.GetFromJsonAsync<List<Product>>($"/api/products/search/{query}");
+        }         
+        
+    }
 }

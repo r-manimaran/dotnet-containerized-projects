@@ -1,3 +1,5 @@
+using Microsoft.SemanticKernel;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
@@ -13,6 +15,11 @@ builder.Services.AddScoped<IProductAIService, ProductAIService>();
 builder.Services.AddMassTransitWithAssemblies(Assembly.GetExecutingAssembly());
 
 builder.AddOllamaSharpChatClient("ollama-llama3-2");
+
+builder.AddOllamaSharpEmbeddingGenerator("ollama-all-minilm");
+
+//Register an in-memory vector store
+builder.Services.AddInMemoryVectorStoreRecordCollection<int,ProductVector>("products");
 
 var app = builder.Build();
 

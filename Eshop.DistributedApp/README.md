@@ -30,3 +30,27 @@
 ![Call Ollama Endpoint](image-13.png)
 
 ![LLM response](image-15.png)
+
+![Call from WebApp](image-16.png)
+
+- Adding the LLM embedding Model
+
+![Added Ollama-all-minilm](image-17.png)
+
+![Resources Graph view](image-18.png)
+
+![Keyword Search](image-19.png)
+
+![Semantic Search](image-20.png)
+
+![Semantic Search Example 2](image-21.png)
+
+![Semantic Search Example 3](image-22.png)
+
+![alt text](image-23.png)
+
+![UI Search](image-24.png)
+
+![Keyword Search from UI](image-25.png)
+
+![Traces](image-26.png)

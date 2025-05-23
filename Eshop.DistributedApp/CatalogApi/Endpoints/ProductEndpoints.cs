@@ -63,5 +63,26 @@ public static class ProductEndpoints
         })
         .WithName("Support")
         .Produces(StatusCodes.Status200OK);
+
+        // Keyword Search Endpoint
+        group.MapGet("/search/{query}", async (string query, IProductService service) =>
+        {
+            var products = await service.SearchProductsAsync(query);
+
+            return Results.Ok(products);
+
+        }).WithName("SearchProducts")
+        .Produces<List<Product>>(StatusCodes.Status200OK);
+
+
+        // Semantic Search Endpoint
+        group.MapGet("/aisearch/{query}", async (string query, IProductAIService service) =>
+        {
+            var products = await service.SearchProductsAsync(query);
+
+            return Results.Ok(products);
+
+        }).WithName("AISearchProducts")
+        .Produces<List<Product>>(StatusCodes.Status200OK);
     }
 }

@@ -31,6 +31,8 @@ var keycloak = builder.AddKeycloak("keycloak", 8080)
 //    .WithEnvironment("KEYCLOAK_ADMIN_PASSWORD", "admin")
 //    .WithLifetime(ContainerLifetime.Persistent);
 
+// To deploy the .Net Aspire Solution to Azure Container App, need to remove using DataVolume.
+// Here we are having the DataVolume only in the local development environment
 if (builder.ExecutionContext.IsRunMode)
 {
     postgres.WithDataVolume();
@@ -45,26 +47,31 @@ var ollama = builder.AddOllama("ollama",11434)
 
 var llama = ollama.AddModel("llama3.2");
 
+// Add Embedding Model
+var embedding = ollama.AddModel("all-minilm");
+
 // projects
 var catalog = builder.AddProject<Projects.CatalogApi>("catalogapi")
-       .WithReference(catalogDb)
-       .WithReference(rabbitmq)
-       .WithReference(llama)
-       .WaitFor(catalogDb)
-       .WaitFor(rabbitmq)
-       .WaitFor(ollama)
-       .WithSwaggerUi();
-       //.AsContainerApp();
+                    .WithReference(catalogDb)
+                    .WithReference(rabbitmq)
+                    .WithReference(llama)
+                    .WithReference(embedding)
+                    .WaitFor(catalogDb)
+                    .WaitFor(rabbitmq)
+                    .WaitFor(ollama)
+                    .WaitFor(embedding)
+                    .WithSwaggerUi();
+     
 
 var basket = builder.AddProject<Projects.BasketApi>("basketapi")
-    .WithReference(cache)
-    .WithReference(catalog) // For Service Discovery. Helps to access GetProductById and get the price of the product
-    .WithReference(rabbitmq)
-    .WithReference(keycloak)
-    .WaitFor(cache)
-    .WaitFor(rabbitmq)
-    .WaitFor(keycloak)
-    .WithSwaggerUi();
+                    .WithReference(cache)
+                    .WithReference(catalog) // For Service Discovery. Helps to access GetProductById and get the price of the product
+                    .WithReference(rabbitmq)
+                    .WithReference(keycloak)
+                    .WaitFor(cache)
+                    .WaitFor(rabbitmq)
+                    .WaitFor(keycloak)
+                    .WithSwaggerUi();
 
 
 var webapp = builder.AddProject<Projects.WebApp>("webapp")
