@@ -54,3 +54,5 @@
 ![Keyword Search from UI](image-25.png)
 
 ![Traces](image-26.png)
+
+![Full service List](image-27.png)
