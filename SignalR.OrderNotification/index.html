@@ -1,0 +1,257 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Order Notification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-7xl mx-auto">
+            <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">
+                Order Notification
+            </h1>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <button id="createOrderBtn"
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-200 ease-in-out"
+                        >
+                 Create New Order
+                </button>
+
+             <div id="responseContainer" class="mt-6 hidden">
+                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                     <!-- Main Order Details Column -->
+                     <div class="space-y-6 lg:col-span-2">
+                         <!-- Order Header -->
+                         <div class="border-b pb-4">
+                             <div class="flex justify-between items-start">
+                                 <div>
+                                     <h2 class="text-x1 font-semibold text-gray-800"> Order Details </h2>
+                                     <p class="text-sm text-gray-500 mt-1" id="orderid"></p>
+                                 </div>
+                                 <span id="orderStatus" class="px-3 py-1 rounded-full text-sm font-medium"></span>
+                             </div>
+                         </div>
+
+                         <!-- Customer Info-->
+                         <div class="space-y-4">
+                             <h3 class="text-lg font-medium text-gray-800">
+                                 Customer Information
+                             </h3>
+                             <div class="grid grid-cols-2 gap-4">
+                                 <div>
+                                     <p class="text-sm text-gray-500">Name</p>
+                                     <p id="customerName" class="font-medium"></p>
+                                 </div>
+                                 <div>
+                                     <p class="text-sm text-gray-500">Email</p>
+                                     <p id="customerEmail" class="font-medium"></p>
+                                 </div>
+                             </div>
+                         </div>
+
+                         <!-- Order Items -->
+                         <div class="space-y-4">
+                             <h3 class="text-lg font-medium text-gray-800">Order Items</h3>
+                             <div id="orderItems" class="space-y-4"></div>
+                         </div>
+
+                         <!-- Order Summary-->
+                         <div class="border-t pt-4">
+                             <div class="flex justify-between items-center">
+                                 <span class="text-lg font-medium text-gray-800">Total Amount</span>
+                                 <span id="totalAmount" class="text-x1 font-bold text-gray-900"></span>
+                             </div>
+                         </div>
+                     </div>
+
+                     <!-- Status Timeline Column -->
+                     <div class="lg:col-span-1">
+                         <h3 class="text-lg font-medium text-gray-800 mb-4"> Status Timeline</h3>
+                         <div id="statusTimeline" class="space-y-4"></div>
+                     </div>
+                 </div>              
+
+             </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let currentOrderId = null;
+        let connection =null;
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleString();
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat("en-US", {
+                style:"currency",
+                currency: "USD"
+            }).format(amount);
+        }
+
+        function getStatusColor(status) {
+            const colors = {
+                Created: "bg-blue-100 text-blue-800",
+                Processing: "bg-yellow-100 text-yellow-800",
+                Shipped: "bg-purple-100 text-purple-800",
+                Delivered:"bg-green-100 text-green-800",
+                Cancelled:"bg-red-100 text-red-800"
+            };
+            return colors[status] || "bg-gray-100 text-gray-800";
+        }
+
+        function addStatusUpdate(status, timestamp, description = "") {
+            console.log("addStatusUpdate called");
+            const timeline = document.getElementById("statusTimeline");
+            const statusItem = document.createElement("div");
+            statusItem.className = "pb-8 last:pb-0";
+
+            statusItem.innerHTML = `
+            <div class="bg-white rounded-lg p-4 shadow-sm border">
+                <div class="flex items-center justify-between">
+                    <span class="font-medium ${getStatusColor(status)}">${status}</span>
+                    <span class="text-sm text-gray-500">${formatDate(timestamp)}</span>
+                </div>
+                ${
+                description ? `<p class="mt-2 text-sm text-gray-600">${description}</p>` 
+                            : ""
+                 }
+            </div>
+            `;
+            timeline.appendChild(statusItem);
+        }
+        let statusHistory = [];
+        function updateOrderDetails(order) {
+            try {
+                console.log("Inside function updateOrderDetails");
+                document.getElementById("orderid").textContent = `Order #${order.id}`;
+                document.getElementById("orderStatus").textContent = order.status;
+                document.getElementById(
+                    "orderStatus"
+                ).className = `px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(order.status)}`;
+
+                document.getElementById("customerName").textContent = order.customerName;
+                document.getElementById("customerEmail").textContent = order.customerEmail;
+                document.getElementById("totalAmount").textContent = formatCurrency(order.totalAmount);
+
+                // update order items
+                const itemsContainer = document.getElementById("orderItems");
+                itemsContainer.innerHTML = order.items.map((item) => `
+                <div class="flex justify-between item-center p-4 bg-gray-50 rounded-lg">
+                    <div>
+                        <p class="font-medium">${item.productName}</p>
+                        <p class="text-sm text-gray-500">Quantity: ${item.quantity}</p>
+                    </div>
+                    <p class="font-medium">${formatCurrency(item.unitPrice * item.quantity)}</p>
+                </div>
+            `).join("");
+
+                // Track status history
+                //if (
+                //    statusHistory.length === 0 ||
+                //    statusHistory[statusHistory.length - 1].status !== order.status
+                //) {
+                //    statusHistory.push({
+                //        status: order.status,
+                //        timestamp: order.updatedAt || order.createdAt
+                //    });
+                //}
+                // console.log("calling addstatusUpdate");
+                // addStatusUpdate(order.status, order.updatedAt || order.createdAt);
+            } catch (e) {
+                console.error("Error in updateOrderDetails:", e);
+            }
+        }
+        let accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InJtYW5pIiwic3ViIjoicm1hbmkiLCJqdGkiOiIxMWFlMjExNSIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjUyNDgiLCJodHRwczovL2xvY2FsaG9zdDo3MDQ1Il0sIm5iZiI6MTc0ODAyNDExOCwiZXhwIjoxNzU1OTcyOTE4LCJpYXQiOjE3NDgwMjQxMTksImlzcyI6ImRvdG5ldC11c2VyLWp3dHMifQ.FPJEV-7-j8llZEcr6-v5lZUajodR0vQjhX8Kqlm2hCY";
+
+        function setupSignalRConnection() {
+            connection = new signalR.HubConnectionBuilder()
+                .withUrl("https://localhost:7045/orderNotification", {
+                    accessTokenFactory: () => accessToken,                 
+                })
+                .withAutomaticReconnect()
+                .build();
+
+            connection.on("OrderStatusUpdated", (order) => {
+                console.log("SignalR event received:", order);
+                if (currentOrderId && order.id === currentOrderId) {
+                    console.log("calling updateOrderDetails");
+                    updateOrderDetails(order);
+                    // Append the new status to the timeline
+                    addStatusUpdate(order.status, order.updatedAt || order.createdAt);
+                }
+            });
+
+            connection.start()
+            .then(()=> console.log("connected to SignalR Hub"))
+            .catch((err)=> console.error("SignalR connection error:",err));
+        }
+
+        // Initialize SignalR Connection
+        setupSignalRConnection();
+
+        document.getElementById("createOrderBtn")
+            .addEventListener("click", async () => {
+                try {
+                    // Send POST request to create a new order
+                    const response = await fetch("https://localhost:7045/orders", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${accessToken}`
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Failed to create order");
+                    }
+
+                    const order = await response.json();
+
+                    // Store the current order ID for SignalR updates
+                    currentOrderId = order.id;
+
+                    // Show the response container
+                    document.getElementById("responseContainer").classList.remove("hidden");
+
+                    // Update the UI with the new order details
+                    updateOrderDetails({
+                        id: order.id,
+                        status: order.status,
+                        customerName: order.customerName,
+                        customerEmail: order.customerEmail,
+                        totalAmount: order.orderItems
+                            ? order.orderItems.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0)
+                            : 0,
+                        items: order.orderItems
+                            ? order.orderItems.map(item => ({
+                                productName: item.productName,
+                                quantity: item.quantity,
+                                unitPrice: item.unitPrice
+                            }))
+                            : [],
+                        updatedAt: order.updatedAt,
+                        createdAt: order.createdAt
+                    });
+                    addStatusUpdate(order.status, order.updatedAt || order.createdAt);
+                    //updateOrderDetails(order);
+
+                    // clear previous status timeline
+                    //const statusTimeline = document.getElementById("statusTimeline");
+                    //statusTimeline.innerHTML = "";
+                } catch (error) {
+                    alert("Error creating order: " + error.message);
+                }
+            });
+
+    </script>
+</body>
+</html>
