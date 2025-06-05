@@ -1,0 +1,6 @@
+@YarpProxy_HostAddress = http://localhost:5258
+
+GET {{YarpProxy_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36121.58 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloApi", "HelloApi\HelloApi.csproj", "{ACD0B7E2-A0C4-496B-B4C5-9A223926DD8D}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81DDED9D-158B-E303-5F62-77A2896D2A5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YarpProxy", "YarpProxy\YarpProxy.csproj", "{CF8185A5-8ED6-4449-853F-7E2BAD972D9A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ACD0B7E2-A0C4-496B-B4C5-9A223926DD8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACD0B7E2-A0C4-496B-B4C5-9A223926DD8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACD0B7E2-A0C4-496B-B4C5-9A223926DD8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACD0B7E2-A0C4-496B-B4C5-9A223926DD8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF8185A5-8ED6-4449-853F-7E2BAD972D9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF8185A5-8ED6-4449-853F-7E2BAD972D9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF8185A5-8ED6-4449-853F-7E2BAD972D9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF8185A5-8ED6-4449-853F-7E2BAD972D9A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {08276D0D-9A31-4601-8661-B4587522566B}
+	EndGlobalSection
+EndGlobal
