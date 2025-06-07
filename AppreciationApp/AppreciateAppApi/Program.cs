@@ -1,6 +1,7 @@
 using AppreciateAppApi.Data;
 using AppreciateAppApi.Endpoints;
 using AppreciateAppApi.Extensions;
+using AppreciateAppApi.MappingProfile;
 using AppreciateAppApi.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +15,10 @@ builder.AddServiceDefaults();
 
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddAutoMapper(typeof(AppreciationProfile));
+
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<AppDbContext>(options =>

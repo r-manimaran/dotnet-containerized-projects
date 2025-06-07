@@ -3,6 +3,7 @@ using AppreciateAppApi.DTO;
 using AppreciateAppApi.DTO.Appreciation;
 using AppreciateAppApi.Models;
 using AppreciateAppApi.Pagination;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace AppreciateAppApi.Services
@@ -10,12 +11,15 @@ namespace AppreciateAppApi.Services
     public class AppreciationService : IAppreciationService
     {
         private readonly AppDbContext _dbContext;
+        private readonly IMapper _mapper;
         private readonly ILogger<AppreciationService> _logger;
 
         public AppreciationService(AppDbContext dbContext, 
+                                   IMapper mapper,
                                    ILogger<AppreciationService> logger)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
             _logger = logger;
         }
         /// <summary>
@@ -76,53 +80,66 @@ namespace AppreciateAppApi.Services
                 Content = request.Content,
                 SenderId = senderEmployee.Id,
                 CreatedAt = DateTime.UtcNow,                
-                Sender = new Sender
-                {
-                    EmployeeId = senderEmployee.Id,
-                    UserName = senderEmployee.UserName,
-                    FullName = $"{senderEmployee.FirstName} {senderEmployee.LastName}",
-                    Email = senderEmployee.Email
-                },
-                Receivers = request.Receivers.Select(r => new Receiver
-                {
-                    EmployeeId = r.EmployeeId,
-                    UserName = r.UserName,
-                    FullName = r.FullName,
-                    Email = r.Email
-                }).ToList(),
-               
             };
-
+            // Add receivers to the appreciation
+            appreciation.Receivers = receiverEmployees;
+            
             // save to database
             _dbContext.Items.Add(appreciation);
             await _dbContext.SaveChangesAsync();
+            _logger.LogInformation($"Appreciation created successfully. Id: {appreciation.Id}");
+
+            Appreciation newAppreciation = new Appreciation
+            {
+
+                Content = appreciation.Content,
+                
+                // Category = category,
+                // Sender = $"{senderEmployee.FirstName} {senderEmployee.LastName}",
+                // Receivers = receiverEmployees.Select(r => $"{r.FirstName} {r.LastName}").ToList(),
+                // AppreciationType = appreciation.AppreciationType.ToString(),
+                // Id = appreciation.Id
+            };
 
             response.Success = true;
-            response.Data = appreciation;
+            response.Data = newAppreciation;
             response.Message = "Appreciation created successfully.";
             return response;
         }
 
         public async Task<BaseResponse<AppreciationResponse>> GetAllAppreciation(int page, int pageSize, AppreciationType type)
         {
-            BaseResponse<AppreciationResponse> response = new BaseResponse<AppreciationResponse>();
-            var result = await _dbContext.Items
-                        .OrderByDescending(a => a.CreatedAt)
-                        .ToListAsync();
+            BaseResponse<AppreciationResponse> response = new ();
+
+            AppreciationResponse appreciationResponse = new ();
+
+            // Perform the paginated query
+            // Need to update this based on User Claims
+            var query = _dbContext.Items.Where(i => i.SenderId == 1);
+            
+            var count = await query.CountAsync();
+
+            var result = await query
+                               .OrderByDescending(a=>a.CreatedAt)
+                               .Skip((page - 1) * pageSize)                            
+                               .Take(pageSize)
+                               .ToListAsync();
+            PagedList<Item> pagedList = new PagedList<Item>(result, count, page, pageSize);
+
+            var appreciationDto = _mapper.Map<List<AppreciationItem>>(pagedList);
+            appreciationResponse.Appreciations = appreciationDto;
+            appreciationResponse.Metadata = pagedList.Metadata;
+
+            if (pagedList == null || !pagedList.Any())
+            {
+                response.Success = false;
+                response.Message = "No appreciations found.";
+                return response;
+            }
             response.Success = true;
-            //response.Data = new AppreciationResponse
-            //{
-            //    Items = result.Select(a => new AppreciationItem
-            //    {
-            //        Id = a.Id,
-            //        Content = a.Content,
-            //        Category = a.Category,
-            //        Sender = a.Sender,
-            //        Receivers = a.Receivers.ToList(),
-            //        AppreciationType = a.AppreciationType,
-            //    }).ToList(),
-            //    Metadata = null
-            //};
+            response.Message = "Appreciations retrieved successfully.";
+            response.Data = appreciationResponse;            
+                        
             return response;
         }
     }

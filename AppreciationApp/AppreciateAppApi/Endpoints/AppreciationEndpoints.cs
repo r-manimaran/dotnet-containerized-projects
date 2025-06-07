@@ -13,13 +13,13 @@ public static class AppreciationEndpoints
 
         group.MapGet("/send", async (int pageSize, int page, IAppreciationService raveService) =>
         {
-            var raves = await raveService.GetAllAppreciation(pageSize, page, AppreciationType.Send);
+            var raves = await raveService.GetAllAppreciation( page, pageSize, AppreciationType.Send);
             return Results.Ok(raves);
         }).Produces<BaseResponse<AppreciationResponse>>(StatusCodes.Status200OK);
 
         group.MapGet("/received", async (int pageSize, int page, IAppreciationService raveService) =>
         {
-            var raves = await raveService.GetAllAppreciation(pageSize, page, AppreciationType.Received);
+            var raves = await raveService.GetAllAppreciation(page, pageSize, AppreciationType.Received);
             return Results.Ok(raves);
         }).Produces<BaseResponse<AppreciationResponse>>(StatusCodes.Status200OK);
 
