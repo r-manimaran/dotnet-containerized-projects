@@ -8,8 +8,10 @@ using Microsoft.EntityFrameworkCore;
 public class CategoryService(AppDbContext dbContext, 
                             ILogger<CategoryService> logger) : ICategoryService
 {
-    public async Task<Category> CreateCategoryAsync(CreateCategoryRequest request)
+    public async Task<BaseResponse<Category>> CreateCategoryAsync(CreateCategoryRequest request)
     {
+        var response = new BaseResponse<Category>();
+
         var category = new Category
         {
             Name = request.Name,
@@ -19,7 +21,11 @@ public class CategoryService(AppDbContext dbContext,
         dbContext.Categories.Add(category);
         await dbContext.SaveChangesAsync();
         logger.LogInformation("Category created: {CategoryName}", category.Name);
-        return category;
+        response.Data = category;
+        response.Success = true;
+        response.Message = "Category created successfully.";
+
+        return response;
     }
 
     public async Task<bool> DeleteCategoryAsync(int id)
@@ -38,38 +44,56 @@ public class CategoryService(AppDbContext dbContext,
         return true;
     }
 
-    public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
+    public async Task<BaseResponse<IEnumerable<Category>>> GetAllCategoriesAsync()
     {
+        var response = new BaseResponse<IEnumerable<Category>>();
+
         var categories = await dbContext.Categories
                             .AsNoTracking()
                             .ToListAsync();
         logger.LogInformation("Retrieved {Count} categories", categories.Count);
-        return categories;
+        response.Data = categories;
+        response.Success = true;
+        response.Message = "Categories retrieved successfully.";
+        return response;
     }
 
-    public async Task<Category?> GetCategoryByIdAsync(int id)
+    public async Task<BaseResponse<Category?>> GetCategoryByIdAsync(int id)
     {
+        var response = new BaseResponse<Category?>();
+
         var existingCategory = await dbContext.Categories
                                     .AsNoTracking()
                                     .FirstOrDefaultAsync(c => c.Id == id);
+
        if (existingCategory == null)
        {
            logger.LogWarning("Category with ID {Id} not found", id);
-           return null;
+            response.Success = false;
+            response.Message = "Category not found.";
+            return response;
         }
+
         logger.LogInformation("Retrieved category with ID {Id}", id);
-        return existingCategory;
+        response.Data = existingCategory;
+        response.Message = "Category retrieved successfully.";
+        response.Success = true;
+        
+        return response;
     }
 
-    public async Task<Category?> UpdateCategoryAsync(int id, CreateCategoryRequest request)
+    public async Task<BaseResponse<Category?>> UpdateCategoryAsync(int id, CreateCategoryRequest request)
     {
+        var response = new BaseResponse<Category?>();
         var existingCategory = await dbContext.Categories
                                     .AsNoTracking()
                                     .FirstOrDefaultAsync(c => c.Id == id);
         if (existingCategory == null)
         {
             logger.LogWarning("Category with ID {Id} not found for update", id);
-            return null;
+            response.Success = false;
+            response.Message = "Category not found.";
+            return response;
         }
         existingCategory.Name = request.Name;
         existingCategory.Description = request.Description;
@@ -77,6 +101,9 @@ public class CategoryService(AppDbContext dbContext,
         dbContext.Categories.Update(existingCategory);
         await dbContext.SaveChangesAsync();
         logger.LogInformation("Updated category with ID {Id}", id);
-        return existingCategory;
+        response.Data = existingCategory;
+        response.Success = true;
+        response.Message = "Category updated successfully.";
+        return response;
     }
 }

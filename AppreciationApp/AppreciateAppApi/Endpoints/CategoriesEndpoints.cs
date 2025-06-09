@@ -25,7 +25,7 @@ public static class CategoriesEndpoints
         group.MapPost("/", async (CreateCategoryRequest category, ICategoryService categoryService) =>
         {
             var createdCategory = await categoryService.CreateCategoryAsync(category);
-            return Results.Created($"/api/categories/{createdCategory.Id}", createdCategory);
+            return Results.Created($"/api/categories/{createdCategory.Data.Id}", createdCategory);
         });
 
 

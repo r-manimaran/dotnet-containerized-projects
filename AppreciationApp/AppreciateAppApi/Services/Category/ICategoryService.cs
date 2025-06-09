@@ -4,9 +4,9 @@ using AppreciateAppApi.Models;
 
 public interface ICategoryService
 {
-    Task<IEnumerable<Category>> GetAllCategoriesAsync();
-    Task<Category?> GetCategoryByIdAsync(int id);
-    Task<Category> CreateCategoryAsync(CreateCategoryRequest request);
-    Task<Category?> UpdateCategoryAsync(int id, CreateCategoryRequest request);
+    Task<BaseResponse<IEnumerable<Category>>> GetAllCategoriesAsync();
+    Task<BaseResponse<Category?>> GetCategoryByIdAsync(int id);
+    Task<BaseResponse<Category>> CreateCategoryAsync(CreateCategoryRequest request);
+    Task<BaseResponse<Category?>> UpdateCategoryAsync(int id, CreateCategoryRequest request);
     Task<bool> DeleteCategoryAsync(int id);
 }
