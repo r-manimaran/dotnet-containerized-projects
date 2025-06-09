@@ -1,4 +1,5 @@
 ﻿using AppreciateAppApi.Services;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace AppreciateAppApi.Endpoints;
 
@@ -22,8 +23,10 @@ public static class EmployeesEndpoints
 
         group.MapGet("/profile/picture/{email}", async (string email, IEmployeeService employeeService) =>
         {
-            var picture = await employeeService.GetProfilePictureAsync(email);
-            return Results.Ok(picture);
+            var (imageBytes, contentType) = await employeeService.GetProfilePictureAsync(email);
+            return imageBytes is not null
+                    ? Results.File(imageBytes, contentType)
+                    : Results.NotFound();
         });
     }
 }

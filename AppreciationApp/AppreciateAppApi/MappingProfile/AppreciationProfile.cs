@@ -1,4 +1,5 @@
 ﻿using AppreciateAppApi.DTO.Appreciation;
+using AppreciateAppApi.DTO;
 using AppreciateAppApi.Models;
 using AutoMapper;
 
@@ -8,7 +9,8 @@ public class AppreciationProfile : Profile
 {
     public AppreciationProfile()
     {
-        CreateMap<AppreciationItem, Item>().ReverseMap();        
+        CreateMap<AppreciationItem, Item>().ReverseMap();   
+        CreateMap<CreateCategoryRequest, Category>().ReverseMap();
     }
 }
 

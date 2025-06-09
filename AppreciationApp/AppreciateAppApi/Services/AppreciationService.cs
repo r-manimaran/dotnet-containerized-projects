@@ -121,13 +121,17 @@ namespace AppreciateAppApi.Services
 
             var result = await query
                                .OrderByDescending(a=>a.CreatedAt)
+                               .Include(i => i.Category)                               
                                .Skip((page - 1) * pageSize)                            
                                .Take(pageSize)
                                .ToListAsync();
+
             PagedList<Item> pagedList = new PagedList<Item>(result, count, page, pageSize);
 
             var appreciationDto = _mapper.Map<List<AppreciationItem>>(pagedList);
+
             appreciationResponse.Appreciations = appreciationDto;
+            
             appreciationResponse.Metadata = pagedList.Metadata;
 
             if (pagedList == null || !pagedList.Any())
@@ -136,10 +140,11 @@ namespace AppreciateAppApi.Services
                 response.Message = "No appreciations found.";
                 return response;
             }
+
             response.Success = true;
             response.Message = "Appreciations retrieved successfully.";
             response.Data = appreciationResponse;            
-                        
+                       
             return response;
         }
     }

@@ -32,6 +32,8 @@ builder.Services.AddScoped<IAppreciationService, AppreciationService>();
 
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
 builder.Services.AddOpenTelemetry()
     .WithTracing(tracerProviderBuilder =>
     {
@@ -72,9 +74,9 @@ app.MapAppreciationEndpoints();
 
 app.MapEmployeesEndpoints();
 
+app.MapCategoriesEndpoints();
+
 await app.ApplyMigration();
-
-
 
 await app.RunAsync();
 
