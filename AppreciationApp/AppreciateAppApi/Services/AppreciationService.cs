@@ -147,5 +147,26 @@ namespace AppreciateAppApi.Services
                        
             return response;
         }
+
+        public async Task<BaseResponse<Appreciation?>> GetAppreciationByIdAsync(int id)
+        {
+            var response = new BaseResponse<Appreciation?>();
+            var appreciation  = await _dbContext.Items.AsNoTracking()
+                                        .Include(i => i.Category)
+                                        .Include(i => i.Sender)
+                                        .Include(i => i.Receivers)
+                                        .FirstOrDefaultAsync(i => i.Id == id);
+            if (appreciation == null)
+            {   
+                response.Success = false;
+                response.Message = "Appreciation not found.";
+                return response;
+            }
+            var appreciationDto = _mapper.Map<Appreciation>(appreciation);
+            response.Success = true;
+            response.Data = appreciationDto;
+            response.Message = "Appreciation retrieved successfully.";
+            return response;
+        }
     }
 }

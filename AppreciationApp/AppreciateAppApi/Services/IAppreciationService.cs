@@ -9,4 +9,5 @@ public interface IAppreciationService
 {
     Task<BaseResponse<Appreciation?>> CreateAppreciationAsync(CreateAppreciationRequest request);
     Task<BaseResponse<AppreciationResponse>> GetAllAppreciation(int page, int pageSize, AppreciationType type);
+    Task<BaseResponse<Appreciation?>> GetAppreciationByIdAsync(int id);
 }

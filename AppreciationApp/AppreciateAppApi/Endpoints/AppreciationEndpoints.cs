@@ -28,5 +28,13 @@ public static class AppreciationEndpoints
             var newRave = await raveService.CreateAppreciationAsync(appreciation);
             return Results.Ok(newRave);
         });
+
+        group.MapGet("/{id}", async (int id, IAppreciationService raveService) =>
+        {
+            var rave = await raveService.GetAppreciationByIdAsync(id);
+            return rave != null ? Results.Ok(rave) : Results.NotFound();
+
+        }).Produces<BaseResponse<Appreciation?>>(StatusCodes.Status200OK)
+          .Produces(StatusCodes.Status404NotFound);
     }
 }

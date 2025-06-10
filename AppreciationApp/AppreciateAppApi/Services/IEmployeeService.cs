@@ -1,10 +1,11 @@
-﻿using AppreciateAppApi.Models;
+﻿using AppreciateAppApi.DTO;
+using AppreciateAppApi.Models;
 
 namespace AppreciateAppApi.Services;
 
 public interface IEmployeeService
 {
     Task<Employee> GetCurrentEmployeeAsync();
-    Task<List<Employee>> SearchEmployeesAsync(string query);
+    Task<BaseResponse<List<Employee>>> SearchEmployeesAsync(string query);
     Task<(byte[] ImageBytes, string ContentType)> GetProfilePictureAsync(string email);
 }

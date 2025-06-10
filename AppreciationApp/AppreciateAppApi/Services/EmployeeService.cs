@@ -1,5 +1,7 @@
 ﻿using AppreciateAppApi.Data;
+using AppreciateAppApi.DTO;
 using AppreciateAppApi.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Net.Mime;
 
 namespace AppreciateAppApi.Services;
@@ -16,15 +18,20 @@ public class EmployeeService(AppDbContext dbContext, ILogger<EmployeeService> lo
         throw new NotImplementedException();
     }
     // Example method to search employees by query
-    public Task<List<Employee>> SearchEmployeesAsync(string query)
+    public async Task<BaseResponse<List<Employee>>> SearchEmployeesAsync(string query)
     {
-        // Implementation here
-        throw new NotImplementedException();
+        var response = new BaseResponse<List<Employee>>();
+
+        var  employees = await _dbContext.Employees.Where(t=>t.UserName.Contains(query) || 
+                                   t.Email.Contains(query)).ToListAsync();
+        response.Data = employees;
+        response.Success = true;
+        return response;
+
     }
     // Example method to get profile picture URL by email
     public async Task<(byte[] ImageBytes, string ContentType)> GetProfilePictureAsync(string email)
     {
-        // Implementation here
         var employee = _dbContext.Employees.FirstOrDefault(e => e.Email == email);
 
         if (employee == null)

@@ -11,6 +11,15 @@ public class AppreciationProfile : Profile
     {
         CreateMap<AppreciationItem, Item>().ReverseMap();   
         CreateMap<CreateCategoryRequest, Category>().ReverseMap();
+        CreateMap<Item, Appreciation>();
+        
+        // Map Id from Employee to EmployeeId in sender
+        CreateMap<Employee, Sender>().ForMember(dest=> dest.EmployeeId,
+                opt => opt.MapFrom(src=>src.Id));
+
+        CreateMap<Employee, Receiver>().ForMember(dest => dest.EmployeeId,
+                opt => opt.MapFrom(src => src.Id));
+
     }
 }
 

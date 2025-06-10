@@ -1,4 +1,6 @@
-﻿using AppreciateAppApi.Services;
+﻿using AppreciateAppApi.DTO;
+using AppreciateAppApi.Models;
+using AppreciateAppApi.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace AppreciateAppApi.Endpoints;
@@ -15,11 +17,11 @@ public static class EmployeesEndpoints
             return Results.Ok(employee);
         });
 
-        group.MapGet("/{query}", async (string query, IEmployeeService employeeService) =>
+        group.MapGet("/", async (string query, IEmployeeService employeeService) =>
         {
             var employees = await employeeService.SearchEmployeesAsync(query);
             return Results.Ok(employees);
-        });
+        }).Produces<BaseResponse<List<Employee>>>();
 
         group.MapGet("/profile/picture/{email}", async (string email, IEmployeeService employeeService) =>
         {
