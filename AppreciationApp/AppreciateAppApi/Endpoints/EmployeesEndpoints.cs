@@ -9,7 +9,7 @@ public static class EmployeesEndpoints
 {
     public static void MapEmployeesEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/employees").WithTags("Employees");
+        var group = app.MapGroup("/api/employees").WithTags("Employees").RequireAuthorization();
         
         group.MapGet("/me", async (IEmployeeService employeeService) =>
         {

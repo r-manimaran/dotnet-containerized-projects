@@ -28,6 +28,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     //options.UseSnakeCaseNamingConvention();
 });
 
+// Add KeyCloak Authentication
+builder.Services.AddAuthentication()
+        .AddKeycloakJwtBearer("keycloak", "maransys", options =>
+        {
+            options.RequireHttpsMetadata = false;
+            options.Audience = "account";
+        });
+builder.Services.AddAuthorization();
+
 builder.Services.AddScoped<IAppreciationService, AppreciationService>();
 
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
@@ -69,6 +78,10 @@ app.MapDefaultEndpoints();
 app.UseDeveloperExceptionPage();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapAppreciationEndpoints();
 

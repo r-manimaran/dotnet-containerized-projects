@@ -5,9 +5,21 @@ var postgres = builder.AddPostgres("postgres")
                        .WithDataVolume()
                        .AddDatabase("Appreciation");
 
+var username = builder.AddParameter("username", "admin");
+var password = builder.AddParameter("password","admin", secret: true);
+
+var keycloak = builder.AddKeycloak("keycloak")
+    .WithDataVolume()
+    .WithExternalHttpEndpoints()
+    .WithRealmImport("./KeycloakConfiguration");
+    
 var api = builder.AddProject<Projects.AppreciateAppApi>("appreciateappapi")
+                .WithExternalHttpEndpoints()
                  .WithReference(postgres)
-                 .WaitFor(postgres);
+                 .WaitFor(postgres)
+                 .WithReference(keycloak)
+                  .WithEnvironment("Keycloak__ClientId", "confidential-client")
+            .WithEnvironment("keycloak__ClientSecret", "ze4SQDpbyBlB72kdTCTv8ecSWsJHf2Js");
 
 builder
     .AddNpmApp("AngularFrontEnd", "../Appreciation.Web")

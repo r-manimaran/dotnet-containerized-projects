@@ -9,7 +9,7 @@ public static class AppreciationEndpoints
 {
     public static void MapAppreciationEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/Appreciation").WithTags("Appreciation");
+        var group = app.MapGroup("/api/Appreciation").WithTags("Appreciation").RequireAuthorization();
 
         group.MapGet("/send", async (int pageSize, int page, IAppreciationService raveService) =>
         {
