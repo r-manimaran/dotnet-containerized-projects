@@ -15,6 +15,7 @@
     <PackageReference Include="Aspire.Npgsql" Version="9.3.0" />
     <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.3.0" />
     <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.24.1" />
     <PackageReference Include="Bogus" Version="35.6.3" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.5" />
@@ -26,6 +27,10 @@
     <PackageReference Include="Npgsql.OpenTelemetry" Version="9.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.4" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.4.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Consumer\" />
   </ItemGroup>
 
 </Project>

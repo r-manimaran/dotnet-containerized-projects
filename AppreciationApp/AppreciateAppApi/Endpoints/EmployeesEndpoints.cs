@@ -2,6 +2,8 @@
 using AppreciateAppApi.Models;
 using AppreciateAppApi.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+
 
 namespace AppreciateAppApi.Endpoints;
 
@@ -30,5 +32,11 @@ public static class EmployeesEndpoints
                     ? Results.File(imageBytes, contentType)
                     : Results.NotFound();
         });
+
+        group.MapPost("/",async([FromForm]CreateEmployeeRequest request, IEmployeeService employeeService) =>
+        {
+            var newEmployee = await employeeService.CreateEmployeeAsync(request);
+            return Results.Created($"/api/employees/{newEmployee.Id}", newEmployee);
+        }).Produces<Employee>(StatusCodes.Status201Created);
     }
 }

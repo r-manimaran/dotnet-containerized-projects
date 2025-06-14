@@ -43,6 +43,8 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
+builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
+
 builder.Services.AddOpenTelemetry()
     .WithTracing(tracerProviderBuilder =>
     {

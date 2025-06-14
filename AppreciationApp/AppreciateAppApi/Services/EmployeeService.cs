@@ -65,4 +65,12 @@ public class EmployeeService(AppDbContext dbContext, ILogger<EmployeeService> lo
             return (null,null);
         }
     }
+
+    public Task<Employee> CreateEmployeeAsync(CreateEmployeeRequest request)
+    {
+        throw new NotImplementedException();
+        // Upload the Profile Image to Azure Blob Storage and get the URL.
+        // Save the employee details to the database along with the Profile Url.
+        // Create a RabbitMQ message to notify other services.
+    }
 }
