@@ -11,7 +11,8 @@ public static class EmployeesEndpoints
 {
     public static void MapEmployeesEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/employees").WithTags("Employees").RequireAuthorization();
+        var group = app.MapGroup("/api/employees")
+                       .WithTags("Employees");//.RequireAuthorization();
         
         group.MapGet("/me", async (IEmployeeService employeeService) =>
         {
@@ -37,6 +38,7 @@ public static class EmployeesEndpoints
         {
             var newEmployee = await employeeService.CreateEmployeeAsync(request);
             return Results.Created($"/api/employees/{newEmployee.Id}", newEmployee);
-        }).Produces<Employee>(StatusCodes.Status201Created);
+        }).Produces<Employee>(StatusCodes.Status201Created)
+        .DisableAntiforgery();
     }
 }

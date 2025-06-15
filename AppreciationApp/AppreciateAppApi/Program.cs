@@ -3,6 +3,7 @@ using AppreciateAppApi.Endpoints;
 using AppreciateAppApi.Extensions;
 using AppreciateAppApi.MappingProfile;
 using AppreciateAppApi.Services;
+using Azure.Storage.Blobs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
@@ -43,7 +44,12 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
-builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
+builder.Services.AddSingleton(_ => new BlobServiceClient(
+    builder.Configuration.GetConnectionString("blobs")));
+
+builder.Services.AddSingleton<IBlobStorageService, BlobStorageService>();
+
+builder.Services.AddAntiforgery();
 
 builder.Services.AddOpenTelemetry()
     .WithTracing(tracerProviderBuilder =>
@@ -85,6 +91,7 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
+app.UseAntiforgery();
 app.MapAppreciationEndpoints();
 
 app.MapEmployeesEndpoints();

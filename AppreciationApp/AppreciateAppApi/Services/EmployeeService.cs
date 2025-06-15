@@ -6,9 +6,10 @@ using System.Net.Mime;
 
 namespace AppreciateAppApi.Services;
 
-public class EmployeeService(AppDbContext dbContext, ILogger<EmployeeService> logger) : IEmployeeService
+public class EmployeeService(AppDbContext dbContext, IBlobStorageService blogStorageService, ILogger<EmployeeService> logger) : IEmployeeService
 {
     private readonly AppDbContext _dbContext = dbContext;
+    private readonly IBlobStorageService _blogStorageService = blogStorageService;
     private readonly ILogger<EmployeeService> _logger = logger;
 
     // Example method to get the current employee
@@ -66,11 +67,37 @@ public class EmployeeService(AppDbContext dbContext, ILogger<EmployeeService> lo
         }
     }
 
-    public Task<Employee> CreateEmployeeAsync(CreateEmployeeRequest request)
+    public async Task<Employee> CreateEmployeeAsync(CreateEmployeeRequest request)
     {
-        throw new NotImplementedException();
         // Upload the Profile Image to Azure Blob Storage and get the URL.
+        _logger.LogInformation($"Uploading profile image to Azure Blob Storage");
+        var isUploaded = await _blogStorageService.UploadProfileAsync("profiles", request.ProfileImage.FileName, request.ProfileImage.OpenReadStream());
+        if(!isUploaded)
+        {
+            _logger.LogError("Failed to upload profile image to Azure Blob Storage.");
+            throw new Exception("Failed to upload profile image.");
+        }
+        _logger.LogInformation($"Profile image uploaded successfully.");
+        string imageUrl = await _blogStorageService.GetBlob("profiles", request.ProfileImage.FileName);
+        _logger.LogInformation($"Got the Image Url:{imageUrl}");
+           
         // Save the employee details to the database along with the Profile Url.
+        Employee employee = new Employee();
+        employee.FirstName = request.FirstName;
+        employee.LastName = request.LastName;
+
+        var userName = $"{request.LastName.ToLower().Substring(0, 1)}{request.FirstName.ToLower()}";
+        employee.UserName = userName ;
+        employee.Email = $"{userName}@example.com";
+
+        employee.ProfilePictureUrl = imageUrl;
+        employee.CreatedAt = DateTime.UtcNow;
+
+        _logger.LogInformation($"Creating Employee: {employee.UserName}");
+        _dbContext.Employees.Add(employee);
+        await _dbContext.SaveChangesAsync();
+        _logger.LogInformation($"Employee Created: {employee.UserName} with ID: {employee.Id}");
+        return employee;
         // Create a RabbitMQ message to notify other services.
     }
 }
