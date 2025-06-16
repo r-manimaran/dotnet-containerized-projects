@@ -9,7 +9,13 @@ public class AppreciationProfile : Profile
 {
     public AppreciationProfile()
     {
-        CreateMap<AppreciationItem, Item>().ReverseMap();   
+        CreateMap<AppreciationItem, Item>();
+        CreateMap<Item, AppreciationItem>()
+            .ForMember(dest => dest.AppreciationType, opt =>
+                    opt.MapFrom((src, dest, destMember, context) =>
+                        context.Items.ContainsKey("AppreciationType")
+                         ? (AppreciationType)context.Items["AppreciationType"]
+                         : AppreciationType.Received));
         CreateMap<CreateCategoryRequest, Category>().ReverseMap();
         CreateMap<Item, Appreciation>();
         

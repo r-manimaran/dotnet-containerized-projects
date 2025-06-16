@@ -12,14 +12,17 @@ namespace AppreciateAppApi.Services
     {
         private readonly AppDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<AppreciationService> _logger;
 
         public AppreciationService(AppDbContext dbContext, 
                                    IMapper mapper,
+                                   IHttpContextAccessor httpContextAccessor,
                                    ILogger<AppreciationService> logger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
             _logger = logger;
         }
         /// <summary>
@@ -32,8 +35,20 @@ namespace AppreciateAppApi.Services
             var response = new BaseResponse<Appreciation?>();
 
             // Validate sender
+            // Get the sender employee Id from the JWT token
+            var claims = _httpContextAccessor.HttpContext?.User?.Claims;
+            var email = _httpContextAccessor.HttpContext?.User?.Claims
+                .FirstOrDefault(c => c.Type == "email")?.Value;
+            if(string.IsNullOrEmpty(email))
+            {
+                response.Success = false;
+                response.Message = "Sender email not found in the request.";
+                return response;
+            }
+            // Look up the sender employee by email
             var senderEmployee = await _dbContext.Employees
-                    .FirstOrDefaultAsync(e => e.Id == request.SenderId);
+                    .FirstOrDefaultAsync(e => e.Email == email);
+
             if(senderEmployee == null)
             {
                 response.Success = false;
@@ -115,37 +130,75 @@ namespace AppreciateAppApi.Services
 
             // Perform the paginated query
             // Need to update this based on User Claims
-            var query = _dbContext.Items.Where(i => i.SenderId == 1);
-            
-            var count = await query.CountAsync();
+            var claims = _httpContextAccessor.HttpContext?.User?.Claims;
+            var emailClaim = claims?
+                .FirstOrDefault(c =>
+                    c.Type == "email" ||
+                    c.Type == "emails" ||
+                    c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress");
 
-            var result = await query
-                               .OrderByDescending(a=>a.CreatedAt)
-                               .Include(i => i.Category)                               
-                               .Skip((page - 1) * pageSize)                            
-                               .Take(pageSize)
-                               .ToListAsync();
+            var email = emailClaim?.Value;
+            if (!string.IsNullOrEmpty(email) && email.Contains(":"))
+            {
+                email = email.Split(':').Last().Trim();
+            }
+            //var email = _httpContextAccessor.HttpContext?.User?.Claims
+            //   .FirstOrDefault(c => c.Type == "email")?.Value;
 
-            PagedList<Item> pagedList = new PagedList<Item>(result, count, page, pageSize);
-
-            var appreciationDto = _mapper.Map<List<AppreciationItem>>(pagedList);
-
-            appreciationResponse.Appreciations = appreciationDto;
-            
-            appreciationResponse.Metadata = pagedList.Metadata;
-
-            if (pagedList == null || !pagedList.Any())
+            if (string.IsNullOrEmpty(email))
             {
                 response.Success = false;
-                response.Message = "No appreciations found.";
+                response.Message = "Sender email not found in the request.";
                 return response;
             }
+            // Look up the sender employee by email
+            var senderEmployee = await _dbContext.Employees
+                    .FirstOrDefaultAsync(e => e.Email == email);
 
-            response.Success = true;
-            response.Message = "Appreciations retrieved successfully.";
-            response.Data = appreciationResponse;            
-                       
-            return response;
+            // Get All Appreciation received by the logged in employee
+            if (type == AppreciationType.Received && senderEmployee != null)
+            {
+                var query = _dbContext.Items.Where(i => i.Receivers.Any(r => r.Id == senderEmployee.Id));
+
+                var count = await query.CountAsync();
+
+                var result = await query
+                                   .AsNoTracking()
+                                   .OrderByDescending(a => a.CreatedAt)
+                                   .Include(i => i.Category)
+                                   .Include(i => i.Sender)
+                                   .Include(i => i.Receivers)
+                                   .Skip((page - 1) * pageSize)
+                                   .Take(pageSize)
+                                   .ToListAsync();
+
+                PagedList<Item> pagedList = new PagedList<Item>(result, count, page, pageSize);
+
+                var appreciationDto = _mapper.Map<List<AppreciationItem>>(pagedList, opt=> opt.Items["AppreciationType"]=type);
+                
+                appreciationResponse.Appreciations = appreciationDto;
+
+                appreciationResponse.Metadata = pagedList.Metadata;
+
+                if (pagedList == null || !pagedList.Any())
+                {
+                    response.Success = false;
+                    response.Message = "No appreciations found.";
+                    return response;
+                }
+
+                response.Success = true;
+                response.Message = "Appreciations retrieved successfully.";
+                response.Data = appreciationResponse;
+
+                return response;
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = "Logged In User Not found.";
+                return response;
+            }
         }
 
         public async Task<BaseResponse<Appreciation?>> GetAppreciationByIdAsync(int id)

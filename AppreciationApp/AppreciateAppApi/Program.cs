@@ -38,6 +38,8 @@ builder.Services.AddAuthentication()
         });
 builder.Services.AddAuthorization();
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddScoped<IAppreciationService, AppreciationService>();
 
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
