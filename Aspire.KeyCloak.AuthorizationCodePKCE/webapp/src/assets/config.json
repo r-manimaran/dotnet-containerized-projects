@@ -1,0 +1,14 @@
+{
+    "oidc":{
+        "issuer":"http://localhost:8080/realms/maransys",
+        "client_id":"angular-app",
+        "redirectUri":"http://localhost:4200",
+        "scopes":"openid profile email",
+        "response_type":"code",
+        "usePkce":true,
+        "strictDiscoveryDocumentValidation":false
+    },
+    "api":{
+        "baseUrl":"https://localhost:5001"
+    }
+}
