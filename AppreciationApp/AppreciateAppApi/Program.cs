@@ -29,6 +29,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     //options.UseSnakeCaseNamingConvention();
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader()
+                   .WithExposedHeaders("X-Pagination");
+        });
+});
+
 // Add KeyCloak Authentication
 builder.Services.AddAuthentication()
         .AddKeycloakJwtBearer("keycloak", "maransys", options =>
@@ -74,6 +86,7 @@ System.Diagnostics.ActivitySource.AddActivityListener(
 
 var app = builder.Build();
 
+app.UseCors("AllowAll");
 // Configure Swagger/OpenAPI
 app.MapOpenApi();
 
@@ -94,6 +107,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseAntiforgery();
+
 app.MapAppreciationEndpoints();
 
 app.MapEmployeesEndpoints();

@@ -33,6 +33,7 @@ builder
     .AddNpmApp("AngularFrontEnd", "../Appreciation.Web")
     .WithReference(api)
     .WithEndpoint(4200,scheme:"http",env:"PORT")
+    .WithExternalHttpEndpoints()
     .PublishAsDockerFile();
     
 

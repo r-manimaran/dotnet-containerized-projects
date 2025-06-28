@@ -2,6 +2,7 @@
 using AppreciateAppApi.DTO;
 using AppreciateAppApi.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Mime;
 
 namespace AppreciateAppApi.Services;
@@ -97,7 +98,15 @@ public class EmployeeService(AppDbContext dbContext, IBlobStorageService blogSto
         _dbContext.Employees.Add(employee);
         await _dbContext.SaveChangesAsync();
         _logger.LogInformation($"Employee Created: {employee.UserName} with ID: {employee.Id}");
+
+        
         return employee;
         // Create a RabbitMQ message to notify other services.
+    }
+
+
+    private void TestMethod([StringSyntax(StringSyntaxAttribute.GuidFormat)] string number)
+    {
+        Console.WriteLine(number);
     }
 }
