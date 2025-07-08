@@ -1,0 +1,65 @@
+services:
+  cache:
+    image: "docker.io/library/redis:7.4"
+    command:
+      - "-c"
+      - "redis-server --requirepass $$REDIS_PASSWORD"
+    entrypoint:
+      - "/bin/sh"
+    environment:
+      REDIS_PASSWORD: "${CACHE_PASSWORD}"
+    ports:
+      - "8000:6379"
+    networks:
+      - "aspire"
+  seq:
+    image: "docker.io/datalust/seq:2024.3"
+    environment:
+      ACCEPT_EULA: "Y"
+    ports:
+      - "8001:80"
+    networks:
+      - "aspire"
+  apiservice:
+    image: "${APISERVICE_IMAGE}"
+    environment:
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY: "in_memory"
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+      HTTP_PORTS: "8002"
+      ConnectionStrings__seq: "http://seq:80"
+    ports:
+      - "8003:8002"
+      - "8005:8004"
+    depends_on:
+      seq:
+        condition: "service_started"
+    networks:
+      - "aspire"
+  webfrontend:
+    image: "${WEBFRONTEND_IMAGE}"
+    environment:
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY: "in_memory"
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+      HTTP_PORTS: "8006"
+      ConnectionStrings__cache: "cache:6379,password=${CACHE_PASSWORD}"
+      services__apiservice__http__0: "http://apiservice:8002"
+      ConnectionStrings__seq: "http://seq:80"
+    ports:
+      - "8007:8006"
+      - "8009:8008"
+    depends_on:
+      cache:
+        condition: "service_started"
+      apiservice:
+        condition: "service_started"
+      seq:
+        condition: "service_started"
+    networks:
+      - "aspire"
+networks:
+  aspire:
+    driver: "bridge"
