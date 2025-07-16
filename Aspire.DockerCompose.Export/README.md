@@ -109,3 +109,6 @@ The application includes comprehensive observability features:
 - **Distributed Tracing**: End-to-end request tracking
 - **Performance Metrics**: Response times and error rates
 
+## License
+
+This project is for educational purposes demonstrating Semantic Kernel structured output capabilities.
