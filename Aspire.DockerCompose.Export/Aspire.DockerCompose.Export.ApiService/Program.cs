@@ -8,6 +8,11 @@ builder.Services.AddProblemDetails();
 
 builder.AddSeqEndpoint("seq");
 
+builder.Services.AddOpenTelemetry()
+    .WithMetrics(m => m.AddMeter("WsManagerMetrics"))
+    .WithTracing(t => t.AddSource("WsManager"));
+
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
