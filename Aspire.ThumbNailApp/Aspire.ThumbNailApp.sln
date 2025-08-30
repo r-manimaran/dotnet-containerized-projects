@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36327.8 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.ThumbNail.WebApp", "Aspire.ThumbNail.WebApp\Aspire.ThumbNail.WebApp.csproj", "{4B91F666-77FE-60FA-BED8-F62B720B3F9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.ThumbNailApp.AppHost", "Aspire.ThumbNailApp.AppHost\Aspire.ThumbNailApp.AppHost.csproj", "{169ADB8C-BB5F-4338-92CE-A103D509073B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.ThumbNailApp.ServiceDefaults", "Aspire.ThumbNailApp.ServiceDefaults\Aspire.ThumbNailApp.ServiceDefaults.csproj", "{25527147-7755-4F7C-1446-AF10CBA043B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzFuncThumbNailGenerator", "AzFuncThumbNailGenerator\AzFuncThumbNailGenerator.csproj", "{B05CD3F5-90C3-B918-9EED-095400474C65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.ThumbNail.Shared", "Aspire.ThumbNail.Shared\Aspire.ThumbNail.Shared.csproj", "{087468EB-4FF4-4E96-A123-0A408096A244}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B91F666-77FE-60FA-BED8-F62B720B3F9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B91F666-77FE-60FA-BED8-F62B720B3F9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B91F666-77FE-60FA-BED8-F62B720B3F9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B91F666-77FE-60FA-BED8-F62B720B3F9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{169ADB8C-BB5F-4338-92CE-A103D509073B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{169ADB8C-BB5F-4338-92CE-A103D509073B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{169ADB8C-BB5F-4338-92CE-A103D509073B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{169ADB8C-BB5F-4338-92CE-A103D509073B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25527147-7755-4F7C-1446-AF10CBA043B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25527147-7755-4F7C-1446-AF10CBA043B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25527147-7755-4F7C-1446-AF10CBA043B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25527147-7755-4F7C-1446-AF10CBA043B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B05CD3F5-90C3-B918-9EED-095400474C65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B05CD3F5-90C3-B918-9EED-095400474C65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B05CD3F5-90C3-B918-9EED-095400474C65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B05CD3F5-90C3-B918-9EED-095400474C65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{087468EB-4FF4-4E96-A123-0A408096A244}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{087468EB-4FF4-4E96-A123-0A408096A244}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{087468EB-4FF4-4E96-A123-0A408096A244}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{087468EB-4FF4-4E96-A123-0A408096A244}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6931C85B-E36C-4603-B89D-2919BDCF2A48}
+	EndGlobalSection
+EndGlobal
