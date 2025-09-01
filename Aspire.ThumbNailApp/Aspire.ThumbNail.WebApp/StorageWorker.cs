@@ -6,7 +6,7 @@ using System.Text.Json;
 namespace Aspire.ThumbNail.WebApp;
 
 public sealed class StorageWorker(QueueClient thumbnailResultsQueueClient,
-    [FromKeyedServices("images")] QueueClient imagesContainerClient,
+    [FromKeyedServices("images")] BlobContainerClient imagesContainerClient,
     [FromKeyedServices("thumbnails")] BlobContainerClient blobContainerClient,
     QueueMessageHandler handler,
     ILogger<StorageWorker> logger) : BackgroundService
