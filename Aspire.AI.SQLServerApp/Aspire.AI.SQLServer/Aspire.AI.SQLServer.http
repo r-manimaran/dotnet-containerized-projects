@@ -1,0 +1,6 @@
+@Aspire.AI.SQLServer_HostAddress = http://localhost:5239
+
+GET {{Aspire.AI.SQLServer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

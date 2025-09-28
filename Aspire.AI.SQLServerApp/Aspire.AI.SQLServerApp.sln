@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36327.8 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.AI.SQLServer", "Aspire.AI.SQLServer\Aspire.AI.SQLServer.csproj", "{1D3754D3-EFD0-FC07-0767-B349E05B8D65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.AI.SQLServerApp.AppHost", "Aspire.AI.SQLServerApp.AppHost\Aspire.AI.SQLServerApp.AppHost.csproj", "{779E44AC-08A1-4BBD-82A8-EC92132DF06C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.AI.SQLServerApp.ServiceDefaults", "Aspire.AI.SQLServerApp.ServiceDefaults\Aspire.AI.SQLServerApp.ServiceDefaults.csproj", "{4468197F-E5EE-A1AA-374F-44CCB6C47140}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1D3754D3-EFD0-FC07-0767-B349E05B8D65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D3754D3-EFD0-FC07-0767-B349E05B8D65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D3754D3-EFD0-FC07-0767-B349E05B8D65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D3754D3-EFD0-FC07-0767-B349E05B8D65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{779E44AC-08A1-4BBD-82A8-EC92132DF06C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{779E44AC-08A1-4BBD-82A8-EC92132DF06C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{779E44AC-08A1-4BBD-82A8-EC92132DF06C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{779E44AC-08A1-4BBD-82A8-EC92132DF06C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4468197F-E5EE-A1AA-374F-44CCB6C47140}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4468197F-E5EE-A1AA-374F-44CCB6C47140}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4468197F-E5EE-A1AA-374F-44CCB6C47140}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4468197F-E5EE-A1AA-374F-44CCB6C47140}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {45E02C98-9242-48E4-ACE0-4C12652B4430}
+	EndGlobalSection
+EndGlobal
