@@ -16,7 +16,7 @@ namespace Aspire.Keycloak.Auth.Api
         }
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            await CreateStocksTableAsync();
+           await CreateStocksTableAsync();
 
             await InsertMockDataAsync();
         }

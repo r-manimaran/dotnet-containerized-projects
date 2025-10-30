@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.FrontEnd", "Aspire.FrontEnd\Aspire.FrontEnd.csproj", "{41CB612A-6972-3BE6-2698-C2A4824718DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,8 +34,15 @@ Global
 		{9545B0AD-C4F0-403A-B73F-5FACE15A1E25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9545B0AD-C4F0-403A-B73F-5FACE15A1E25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9545B0AD-C4F0-403A-B73F-5FACE15A1E25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41CB612A-6972-3BE6-2698-C2A4824718DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41CB612A-6972-3BE6-2698-C2A4824718DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41CB612A-6972-3BE6-2698-C2A4824718DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41CB612A-6972-3BE6-2698-C2A4824718DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1CDC05B2-AD14-4B48-A53C-DE1075042C25}
 	EndGlobalSection
 EndGlobal

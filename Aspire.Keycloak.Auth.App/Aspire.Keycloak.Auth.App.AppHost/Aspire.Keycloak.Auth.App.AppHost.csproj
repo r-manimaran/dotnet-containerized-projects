@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Aspire.FrontEnd\Aspire.FrontEnd.csproj" />
     <ProjectReference Include="..\Aspire.Keycloak.Auth.Api\Aspire.Keycloak.Auth.Api.csproj" />
   </ItemGroup>
 
