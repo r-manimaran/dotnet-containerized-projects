@@ -8,9 +8,10 @@ public static class UserManagementEndpoints
 {
     public static void MapEndpoints(this IEndpointRouteBuilder builder)
     {
-        builder.MapPost("users", (RegisterUser command, IMessageBus bus) =>
+        builder.MapPost("users", async(RegisterUser command, IMessageBus bus) =>
         {
-            bus.InvokeAsync(command);
+            var id = await bus.InvokeAsync<Guid>(command);
+            return Results.Ok(new { id });
         });
     }
 }

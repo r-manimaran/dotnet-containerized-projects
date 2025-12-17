@@ -1,9 +1,13 @@
 ﻿namespace UserManagementApi.Features.Register;
 
-public static class UserRegisteredHandler
+public class UserRegisteredHandler(ILogger<UserRegisteredHandler> logger)
 {
-    public static async Task Handle(UserRegistered @event)
+    private readonly ILogger<UserRegisteredHandler> _logger = logger;
+
+    public async Task Handle(UserRegistered @event)
     {
+        _logger.LogInformation("Sending welcome email to user:{UserId}", @event.Id);
+
         await Task.Delay(1000);
     }
 }

@@ -2,12 +2,27 @@ using Microsoft.EntityFrameworkCore;
 using UserManagementApi.Data;
 using UserManagementApi.Endpoints;
 using Wolverine;
+using Wolverine.RabbitMQ;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-builder.Host.UseWolverine();
+builder.Host.UseWolverine(options =>
+{
+    options.UseRabbitMqUsingNamedConnection("rmq")
+        .AutoProvision()
+        .UseConventionalRouting();
+    //{
+    //    o.ExchangeNameForSending()
+    //    o.Qu
+    //})
+    //.DeclareExchange()
+    //.DeclareQueue();
+    options.Policies.DisableConventionalLocalRouting();
+});
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracing => tracing.AddSource("Wolverine"));
 
 // Add DbContext
 var connString = builder.Configuration.GetConnectionString("user-mgmt");

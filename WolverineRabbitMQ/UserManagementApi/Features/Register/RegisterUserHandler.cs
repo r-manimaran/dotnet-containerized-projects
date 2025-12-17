@@ -1,10 +1,11 @@
 ﻿using UserManagementApi.Data;
+using Wolverine;
 
 namespace UserManagementApi.Features.Register;
 
 public class RegisterUserHandler(AppDbContext dbContext)
 {
-    public async Task<UserRegistered> Handle(RegisterUser command)
+    public async Task<Guid> Handle(RegisterUser command, IMessageBus bus)
     {
         var user = new User
         {
@@ -17,6 +18,8 @@ public class RegisterUserHandler(AppDbContext dbContext)
         dbContext.Users.Add(user);
         await dbContext.SaveChangesAsync();
 
-        return new UserRegistered(user.Id);
+        //return new UserRegistered(user.Id);
+        await bus.PublishAsync(new UserRegistered(user.Id));
+        return user.Id;
     }
 }
