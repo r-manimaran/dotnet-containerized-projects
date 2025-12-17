@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="UserManagementApi/UserManagementApi.csproj" />
+  <Project Path="WolverineRabbitMQ.AppHost/WolverineRabbitMQ.AppHost.csproj" />
+  <Project Path="WolverineRabbitMQ.ServiceDefaults/WolverineRabbitMQ.ServiceDefaults.csproj" />
+</Solution>
