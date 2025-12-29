@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stock Price Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add SignalR client library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+      };
+    </script>
+  </head>
+  <body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
+    <div class="max-w-7xl mx-auto p-8">
+      <div class="flex justify-between items-center mb-8">
+        <h1 class="text-4xl font-bold text-gray-900 dark:text-white">
+          Stock Price Dashboard
+        </h1>
+        <button
+          id="darkModeToggle"
+          class="p-2 rounded-full bg-gray-200 dark:bg-gray-700"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-gray-800 dark:text-yellow-300"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+            />
+          </svg>
+        </button>
+      </div>
+      <div class="flex space-x-2 mb-8">
+        <input
+          type="text"
+          id="tickerInput"
+          placeholder="Enter ticker symbol"
+          class="border rounded-l px-4 py-2 flex-grow text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white dark:border-gray-700"
+        />
+        <button
+          id="addStockButton"
+          class="bg-blue-500 text-white px-6 py-2 rounded-r text-lg font-semibold hover:bg-blue-600 transition duration-200"
+        >
+          Add Stock
+        </button>
+      </div>
+      <div
+        id="stockContainer"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      ></div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
