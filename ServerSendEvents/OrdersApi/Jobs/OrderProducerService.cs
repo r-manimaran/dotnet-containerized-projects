@@ -1,8 +1,10 @@
 ﻿using OrdersApi.Models;
+using System.Threading.Channels;
 
 namespace OrdersApi.Jobs;
 
-public class OrderProducerService(ILogger<OrderProducerService> logger) : BackgroundService
+public class OrderProducerService(ChannelWriter<Order> channelWriter,
+                                  ILogger<OrderProducerService> logger) : BackgroundService
 {
 
     private static readonly string[] CustomerNames = [
@@ -23,6 +25,8 @@ public class OrderProducerService(ILogger<OrderProducerService> logger) : Backgr
                     CustomerName: CustomerNames[random.Next(CustomerNames.Length)],
                     Amount: Math.Round((decimal)(random.NextDouble() * 1000 + 10), 2),
                     OrderDate: DateTime.UtcNow);
+
+                await channelWriter.WriteAsync(order, stoppingToken);
 
                 logger.LogInformation("Produced Order: {OrderId}, Customer: {CustomerName}, Amount: {Amount}, Date: {OrderDate}",
                     order.OrderId, order.CustomerName, order.Amount, order.OrderDate);

@@ -1,10 +1,22 @@
+using OrdersApi;
+using OrdersApi.Endpoints;
 using OrdersApi.Jobs;
+using System.Threading.Channels;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
+// Create and register the channel for order processing
+var channel = Channel.CreateUnbounded<OrdersApi.Models.Order>();
+builder.Services.AddSingleton(channel);
+builder.Services.AddSingleton(channel.Reader);
+builder.Services.AddSingleton(channel.Writer);
+
+builder.Services.AddSingleton<OrderEventBuffer>();
 
 builder.Services.AddHostedService<OrderProducerService>();
+
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -12,6 +24,10 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+app.UseCors(policy =>
+    policy.AllowAnyOrigin()
+          .AllowAnyMethod()
+          .AllowAnyHeader());
 
 app.UseHttpsRedirection();
 
@@ -33,6 +49,8 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 })
 .WithName("GetWeatherForecast");
+
+app.MapOrdersEndpoints();
 
 app.Run();
 

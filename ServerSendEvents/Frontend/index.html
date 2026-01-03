@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Management Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #28a745;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .order-id {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #0d6efd;
+        }
+        
+        .amount {
+            font-weight: 600;
+            color: #198754;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card glass-card border-0 rounded-4">
+                    <div class="card-body p-4">
+                        <h1 class="display-5 fw-bold text-dark mb-2">
+                            <i class="bi bi-speedometer2 me-3"></i>Order Management Dashboard
+                        </h1>
+                        <p class="lead text-muted mb-0">Real-time order tracking and management system</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row g-4 mb-4">
+            <div class="col-xl-3 col-md-6">
+                <div class="card glass-card border-0 rounded-4 h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="stat-number" id="totalOrders">0</div>
+                        <div class="stat-label">Total Orders</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card glass-card border-0 rounded-4 h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="stat-number" id="totalRevenue">$0.00</div>
+                        <div class="stat-label">Total Revenue</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card glass-card border-0 rounded-4 h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="stat-number" id="avgOrderValue">$0.00</div>
+                        <div class="stat-label">Avg Order Value</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card glass-card border-0 rounded-4 h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="stat-number" id="activeCustomers">0</div>
+                        <div class="stat-label">Active Customers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card glass-card border-0 rounded-4">
+                    <div class="card-header bg-transparent border-0 p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="h4 fw-bold text-dark mb-0">
+                                <i class="bi bi-list-ul me-2"></i>Recent Orders
+                            </h2>
+                            <div class="d-flex align-items-center">
+                                <div class="status-dot me-2"></div>
+                                <span class="badge bg-warning-subtle text-warning px-3 py-2 rounded-pill">
+                                    <i class="bi bi-arrow-repeat me-1"></i>Connecting...
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="border-0 px-4 py-3 fw-semibold">Order ID</th>
+                                        <th class="border-0 px-4 py-3 fw-semibold">Customer</th>
+                                        <th class="border-0 px-4 py-3 fw-semibold">Amount</th>
+                                        <th class="border-0 px-4 py-3 fw-semibold">Date & Time</th>
+                                        <th class="border-0 px-4 py-3 fw-semibold">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ordersTableBody">
+                                    <tr><td colspan="5" class="text-center py-5 text-muted fst-italic">Connecting to server...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let orders = [];
+        let connectionStatus = 'connecting';
+        
+        const eventSource = new EventSource("https://localhost:7031/orders/realtime");
+        
+        window.addEventListener('online', () => {
+            showSuccessToast('You are back online.');
+        });
+        
+        window.addEventListener('offline', () => {
+            showWarningToast('You are offline. Please check your internet connection.');
+        });
+
+        window.addEventListener('error', (event) => {
+            showErrorToast('An unexpected error occurred: ' + event.message);
+        });
+
+        eventSource.addEventListener("orders", (event) => {
+            const order = JSON.parse(event.data);
+            order.orderDate = new Date(order.orderDate);
+            order.status = "new";
+            
+            orders.unshift(order);
+            if (orders.length > 50) {
+                orders.pop();
+            }
+            
+            renderOrders();
+            updateStats();
+            updateConnectionStatus('connected');
+        });
+        
+        eventSource.onopen = () => {
+            console.log('Connected to order stream');
+            updateConnectionStatus('connected');
+        };
+        
+        eventSource.onerror = (error) => {
+            console.error('EventSource error:', error);
+            updateConnectionStatus('error');
+        };
+        
+        function updateConnectionStatus(status) {
+            connectionStatus = status;
+            const statusElement = document.querySelector('.badge');
+            const dotElement = document.querySelector('.status-dot');
+            
+            switch(status) {
+                case 'connected':
+                    statusElement.className = 'badge bg-success-subtle text-success px-3 py-2 rounded-pill';
+                    statusElement.innerHTML = '<i class="bi bi-broadcast me-1"></i>Live Updates';
+                    dotElement.style.background = '#28a745';
+                    break;
+                case 'connecting':
+                    statusElement.className = 'badge bg-warning-subtle text-warning px-3 py-2 rounded-pill';
+                    statusElement.innerHTML = '<i class="bi bi-arrow-repeat me-1"></i>Connecting...';
+                    dotElement.style.background = '#ffc107';
+                    break;
+                case 'error':
+                    statusElement.className = 'badge bg-danger-subtle text-danger px-3 py-2 rounded-pill';
+                    statusElement.innerHTML = '<i class="bi bi-exclamation-triangle me-1"></i>Connection Error';
+                    dotElement.style.background = '#dc3545';
+                    break;
+            }
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'
+            }).format(amount);
+        }
+
+        function formatDateTime(date) {
+            return new Intl.DateTimeFormat('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            }).format(date);
+        }
+
+        function getStatusBadge(status) {
+            switch (status) {
+                case 'new': return 'badge bg-primary-subtle text-primary';
+                case 'processing': return 'badge bg-warning-subtle text-warning';
+                case 'completed': return 'badge bg-success-subtle text-success';
+                default: return 'badge bg-primary-subtle text-primary';
+            }
+        }
+
+        function renderOrders() {
+            const tbody = document.getElementById('ordersTableBody');
+            
+            if (orders.length === 0) {
+                const message = connectionStatus === 'connected' ? 
+                    'Waiting for orders...' : 
+                    connectionStatus === 'connecting' ? 
+                    'Connecting to server...' : 
+                    'Connection error. Please refresh the page.';
+                    
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-5 text-muted fst-italic">${message}</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = orders.map(order => `
+                <tr>
+                    <td class="px-4 py-3">
+                        <span class="order-id">${order.orderId}</span>
+                    </td>
+                    <td class="px-4 py-3">
+                        <div class="fw-medium text-dark">${order.customerName}</div>
+                    </td>
+                    <td class="px-4 py-3">
+                        <span class="amount">${formatCurrency(order.amount)}</span>
+                    </td>
+                    <td class="px-4 py-3">
+                        <small class="text-muted">${formatDateTime(order.orderDate)}</small>
+                    </td>
+                    <td class="px-4 py-3">
+                        <span class="${getStatusBadge(order.status)} px-3 py-1 rounded-pill text-uppercase" style="font-size: 0.75rem;">
+                            ${order.status}
+                        </span>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateStats() {
+            const totalOrders = orders.length;
+            const totalRevenue = orders.reduce((sum, order) => sum + order.amount, 0);
+            const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+            const activeCustomers = new Set(orders.map(order => order.customerName)).size;
+
+            document.getElementById('totalOrders').textContent = totalOrders;
+            document.getElementById('totalRevenue').textContent = formatCurrency(totalRevenue);
+            document.getElementById('avgOrderValue').textContent = formatCurrency(avgOrderValue);
+            document.getElementById('activeCustomers').textContent = activeCustomers;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateConnectionStatus('connecting');
+            renderOrders();
+            updateStats();
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
