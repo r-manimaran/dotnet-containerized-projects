@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 // Create and register the channel for order processing
-var channel = Channel.CreateUnbounded<OrdersApi.Models.Order>();
+var channel = Channel.CreateUnbounded<OrdersApi.Models.OrderEvent>();
 builder.Services.AddSingleton(channel);
 builder.Services.AddSingleton(channel.Reader);
 builder.Services.AddSingleton(channel.Writer);

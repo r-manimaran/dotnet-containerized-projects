@@ -9,20 +9,23 @@ public static class OrdersEndpoints
 {
     public static void MapOrdersEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("orders/realtime", async (ChannelReader<Order> channelReader, 
+        app.MapGet("orders/realtime", async (ChannelReader<OrderEvent> channelReader, 
             CancellationToken cancellationToken) =>
         {
-            return Results.ServerSentEvents(
+            /*return Results.ServerSentEvents(
                 channelReader.ReadAllAsync(cancellationToken),
-                "orders");            
+                "orders");       */
+
+            return Results.ServerSentEvents(
+             GetOrderEventStream(channelReader, cancellationToken));
         });
 
-        app.MapGet("orders/realtime/with-events", (ChannelReader<Order> channelReader,
+        app.MapGet("orders/realtime/with-events", (ChannelReader<OrderEvent> channelReader,
             OrderEventBuffer orderEventBuffer,
             [FromHeader(Name = "Last-Event-ID")] string? lastEventId,
             CancellationToken cancellationToken) =>
         {
-            async IAsyncEnumerable<SseItem<Order>> StreamEvents()
+            async IAsyncEnumerable<SseItem<OrderEvent>> StreamEvents()
             {
                 if(!string.IsNullOrWhiteSpace(lastEventId))
                 {
@@ -40,5 +43,16 @@ public static class OrdersEndpoints
             }
             return TypedResults.ServerSentEvents(StreamEvents(), "orders");
         });
+
+
+    }
+    private static async IAsyncEnumerable<SseItem<object>> GetOrderEventStream(
+        ChannelReader<OrderEvent> channelReader,
+        CancellationToken cancellationToken)
+    {
+        await foreach (var orderEvent in channelReader.ReadAllAsync(cancellationToken))
+        {
+            yield return new SseItem<object>(orderEvent, orderEvent.eventType);
+        }
     }
 }

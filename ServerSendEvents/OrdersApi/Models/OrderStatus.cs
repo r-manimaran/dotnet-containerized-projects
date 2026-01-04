@@ -1,10 +1,10 @@
 ﻿namespace OrdersApi.Models;
 
-public enum OrderStatus
-{
-    New,
-    Processing,
-    Shipped,
-    Delivered,
-    Cancelled
-}
+//public enum OrderStatus
+//{
+//    New,
+//    Processing,
+//    Shipped,
+//    Delivered,
+//    Cancelled
+//}

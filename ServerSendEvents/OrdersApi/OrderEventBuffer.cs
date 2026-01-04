@@ -6,13 +6,13 @@ namespace OrdersApi;
 
 public class OrderEventBuffer(int maxBufferSize = 100)
 {
-    private readonly ConcurrentQueue<SseItem<Order>> _buffer = new();
+    private readonly ConcurrentQueue<SseItem<OrderEvent>> _buffer = new();
     private long _nextEventId = 1;
 
-    public SseItem<Order> Add(Order order)
+    public SseItem<OrderEvent> Add(OrderEvent order)
     {
         var eventId = Interlocked.Increment(ref _nextEventId)-1;
-        var sseItem = new SseItem<Order>(order)
+        var sseItem = new SseItem<OrderEvent>(order)
         {
             EventId = eventId.ToString()
         };
@@ -26,7 +26,7 @@ public class OrderEventBuffer(int maxBufferSize = 100)
         return sseItem;
     }
 
-    public IEnumerable<SseItem<Order>> GetEventsAfter(string? lastEventId)
+    public IEnumerable<SseItem<OrderEvent>> GetEventsAfter(string? lastEventId)
     {
         
         if (long.TryParse(lastEventId, out var lastId))
