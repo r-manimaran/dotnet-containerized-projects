@@ -169,10 +169,11 @@
             showErrorToast('An unexpected error occurred: ' + event.message);
         });
 
-        eventSource.addEventListener("orders", (event) => {
-            const order = JSON.parse(event.data);
+        eventSource.addEventListener("Order-Created", (event) => {
+            const orderEvent = JSON.parse(event.data);
+            const order = orderEvent.order;
             order.orderDate = new Date(order.orderDate);
-            order.status = "new";
+            order.status = getStatusText(order.status);
             
             orders.unshift(order);
             if (orders.length > 50) {
@@ -182,8 +183,54 @@
             renderOrders();
             updateStats();
             updateConnectionStatus('connected');
+            showOrderNotification(`New order: ${order.orderId}`, 'success');
         });
-        
+
+        eventSource.addEventListener("Order-Updated", (event) => {
+            const orderEvent = JSON.parse(event.data);
+            const updatedOrder = orderEvent.order;
+            updatedOrder.orderDate = new Date(updatedOrder.orderDate);
+            updatedOrder.status = getStatusText(updatedOrder.status);
+            
+            const index = orders.findIndex(o => o.orderId === updatedOrder.orderId);
+            if (index !== -1) {
+                orders[index] = updatedOrder;
+                renderOrders();
+                updateStats();
+                showOrderNotification(`Order ${updatedOrder.orderId} updated to ${updatedOrder.status}`, 'info');
+            }
+        });
+
+        eventSource.addEventListener("Order-Cancelled", (event) => {
+            const orderEvent = JSON.parse(event.data);
+            const cancelledOrder = orderEvent.order;
+            cancelledOrder.orderDate = new Date(cancelledOrder.orderDate);
+            cancelledOrder.status = getStatusText(cancelledOrder.status);
+            
+            const index = orders.findIndex(o => o.orderId === cancelledOrder.orderId);
+            if (index !== -1) {
+                orders[index] = cancelledOrder;
+                renderOrders();
+                updateStats();
+                showOrderNotification(`Order ${cancelledOrder.orderId} cancelled`, 'warning');
+            }
+        });
+        function getStatusText(statusNumber) {
+            const statusMap = {
+                0: 'new',
+                1: 'processing', 
+                2: 'shipped',
+                3: 'delivered',
+                4: 'cancelled'
+            };
+            return statusMap[statusNumber] || 'unknown';
+        }
+
+        // Add notification function
+        function showOrderNotification(message, type) {
+            console.log(`[${type.toUpperCase()}] ${message}`);
+            // Implement toast notification here
+        }
         eventSource.onopen = () => {
             console.log('Connected to order stream');
             updateConnectionStatus('connected');
@@ -235,15 +282,24 @@
             }).format(date);
         }
 
+        // function getStatusBadge(status) {
+        //     switch (status) {
+        //         case 'new': return 'badge bg-primary-subtle text-primary';
+        //         case 'processing': return 'badge bg-warning-subtle text-warning';
+        //         case 'completed': return 'badge bg-success-subtle text-success';
+        //         default: return 'badge bg-primary-subtle text-primary';
+        //     }
+        // }
         function getStatusBadge(status) {
-            switch (status) {
-                case 'new': return 'badge bg-primary-subtle text-primary';
-                case 'processing': return 'badge bg-warning-subtle text-warning';
-                case 'completed': return 'badge bg-success-subtle text-success';
-                default: return 'badge bg-primary-subtle text-primary';
-            }
-        }
-
+    switch (status?.toLowerCase()) {
+        case 'new': return 'badge bg-primary-subtle text-primary';
+        case 'processing': return 'badge bg-info-subtle text-info';
+        case 'shipped': return 'badge bg-warning-subtle text-warning';
+        case 'delivered': return 'badge bg-success-subtle text-success';
+        case 'cancelled': return 'badge bg-danger-subtle text-danger';
+        default: return 'badge bg-secondary-subtle text-secondary';
+    }
+}
         function renderOrders() {
             const tbody = document.getElementById('ordersTableBody');
             
