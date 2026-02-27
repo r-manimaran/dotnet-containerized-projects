@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="Docker-Compose.yaml" />
+  </Folder>
+  <Project Path="RecommendationsApi/RecommendationsApi.csproj" />
+  <Project Path="RecommendationsApp.AppHost/RecommendationsApp.AppHost.csproj" />
+  <Project Path="RecommendationsApp.ServiceDefaults/RecommendationsApp.ServiceDefaults.csproj" />
+</Solution>

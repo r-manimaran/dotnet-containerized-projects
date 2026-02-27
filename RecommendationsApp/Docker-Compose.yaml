@@ -1,0 +1,7 @@
+version: '3.9'
+services:
+    mongodb-atlas-local:
+        image: mongodb/mongodb-atlas-local
+        container_name: mongo-atlas
+        ports:
+            - '27017:27017'
