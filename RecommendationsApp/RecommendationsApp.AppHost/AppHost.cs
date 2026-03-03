@@ -1,8 +1,8 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
 var ollama = builder.AddOllama("ollama")
-    .WithDataVolume()
-    .WithGPUSupport();
+    .WithDataVolume();
+   // .WithGPUSupport();
 
 var voyage4 = ollama.AddHuggingFaceModel("vouage-4-nano", "jsonMartin/voyage-4-nano-gguf");
 
