@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
+  <Project Path="OrderService/OrderService.csproj" />
+  <Project Path="ProductService/ProductService.csproj" />
+</Solution>

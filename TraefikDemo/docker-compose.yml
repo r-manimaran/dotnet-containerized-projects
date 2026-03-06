@@ -1,0 +1,55 @@
+services:
+# ------ Traefik (Reverse Proxy) ---------------
+  traefik:
+    image: traefik:v3.6.9
+    container_name: traefik
+    command:
+      - --providers.docker=true # Watch Docker for services
+      - --providers.docker.exposedbydefault=false # Only route services with traefik.enable=true
+
+      - --entrypoints.web.address=:80 # Listen on port 80 for HTTP traffic
+      - --log.level=INFO
+      - --ping=true
+      - --ping.entrypoint=web
+      - --api.dashboard=true
+      - --api.insecure=true
+    ports:
+      - "8000:80"
+      - "8082:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro  # Read Docker events
+    networks:
+      - web
+
+  orderservice:
+    image: ${DOCKER_REGISTRY-}orderservice
+    build:
+      context: .
+      dockerfile: OrderService/Dockerfile
+    networks:
+      - web
+    labels:
+      - "traefik.enable=true"
+      # Route: any request to /api/orders goes to this service
+      - "traefik.http.routers.orders.rule=PathPrefix(`/api/orders`)" # Match URLs starting with /api/orders
+      - "traefik.http.routers.orders.entrypoints=web"
+      - "traefik.http.services.orders.loadbalancer.server.port=8080" # Forward to container port 8080
+
+  productservice:
+    image: ${DOCKER_REGISTRY-}productservice
+    build:
+      context: .
+      dockerfile: ProductService/Dockerfile
+    networks:
+     - web
+    labels:
+      - "traefik.enable=true"
+      # Route: any request to /api/products goes to this service
+      - "traefik.http.routers.products.rule=PathPrefix(`/api/products`)"
+      - "traefik.http.routers.products.entrypoints=web"
+      - "traefik.http.services.products.loadbalancer.server.port=8080"
+
+networks:
+  web:
+    driver: bridge
+
