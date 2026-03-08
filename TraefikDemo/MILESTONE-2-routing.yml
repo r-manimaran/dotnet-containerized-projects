@@ -1,0 +1,82 @@
+services:
+  traefik:
+    image: traefik:v3.6.9
+    container_name: traefik
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=web
+      - --entrypoints.web.address=:80
+      - --log.level=DEBUG  # Changed to DEBUG for learning
+      - --ping=true
+      - --ping.entrypoint=web
+      - --api.dashboard=true
+      - --api.insecure=true
+    ports:
+      - "8000:80"
+      - "8082:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - web
+
+  orderservice:
+    image: ${DOCKER_REGISTRY-}orderservice
+    build:
+      context: .
+      dockerfile: OrderService/Dockerfile
+    networks:
+      - web
+    labels:
+      - "traefik.enable=true"
+      
+      # EXPERIMENT 1: Exact Path Match (only /api/orders, not /api/orders/123)
+      - "traefik.http.routers.orders-exact.rule=Path(`/api/orders`)"
+      - "traefik.http.routers.orders-exact.entrypoints=web"
+      - "traefik.http.routers.orders-exact.priority=100"
+      
+      # EXPERIMENT 2: PathPrefix (matches /api/orders/*)
+      - "traefik.http.routers.orders-prefix.rule=PathPrefix(`/api/orders`)"
+      - "traefik.http.routers.orders-prefix.entrypoints=web"
+      - "traefik.http.routers.orders-prefix.priority=50"
+      
+      # EXPERIMENT 3: Method-based routing (only POST requests)
+      - "traefik.http.routers.orders-post.rule=PathPrefix(`/api/orders`) && Method(`POST`)"
+      - "traefik.http.routers.orders-post.entrypoints=web"
+      - "traefik.http.routers.orders-post.priority=150"
+      
+      # All routers point to same service
+      - "traefik.http.services.orders.loadbalancer.server.port=8080"
+
+  productservice:
+    image: ${DOCKER_REGISTRY-}productservice
+    build:
+      context: .
+      dockerfile: ProductService/Dockerfile
+    networks:
+     - web
+    labels:
+      - "traefik.enable=true"
+      
+      # EXPERIMENT 4: Host-based routing (domain-based)
+      # Access via: curl -H "Host: products.local" http://localhost/api/products
+      - "traefik.http.routers.products-host.rule=Host(`products.local`) && PathPrefix(`/api/products`)"
+      - "traefik.http.routers.products-host.entrypoints=web"
+      - "traefik.http.routers.products-host.priority=200"
+      
+      # EXPERIMENT 5: Header-based routing
+      # Access via: curl -H "X-API-Version: v1" http://localhost/api/products
+      - "traefik.http.routers.products-header.rule=PathPrefix(`/api/products`) && Headers(`X-API-Version`, `v1`)"
+      - "traefik.http.routers.products-header.entrypoints=web"
+      - "traefik.http.routers.products-header.priority=150"
+      
+      # Default route (lowest priority)
+      - "traefik.http.routers.products-default.rule=PathPrefix(`/api/products`)"
+      - "traefik.http.routers.products-default.entrypoints=web"
+      - "traefik.http.routers.products-default.priority=10"
+      
+      - "traefik.http.services.products.loadbalancer.server.port=8080"
+
+networks:
+  web:
+    driver: bridge
