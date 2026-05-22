@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Aspire.Postgres.PgVector.SemanticSearch.AppHost/Aspire.Postgres.PgVector.SemanticSearch.AppHost.csproj" />
+  <Project Path="Aspire.Postgres.PgVector.SemanticSearch.ServiceDefaults/Aspire.Postgres.PgVector.SemanticSearch.ServiceDefaults.csproj" />
+  <Project Path="SemanticSearchApi/SemanticSearchApi.csproj" />
+</Solution>
