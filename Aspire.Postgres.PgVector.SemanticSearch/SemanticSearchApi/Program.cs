@@ -53,8 +53,8 @@ app.MapPost("/init", async (NpgsqlDataSource dataSource) =>
     return Results.Ok("Database initialized with pgvector extension and articles table.");
 });
 
-app.MapPost("/articles", async (NpgsqlDataSource dataSource, 
-    IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator, 
+app.MapPost("/articles", async (NpgsqlDataSource dataSource,
+    IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator,
     ILogger<Program> logger) =>
 {
 
@@ -77,7 +77,7 @@ app.MapPost("/articles", async (NpgsqlDataSource dataSource,
                 new { url = article.Url, title = article.Title, embedding = new Vector(embedding.Vector.ToArray()) });
 
             count++;
-            logger.LogInformation("Processed article({count}) '{Title}' with URL '{Url}'", 
+            logger.LogInformation("Processed article({count}) '{Title}' with URL '{Url}'",
                 count, article.Title, article.Url);
         }
 
@@ -87,10 +87,30 @@ app.MapPost("/articles", async (NpgsqlDataSource dataSource,
             continue; // Skip this article and continue with the next one.
         }
     }
-    
+
     return Results.Ok("Article added successfully.");
 
 });
+
+app.MapPost("/search", async (NpgsqlDataSource dataSource,
+    IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator,
+    string query) =>
+{
+    await using var conn = await dataSource.OpenConnectionAsync();
+    
+    conn.ReloadTypes();
+
+    var queryEmbedding = await embeddingGenerator.GenerateAsync(query);
+    var embedding = new Vector(queryEmbedding.Vector.ToArray());
+
+
+    var results = await conn.QueryAsync<SearchResult>(
+        "SELECT url, title, embedding <=> @embedding as distance FROM articles ORDER BY embedding <=> @embedding LIMIT 5",
+        new { embedding });
+
+    return Results.Ok(new {query, results});
+});
+
 
 app.Run();
 
@@ -102,4 +122,13 @@ public record Article
     public string Title { get; init; }
     [JsonPropertyName("content")]
     public string Content { get; init; }
+}
+
+public record SearchResult
+{
+    public string Url { get; init; }
+
+    public string Title { get; init; }
+
+    public decimal Distance { get; init; }
 }
