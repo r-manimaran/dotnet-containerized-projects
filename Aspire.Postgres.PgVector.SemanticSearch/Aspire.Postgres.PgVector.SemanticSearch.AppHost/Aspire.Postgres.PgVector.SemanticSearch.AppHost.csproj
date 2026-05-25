@@ -14,7 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SemanticSearchApi\SemanticSearchApi.csproj" />
+    <ProjectReference Include="..\SemanticSearchApi\SemanticSearchDapperApi.csproj" />
+    <ProjectReference Include="..\SemanticSearchEFCore\SemanticSearchEFCore.csproj" />
   </ItemGroup>
 
 </Project>
